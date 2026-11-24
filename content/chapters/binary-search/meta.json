@@ -1,0 +1,10 @@
+{
+  "number": 6,
+  "title": "Binary Search",
+  "tagline": "halve it until it’s found",
+  "summary": "Loop invariants, lower and upper bounds, off-by-one traps, the overflow bug, and binary search on the answer.",
+  "difficulty": "Beginner → Intermediate",
+  "readingTime": "~85 min",
+  "labs": "6 interactive labs",
+  "description": "Binary search, loop invariants, lower and upper bounds, binary search on the answer, and its variants — an illustrated, interactive DSA chapter."
+}

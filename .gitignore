@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env*.local
+.env
+.vercel
+.DS_Store
+
+# Firebase emulator logs
+*-debug.log
+firebase-debug.*.log
+.firebase/

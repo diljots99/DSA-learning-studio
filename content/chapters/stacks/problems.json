@@ -1,0 +1,202 @@
+{
+  "intro": "Ask what the stack holds and when an item is popped. Many of these are monotonic-stack problems.",
+  "levels": [
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Stack",
+          "blurb": "Last-in, first-out: matching, evaluation and monotonic stacks.",
+          "problems": [
+            {
+              "id": "gfg:implement-stack-using-array",
+              "name": "Implement Stack using Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/implement-stack-using-array/1"
+            },
+            {
+              "id": "gfg:implement-stack-using-linked-list",
+              "name": "Implement Stack using Linked List",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1"
+            },
+            {
+              "id": "leetcode:valid-parentheses",
+              "name": "Valid Parentheses",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/valid-parentheses/"
+            },
+            {
+              "id": "leetcode:implement-stack-using-queues",
+              "name": "Implement Stack using Queues",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/implement-stack-using-queues/"
+            },
+            {
+              "id": "leetcode:next-greater-element-i/description",
+              "name": "Next Greater Element I",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/next-greater-element-i/description/"
+            },
+            {
+              "id": "leetcode:min-stack",
+              "name": "Min Stack",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/min-stack/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Stack",
+          "blurb": "Last-in, first-out: matching, evaluation and monotonic stacks.",
+          "problems": [
+            {
+              "id": "gfg:next-larger-element-1587115620",
+              "name": "Next Greater Element to the Right",
+              "difficulty": "Medium",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1"
+            },
+            {
+              "id": "gfg:previous-greater-element",
+              "name": "Next Greater Element to the Left",
+              "difficulty": "Medium",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/previous-greater-element/1"
+            },
+            {
+              "id": "gfg:immediate-smaller-element1142",
+              "name": "Next Smaller Element to the Right",
+              "difficulty": "Medium",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/immediate-smaller-element1142/1"
+            },
+            {
+              "id": "gfg:previous-smaller-element",
+              "name": "Next Smaller Element to the Left",
+              "difficulty": "Medium",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/previous-smaller-element/1"
+            },
+            {
+              "id": "leetcode:daily-temperatures",
+              "name": "Daily Temperatures",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/daily-temperatures/"
+            },
+            {
+              "id": "gfg:stock-span-problem-1587115621",
+              "name": "Stock Span Problem",
+              "difficulty": "Medium",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/stock-span-problem-1587115621/1"
+            },
+            {
+              "id": "leetcode:next-greater-element-ii",
+              "name": "Next Greater Element II",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/next-greater-element-ii/"
+            },
+            {
+              "id": "leetcode:evaluate-reverse-polish-notation",
+              "name": "Evaluate Reverse Polish Notation",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
+            },
+            {
+              "id": "leetcode:asteroid-collision/description",
+              "name": "Asteroid Collision",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/asteroid-collision/description/"
+            },
+            {
+              "id": "leetcode:decode-string",
+              "name": "Decode String",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/decode-string/"
+            },
+            {
+              "id": "leetcode:remove-k-digits",
+              "name": "Remove K Digits",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/remove-k-digits/"
+            },
+            {
+              "id": "leetcode:find-the-most-competitive-subsequence",
+              "name": "Find the Most Competitive Subsequence",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-the-most-competitive-subsequence/"
+            },
+            {
+              "id": "leetcode:smallest-subsequence-of-distinct-characters",
+              "name": "Smallest Subsequence of Distinct Characters",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/smallest-subsequence-of-distinct-characters"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Advanced",
+      "blurb": "Harder variants that need the full toolkit and careful invariants.",
+      "topics": [
+        {
+          "name": "Stack",
+          "blurb": "Last-in, first-out: matching, evaluation and monotonic stacks.",
+          "problems": [
+            {
+              "id": "leetcode:sum-of-subarray-minimums",
+              "name": "Sum of Subarray Minimums",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/sum-of-subarray-minimums/"
+            },
+            {
+              "id": "leetcode:largest-rectangle-in-histogram",
+              "name": "Largest Rectangle in Histogram",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
+            },
+            {
+              "id": "leetcode:maximum-frequency-stack",
+              "name": "Maximum Frequency Stack",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-frequency-stack/"
+            },
+            {
+              "id": "leetcode:robot-collisions",
+              "name": "Robot Collisions",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/robot-collisions"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

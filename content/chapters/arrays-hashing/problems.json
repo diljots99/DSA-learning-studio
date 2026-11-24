@@ -1,0 +1,395 @@
+{
+  "intro": "Start with plain array and string traversal, then switch to sets and dictionaries. For every hashing problem, also say what the brute-force version would cost.",
+  "levels": [
+    {
+      "level": "Beginner",
+      "blurb": "No algorithm knowledge needed — loops, conditions and indexing.",
+      "topics": [
+        {
+          "name": "Array Operations",
+          "blurb": "Traverse, count, reverse and rotate with simple loops and index arithmetic.",
+          "problems": [
+            {
+              "id": "gfg:array-traversal",
+              "name": "Array or List Traversal",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/array-traversal/1"
+            },
+            {
+              "id": "gfg:search-an-element-in-an-array-1587115621",
+              "name": "Array Search",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/search-an-element-in-an-array-1587115621/1"
+            },
+            {
+              "id": "gfg:mean0021",
+              "name": "Mean or Average of Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/mean0021/1"
+            },
+            {
+              "id": "gfg:find-minimum-and-maximum-element-in-an-array4428",
+              "name": "Maximum and Minimum in an Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/find-minimum-and-maximum-element-in-an-array4428/1"
+            },
+            {
+              "id": "gfg:count-odd-even",
+              "name": "Count Odd and Even",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/count-odd-even/1"
+            },
+            {
+              "id": "gfg:number-of-occurrence2259",
+              "name": "Count Occurrences in Sorted",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/number-of-occurrence2259/1"
+            },
+            {
+              "id": "gfg:second-largest3735",
+              "name": "Second Largest Element (no sorting)",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/second-largest3735/1"
+            },
+            {
+              "id": "gfg:even-odd-sum5450",
+              "name": "Even Odd Sum",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/even-odd-sum5450/1"
+            },
+            {
+              "id": "leetcode:compute-alternating-sum/description",
+              "name": "Compute Alternating Sum",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/compute-alternating-sum/description/"
+            },
+            {
+              "id": "gfg:reverse-an-array",
+              "name": "Reverse an Array (in place)",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/reverse-an-array/1"
+            },
+            {
+              "id": "gfg:cyclically-rotate-an-array-by-one2614",
+              "name": "Cyclically Rotate an Array by One",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/cyclically-rotate-an-array-by-one2614/1"
+            },
+            {
+              "id": "gfg:move-all-zeroes-to-end-of-array0751",
+              "name": "Move All Zeros to the End",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/move-all-zeroes-to-end-of-array0751/1"
+            },
+            {
+              "id": "leetcode:count-elements-with-strictly-smaller-and-greater-elements",
+              "name": "Count Elements With Strictly Smaller and Greater Elements",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-elements-with-strictly-smaller-and-greater-elements"
+            },
+            {
+              "id": "leetcode:find-all-duplicates-in-an-array",
+              "name": "Find All Duplicates in an Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-all-duplicates-in-an-array"
+            },
+            {
+              "id": "gfg:most-frequent-element-in-an-array",
+              "name": "Most Frequent in Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/most-frequent-element-in-an-array/1"
+            },
+            {
+              "id": "codeforces:158/A",
+              "name": "Next Round",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/158/A"
+            },
+            {
+              "id": "leetcode:search-a-2d-matrix/description",
+              "name": "Search a 2D Matrix",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/search-a-2d-matrix/description/"
+            },
+            {
+              "id": "gfg:sum-of-elements-in-a-matrix2000",
+              "name": "Sum of Matrix",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/sum-of-elements-in-a-matrix2000/1"
+            },
+            {
+              "id": "codeforces:263/A",
+              "name": "Beautiful Matrix",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/263/A"
+            },
+            {
+              "id": "codeforces:69/A",
+              "name": "Young Physicist",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/69/A"
+            },
+            {
+              "id": "codeforces:231/A",
+              "name": "Team",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/231/A"
+            }
+          ]
+        },
+        {
+          "name": "String Operations",
+          "blurb": "Strings as arrays of characters: scan, transform and compare.",
+          "problems": [
+            {
+              "id": "gfg:length-of-string",
+              "name": "Length of a String (without in-built method)",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/length-of-string/1"
+            },
+            {
+              "id": "gfg:consonants-and-vowels-check-java",
+              "name": "Check Consonants and Vowels",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/consonants-and-vowels-check-java/1"
+            },
+            {
+              "id": "gfg:reverse-a-string",
+              "name": "Reverse a String",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/reverse-a-string/1"
+            },
+            {
+              "id": "gfg:palindrome-string0817",
+              "name": "Check if a String is a Palindrome",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/palindrome-string0817/1"
+            },
+            {
+              "id": "gfg:lower-case-to-upper-case3410",
+              "name": "Lowercase to Uppercase Manually",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/lower-case-to-upper-case3410/1"
+            },
+            {
+              "id": "gfg:toggle-case",
+              "name": "Toggle Case of Each Character",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/toggle-case/1"
+            },
+            {
+              "id": "gfg:remove-vowels-from-string1446",
+              "name": "Remove Vowels",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/remove-vowels-from-string1446/1"
+            },
+            {
+              "id": "gfg:count-number-of-words1500",
+              "name": "Count Words in String",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/count-number-of-words1500/1"
+            },
+            {
+              "id": "hackerrank:caesar-cipher-1/problem",
+              "name": "Caesar Cipher",
+              "difficulty": "Easy",
+              "platform": "HackerRank",
+              "url": "https://www.hackerrank.com/challenges/caesar-cipher-1/problem"
+            },
+            {
+              "id": "codeforces:71/A",
+              "name": "Way Too Long Words",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/71/A"
+            },
+            {
+              "id": "codeforces:112/A",
+              "name": "Petya and Strings",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/112/A"
+            },
+            {
+              "id": "codeforces:96/A",
+              "name": "Football",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/96/A"
+            },
+            {
+              "id": "codeforces:236/A",
+              "name": "Boy or Girl",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/236/A"
+            },
+            {
+              "id": "codeforces:118/A",
+              "name": "String Task",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/118/A"
+            },
+            {
+              "id": "codeforces:282/A",
+              "name": "Bit++",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/282/A"
+            },
+            {
+              "id": "codeforces:339/A",
+              "name": "Helpful Maths",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/339/A"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Arrays",
+          "blurb": "In-place edits and O(1) extra space on contiguous arrays.",
+          "problems": [
+            {
+              "id": "gfg:largest-element-in-array4009",
+              "name": "Largest & Smallest Element in Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/largest-element-in-array4009/1"
+            },
+            {
+              "id": "leetcode:move-zeroes",
+              "name": "Move Zeroes",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/move-zeroes/"
+            },
+            {
+              "id": "leetcode:remove-duplicates-from-sorted-array",
+              "name": "Remove Duplicates from Sorted Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+            },
+            {
+              "id": "leetcode:rotate-array",
+              "name": "Rotate Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/rotate-array/"
+            },
+            {
+              "id": "leetcode:check-if-array-is-sorted-and-rotated",
+              "name": "Check if Array Is Sorted and Rotated",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/"
+            }
+          ]
+        },
+        {
+          "name": "Strings",
+          "blurb": "Character counting and comparison.",
+          "problems": [
+            {
+              "id": "leetcode:valid-anagram",
+              "name": "Valid Anagram",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/valid-anagram/"
+            }
+          ]
+        },
+        {
+          "name": "Hashing",
+          "blurb": "Sets and dictionaries for O(1)-average membership, counting and grouping.",
+          "problems": [
+            {
+              "id": "leetcode:two-sum",
+              "name": "Two Sum",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/two-sum/"
+            },
+            {
+              "id": "leetcode:count-elements-with-maximum-frequency",
+              "name": "Count Elements With Maximum Frequency",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-elements-with-maximum-frequency"
+            },
+            {
+              "id": "leetcode:group-anagrams",
+              "name": "Group Anagrams",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/group-anagrams/"
+            },
+            {
+              "id": "leetcode:find-players-with-zero-or-one-losses",
+              "name": "Find Players With Zero or One Losses",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-players-with-zero-or-one-losses"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Array/String Operations",
+          "blurb": "Medium-level array and string reasoning without a named pattern.",
+          "problems": [
+            {
+              "id": "leetcode:wiggle-subsequence",
+              "name": "Wiggle Subsequence",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/wiggle-subsequence"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

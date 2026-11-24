@@ -1,0 +1,10 @@
+{
+  "number": 2,
+  "title": "Arrays & Hashing",
+  "tagline": "jump straight to the answer",
+  "summary": "Contiguous memory, dynamic arrays, hash functions, collisions and load factor, Python’s list, dict and set, and the core hashing patterns.",
+  "difficulty": "Beginner → Intermediate",
+  "readingTime": "~80 min",
+  "labs": "4 interactive labs",
+  "description": "Arrays, dynamic arrays, hash tables, collisions and hashing patterns — an illustrated, interactive DSA chapter."
+}

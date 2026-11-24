@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stacks — An Illustrated, Interactive Chapter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2563eb; --blue-l:#dbeafe;
+  --green:#16a34a; --green-l:#dcfce7;
+  --red:#dc2626; --red-l:#fee2e2;
+  --yellow:#f59e0b; --yellow-l:#fef3c7;
+  --purple:#7c3aed; --purple-l:#ede9fe;
+  --ink:#1f2937; --muted:#6b7280; --paper:#fbfaf6; --card:#ffffff; --line:#e7e5e4;
+  --hand:'Caveat',cursive; --serif:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.68}
+a{color:var(--blue)}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;max-width:1240px;margin:0 auto;padding:0 24px}
+nav.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:28px 0 40px;font-family:var(--sans);font-size:13.5px}
+nav.toc b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:4px 10px;border-left:2px solid transparent;border-radius:0 6px 6px 0}
+nav.toc a:hover,nav.toc a.active{border-left-color:var(--purple);background:var(--purple-l)}
+main{min-width:0;padding:28px 0 120px;max-width:900px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}nav.toc{display:none}}
+header.hero{border-bottom:2px dashed #d6d3d1;padding:30px 0 28px;margin-bottom:28px}
+.kicker{font-family:var(--sans);font-weight:700;color:var(--purple);letter-spacing:.14em;text-transform:uppercase;font-size:12.5px}
+h1{font-family:var(--sans);font-weight:800;font-size:clamp(34px,5vw,52px);line-height:1.08;margin:.25em 0 .2em;letter-spacing:-.02em}
+h1 .hand{font-family:var(--hand);color:var(--green);font-weight:700;font-size:1.05em}
+.sub{font-size:20px;color:#44403c;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;font-family:var(--sans);font-size:13px}
+.pill{border:1.5px solid var(--ink);border-radius:999px;padding:4px 12px;background:#fff}
+h2{font-family:var(--sans);font-weight:800;font-size:29px;margin:2.6em 0 .5em;letter-spacing:-.01em;scroll-margin-top:16px}
+h2 .sec{display:inline-block;font-family:var(--hand);color:#fff;background:var(--purple);border-radius:10px 14px 9px 13px;padding:0 12px;margin-right:10px;font-size:28px;transform:rotate(-2deg)}
+h3{font-family:var(--sans);font-weight:700;font-size:21px;margin:1.8em 0 .4em;scroll-margin-top:16px}
+h4{font-family:var(--sans);font-weight:700;font-size:16.5px;margin:1.4em 0 .3em}
+p{margin:.7em 0}
+.cite{font-family:var(--sans);font-size:12.5px;font-weight:600;text-decoration:none;vertical-align:super;line-height:0;margin-left:1px}
+.cite:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.84em;background:#f1efe9;padding:.1em .35em;border-radius:4px}
+pre{background:#1e1e2e;color:#e5e7eb;border-radius:12px;padding:18px 20px;overflow:auto;font-size:14px;line-height:1.55;position:relative}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+pre .copy{position:absolute;top:8px;right:8px;font-family:var(--sans);font-size:11.5px;background:#374151;color:#fff;border:0;border-radius:6px;padding:4px 9px;cursor:pointer}
+.hljs-keyword,.hljs-built_in{color:#c4b5fd}.hljs-string{color:#86efac}.hljs-number{color:#fcd34d}.hljs-comment{color:#9ca3af;font-style:italic}.hljs-title{color:#93c5fd}.hljs-params{color:#fda4af}.hljs-literal{color:#fcd34d}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:var(--sans);font-size:14.5px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f5f5f4;font-weight:700}
+tr:last-child td{border-bottom:0}
+.tbl-wrap{overflow-x:auto}
+td.mono,th.mono{font-family:var(--mono);font-size:13px}
+.callout{border-radius:14px;padding:14px 18px 14px 18px;margin:1.3em 0;border:2px solid;font-size:17px;position:relative}
+.callout .ct{font-family:var(--hand);font-weight:700;font-size:24px;display:block;line-height:1.1;margin-bottom:4px}
+.callout.key{border-color:var(--purple);background:var(--purple-l)}
+.callout.key .ct{color:var(--purple)}
+.callout.warn{border-color:var(--red);background:#fff5f5}
+.callout.warn .ct{color:var(--red)}
+.callout.tip{border-color:var(--green);background:#f3fdf6}
+.callout.tip .ct{color:var(--green)}
+.callout.def{border-color:var(--ink);background:#fff}
+.callout.def .ct{color:var(--ink)}
+.callout.note{border-color:var(--yellow);background:#fffbeb}
+.callout.note .ct{color:#b45309}
+.math{font-family:'Source Serif 4',serif;font-style:italic;white-space:nowrap}
+.mathblock{display:block;text-align:center;font-family:var(--serif);font-style:italic;font-size:21px;margin:1em 0;padding:12px;background:#fff;border:1.5px dashed #d6d3d1;border-radius:12px;overflow-x:auto}
+.mathblock .up{font-style:normal}
+figure.fig{margin:1.8em 0;background:#fff;border:2px solid var(--ink);border-radius:18px 22px 16px 20px;padding:14px 16px 12px;box-shadow:4px 5px 0 #e7e5e4}
+.fig-title{font-family:var(--hand);font-size:27px;font-weight:700;line-height:1.1;margin:2px 4px 6px}
+.fig-title small{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+figure svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--sans);font-size:12.5px;margin:6px 4px 4px;color:#374151}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;border:2px solid;display:inline-block}
+.lg-blue{background:var(--blue-l);border-color:var(--blue)!important}.lg-green{background:var(--green-l);border-color:var(--green)!important}.lg-red{background:var(--red-l);border-color:var(--red)!important}.lg-yellow{background:var(--yellow-l);border-color:var(--yellow)!important}.lg-purple{background:var(--purple-l);border-color:var(--purple)!important}.lg-black{background:#fff;border-color:var(--ink)!important}
+figcaption{font-size:15.5px;color:#374151;border-top:1.5px dashed #e7e5e4;margin-top:8px;padding-top:8px}
+figcaption ol{margin:.3em 0 .3em 1.2em;padding:0}
+figcaption .interp{display:block;margin-top:6px;font-style:italic}
+/* widgets */
+.widget{background:#fff;border:2px solid var(--purple);border-radius:18px;padding:16px 18px;margin:1.8em 0;box-shadow:4px 5px 0 var(--purple-l)}
+.widget .wt{font-family:var(--hand);font-size:28px;font-weight:700;color:var(--purple);line-height:1.1}
+.widget .wt small{font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0;font-family:var(--sans);font-size:14px}
+.controls label{display:inline-flex;gap:6px;align-items:center}
+.controls input[type=text],.controls input[type=number]{font-family:var(--mono);font-size:14px;padding:6px 9px;border:1.5px solid #a8a29e;border-radius:8px;min-width:0}
+.controls input[type=text]{width:260px}
+.controls input[type=number]{width:72px}
+.btn{font-family:var(--sans);font-weight:600;font-size:13.5px;border:2px solid var(--ink);background:#fff;border-radius:10px 12px 9px 11px;padding:6px 12px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .05s}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.btn.primary{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:2px 2px 0 #4c1d95}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.status{font-family:var(--sans);font-size:14.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-left:5px solid var(--yellow);border-radius:10px;padding:10px 12px;margin-top:8px;min-height:44px}
+.status b{color:var(--purple)}
+.err{color:var(--red);font-family:var(--sans);font-size:13.5px;min-height:1em}
+.stage{overflow-x:auto;padding:4px 0}
+.cells{display:flex;gap:6px;align-items:flex-end;margin:6px 0}
+.cellcol{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:46px}
+.cell{width:46px;height:46px;border:2.5px solid var(--blue);background:var(--blue-l);border-radius:9px 11px 8px 12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:15px;transition:all .25s;cursor:default}
+.cell.p{border-color:var(--green);background:var(--green-l)}
+.cell.empty{border-style:dashed;border-color:#cbd5e1;background:#fff;color:#cbd5e1}
+.cell.active{border-color:var(--yellow);background:var(--yellow-l);transform:translateY(-4px);box-shadow:0 4px 0 var(--yellow)}
+.cell.sel{border-color:var(--yellow);background:#fde68a}
+.cell.minus{border-color:var(--red);background:var(--red-l)}
+.cell.plus{border-color:var(--green);background:#bbf7d0}
+.cell.link{border-color:var(--purple);background:var(--purple-l)}
+.cell.click{cursor:pointer}
+.idx{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.rowlabel{font-family:var(--hand);font-size:22px;font-weight:700;width:64px;flex:none;align-self:center}
+.row{display:flex;align-items:center;gap:8px}
+.kv{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--mono);font-size:13px}
+.kv span{border:1.5px solid var(--purple);background:var(--purple-l);border-radius:8px;padding:3px 8px}
+.kv span.hit{border-color:var(--green);background:var(--green-l);font-weight:700}
+.kv span.lookup{border-color:var(--yellow);background:var(--yellow-l)}
+.grid2d{display:grid;gap:4px;user-select:none;touch-action:none}
+.g{width:44px;height:44px;border:2px solid var(--blue);background:var(--blue-l);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px;cursor:pointer;position:relative}
+.g.in{border-color:var(--yellow);background:#fde68a}
+.g.corner-plus{outline:3px solid var(--green);outline-offset:2px}
+.g.corner-minus{outline:3px solid var(--red);outline-offset:2px}
+.g .tag{position:absolute;top:-9px;right:-7px;font-family:var(--sans);font-size:10px;font-weight:800;color:#fff;border-radius:999px;padding:0 5px;line-height:16px}
+.g.sp{background:#fff;border-color:var(--green);cursor:default;font-size:12.5px}
+.g.sp0{background:#f8fafc;border-color:#cbd5e1;color:#94a3b8;cursor:default}
+.two{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.small{font-family:var(--sans);font-size:13px;color:var(--muted)}
+input[type=range]{accent-color:var(--purple);width:180px}
+.bars{display:flex;flex-direction:column;gap:8px;font-family:var(--sans);font-size:13.5px;margin-top:8px}
+.bar{height:26px;border-radius:7px;border:2px solid;display:flex;align-items:center;padding:0 8px;font-weight:700;white-space:nowrap;transition:width .3s;min-width:4px}
+details.ans{background:#fff;border:2px solid var(--green);border-radius:14px;padding:10px 16px;margin:12px 0}
+details.ans summary{cursor:pointer;font-family:var(--sans);font-weight:700;color:var(--green)}
+details.hint{background:#fffbeb;border:1.5px dashed var(--yellow);border-radius:12px;padding:8px 14px;margin:8px 0}
+details.hint summary{cursor:pointer;font-family:var(--sans);font-weight:600;color:#b45309;font-size:14.5px}
+.notebook{background:#fffef5 repeating-linear-gradient(transparent 0 31px,#cfe0f5 31px 32px);border:2px solid #cbd5e1;border-left:6px double var(--red);border-radius:6px;padding:18px 22px 18px 34px;font-family:var(--hand);font-size:23px;line-height:32px}
+.notebook h4{font-family:var(--hand);font-size:29px;color:var(--purple);margin:.6em 0 0;line-height:32px}
+.notebook code{font-family:var(--mono);font-size:15px;background:#fef9c3}
+.notebook ul{margin:0;padding-left:22px}
+.notebook table{font-family:var(--sans);font-size:14px;line-height:1.4}
+.refs li{margin:.55em 0;font-size:16px}
+.refs .why{display:block;font-size:14px;color:var(--muted)}
+.badge{font-family:var(--sans);font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;color:#fff;vertical-align:middle;margin-left:4px}
+.b-easy{background:var(--green)}.b-med{background:var(--yellow)}.b-hard{background:var(--red)}
+.wrong{border-left:5px solid var(--red)}
+.right{border-left:5px solid var(--green)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp>div{min-width:0}
+@media(max-width:700px){.cmp{grid-template-columns:1fr}}
+.cmp .h{font-family:var(--hand);font-size:22px;font-weight:700}
+hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12'><path d='M0 6 Q 15 1 30 6 T 60 6 T 90 6 T 120 6' fill='none' stroke='%23c4b5fd' stroke-width='2'/></svg>") repeat-x;margin:2.5em 0}
+.objectives li{margin:.25em 0}
+/* one-page cheat sheet */
+.sheet{background:#fff;border:2px solid var(--ink);border-radius:20px 24px 18px 22px;box-shadow:4px 5px 0 #e7e5e4;padding:18px 20px 22px;margin:1.4em 0 2em}
+.sheet-title{text-align:center;margin:0 0 10px}
+.sheet-title span{display:inline-block;font-family:var(--hand);font-weight:700;font-size:56px;line-height:1.1;color:#1e3a8a;background:var(--purple-l);border-radius:22px 30px 18px 26px;padding:0 28px;transform:rotate(-1deg)}
+.sheet-cols{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+.sheet-col{min-width:0}
+.sheet-col.wide{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;border-top:2px dashed #e7e5e4;padding-top:16px}
+@media(max-width:900px){.sheet-col.wide{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.sheet-cols,.sheet-col.wide{grid-template-columns:1fr}.sheet-title span{font-size:44px}}
+.sb{margin:0 0 20px}
+.sb.center{text-align:center}
+.mk{display:inline-block;font-family:var(--hand);font-weight:700;font-size:30px;line-height:1.15;padding:0 12px;border-radius:12px 16px 10px 14px;margin-bottom:6px;color:var(--ink)}
+.mk-red{background:#fbcfe8}.mk-blue{background:#bae6fd}.mk-purple{background:#ddd6fe}.mk-green{background:#bbf7d0}.mk-yellow{background:#fde68a}
+.hw{font-family:var(--hand);font-size:22px;line-height:1.3;margin:4px 0}
+.hw b{color:var(--purple)}
+.small-hw{font-size:19px;color:#44403c}
+.sheet code{font-family:var(--mono);font-size:14px;background:#f1efe9}
+.box{font-family:var(--hand);font-size:24px;font-weight:700;line-height:1.35;border:2px solid;border-radius:14px 18px 12px 16px;padding:8px 14px;margin:6px 0}
+.box.b-blue{border-color:#93c5fd;background:#f0f7ff}
+.box.b-yellow{border-color:var(--yellow);background:#fffbeb}
+.box.b-dash{border:2px dashed #94a3b8;background:#fff;font-weight:500}
+.box.big{display:inline-block;font-size:26px;box-shadow:3px 3px 0 #fde68a}
+.circ{display:inline-block;border:2.5px solid var(--green);background:var(--green-l);border-radius:50%;padding:0 10px;color:var(--green)}
+.hlp{background:var(--purple-l);border-radius:8px;padding:0 4px}.hlg{background:var(--green-l);border-radius:8px;padding:0 4px}
+.sheet .rowlabel{width:58px;font-size:22px}
+.sheet .cellcol{min-width:40px}
+.sheet .cell{width:40px;height:40px;font-size:14px}
+.sheet .cells{gap:4px}
+.calc{width:40px;font-family:var(--hand);font-size:16px;font-weight:700;color:var(--purple);text-align:center;line-height:1.05;min-height:44px;display:flex;flex-direction:column;justify-content:flex-end;white-space:pre;overflow:visible}
+.calc::after{content:'↓';font-family:var(--sans);font-size:13px;color:var(--purple)}
+.sheet-tbl{font-family:var(--hand);font-size:21px;margin:4px 0}
+.sheet-tbl td{padding:5px 10px}
+.sheet-tbl td:last-child{font-weight:700;color:var(--green);text-align:center;border-left:1px solid var(--line)}
+.sheet-tbl td.bad{color:var(--red)}
+.ticks,.uses,.crosses{list-style:none;padding:0;margin:4px 0;font-family:var(--hand);font-size:21px;line-height:1.3}
+.ticks li,.uses li,.crosses li{position:relative;padding-left:32px;margin:6px 0}
+.ticks li::before{content:'✔';position:absolute;left:4px;color:var(--green);font-weight:700}
+.crosses li::before{content:'✘';position:absolute;left:4px;color:var(--red);font-weight:700}
+.uses li span{position:absolute;left:0;font-size:18px}
+#d-sheet-vis{width:100%;height:auto;display:block}
+
+/* ---- stack-chapter components ---- */
+.bucket{display:flex;flex-direction:column-reverse;align-items:center;gap:5px;min-height:240px;width:132px;border:3px solid var(--ink);border-top:0;border-radius:0 0 16px 18px;padding:8px 8px 10px;background:#fff;position:relative;flex:none}
+.bucket.short{min-height:170px}
+.bucket.ptrs{margin-right:70px}
+.bucket .cell{width:108px;height:40px}
+.bucket .cell .ptr{position:absolute;right:-74px;font-family:var(--hand);font-size:20px;color:#b45309;font-weight:700;white-space:nowrap}
+.bucket .cell{position:relative}
+.bucket-cap{font-family:var(--sans);font-size:12px;color:var(--muted);text-align:center;width:132px;margin-top:4px}
+.ghost{width:108px;height:40px;border:2.5px dashed var(--red);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);color:var(--red);background:#fff5f5;opacity:.85}
+.slots{display:flex;gap:4px;flex-wrap:wrap}
+.slot{display:flex;flex-direction:column;align-items:center;gap:2px}
+.slot .cell{width:42px;height:42px;font-size:14px}
+.ll{display:flex;align-items:center;flex-wrap:wrap;gap:2px;font-family:var(--mono);font-size:14px;min-height:50px}
+.lnode{display:flex;border:2.5px solid var(--blue);border-radius:9px 11px 8px 12px;overflow:hidden;background:var(--blue-l);transition:all .25s}
+.lnode b{padding:6px 10px;font-weight:600}
+.lnode i{padding:6px 8px;border-left:2px solid var(--purple);background:var(--purple-l);color:var(--purple);font-style:normal}
+.lnode.top{border-color:var(--yellow);background:var(--yellow-l)}
+.lnode.new{border-color:var(--green);background:var(--green-l)}
+.larrow{color:var(--purple);font-weight:700;padding:0 3px}
+.lhead{font-family:var(--hand);font-size:21px;font-weight:700;color:#b45309;margin-right:6px}
+.lnull{color:var(--muted);font-size:13px}
+.chars{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
+.chars .cell{width:36px;height:40px;font-size:16px}
+.chars .cell.done{border-color:var(--green);background:var(--green-l)}
+.chars .cell.bad{border-color:var(--red);background:var(--red-l)}
+.chars .cell.dim{border-color:#cbd5e1;background:#f8fafc;color:#94a3b8}
+.tok{display:flex;gap:4px;flex-wrap:wrap;min-height:44px;align-items:center}
+.tok .cell{width:auto;min-width:36px;padding:0 8px;height:38px;font-size:15px}
+.lane{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;margin:8px 0}
+.lane>div{min-width:0}
+.lab-h{font-family:var(--hand);font-size:22px;font-weight:700;margin:2px 0}
+.frame{width:210px;border:2.5px solid var(--purple);background:var(--purple-l);border-radius:10px 13px 9px 12px;padding:5px 9px;font-family:var(--mono);font-size:13px;line-height:1.35;transition:all .25s}
+.frame.active{border-color:var(--yellow);background:var(--yellow-l);box-shadow:0 3px 0 var(--yellow)}
+.frame.ret{border-color:var(--green);background:var(--green-l)}
+.frame small{display:block;color:var(--muted);font-family:var(--sans);font-size:11px}
+.cstack{display:flex;flex-direction:column-reverse;gap:5px;min-height:230px;width:236px;border:3px solid var(--ink);border-top:0;border-radius:0 0 16px 18px;padding:8px 10px 10px;background:#fff;flex:none}
+.log{font-family:var(--mono);font-size:12.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:8px 10px;max-height:230px;overflow:auto;min-width:220px;flex:1}
+.log div{padding:1px 0}
+.log .now{background:var(--yellow-l);font-weight:700}
+.mbars{display:flex;align-items:flex-end;gap:6px;height:190px;border-bottom:2px solid var(--ink);padding:0 4px;margin-top:8px}
+.mbar{width:42px;border:2.5px solid var(--blue);background:var(--blue-l);border-radius:8px 8px 0 0;display:flex;align-items:flex-start;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:600;padding-top:2px;transition:all .25s}
+.mbar.active{border-color:var(--yellow);background:var(--yellow-l)}
+.mbar.instack{border-color:var(--purple);background:var(--purple-l)}
+.mbar.solved{border-color:var(--green);background:var(--green-l)}
+.mbar.popnow{border-color:var(--red);background:var(--red-l)}
+.mlab{display:flex;gap:6px;padding:0 4px}
+.mlab div{width:42px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.mlab.ans div{font-size:14px;font-weight:700;color:var(--green)}
+.abars{display:flex;align-items:flex-end;gap:2px;height:170px;border-bottom:2px solid var(--ink);margin-top:10px;overflow-x:auto}
+.abar{flex:1 0 8px;min-width:6px;background:var(--blue-l);border:1.5px solid var(--blue);border-bottom:0;border-radius:3px 3px 0 0}
+.abar.copy{background:var(--red-l);border-color:var(--red)}
+.avg{height:0;border-top:2.5px dashed var(--green);position:relative}
+.counter{display:inline-block;font-family:var(--mono);font-size:13px;border:1.5px solid var(--ink);border-radius:8px;padding:2px 8px;background:#fff;margin:2px 4px 2px 0}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" id="toc">
+<a href="/" style="margin-bottom:14px;font-weight:600;color:var(--purple)">← All chapters</a>
+<b>Chapter contents</b>
+<a href="#intro">A · Chapter introduction</a>
+<a href="#fundamentals">B · Fundamental understanding</a>
+<a href="#problem">C · The problem statement</a>
+<a href="#whiteboard">D · Whiteboard explanations</a>
+<a href="#interactive">E · Interactive lab</a>
+<a href="#internal">F · Internal working</a>
+<a href="#math">G · Mathematical foundation</a>
+<a href="#complexity">H · Operations &amp; complexity</a>
+<a href="#python">I · Python implementation</a>
+<a href="#applications">J · Real-world applications</a>
+<a href="#alternatives">K · Comparison with alternatives</a>
+<a href="#mistakes">L · Mistakes &amp; misconceptions</a>
+<a href="#interview">M · Interview preparation</a>
+<a href="#advanced">N · Advanced concepts</a>
+<a href="#notebook">O · Notebook-ready summary</a>
+<a href="#assessment">P · Knowledge assessment</a>
+<a href="#references">Q · References</a>
+</nav>
+<main>
+
+<header class="hero" id="intro">
+  <div class="kicker">DSA Learning Studio · Chapter 07 · Linear Data Structures</div>
+  <h1>Stacks <span class="hand">— last in, first out</span></h1>
+  <p class="sub">The LIFO abstract data type, its array and linked-list implementations, amortised resizing, the call stack, bracket matching, expression evaluation and monotonic stacks — from first principles to interview-ready patterns.</p>
+  <div class="meta">
+    <span class="pill">Difficulty: Beginner → Intermediate (advanced section: Upper-intermediate)</span>
+    <span class="pill">Reading time: ~80 minutes (+ 30 min exercises)</span>
+    <span class="pill">Language: Python 3.8+</span>
+    <span class="pill">6 interactive labs</span>
+  </div>
+</header>
+
+<h2><span class="sec">A</span>Chapter introduction</h2>
+
+<h3>Prerequisites</h3>
+<p>You should be comfortable with Python lists and indexing, writing small classes, <code>for</code>/<code>while</code> loops, simple recursion (a function that calls itself), and basic Big-O notation. The chapters on <a href="/chapters/time-space-complexity/">Time &amp; Space Complexity</a> and <a href="/chapters/arrays-hashing/">Arrays &amp; Hashing</a> cover everything needed; in particular, knowing that a Python <code>list</code> is a dynamic array will make Section F much easier.</p>
+
+<h3>Learning objectives</h3>
+<p>After completing this chapter you will be able to:</p>
+<ol class="objectives">
+  <li>Define a stack as an abstract data type, state the LIFO rule, and name its operations and error conditions (underflow, overflow).</li>
+  <li>Implement a stack from scratch twice — on a resizing array and on a singly linked list — and explain exactly what happens in memory on every <code>push</code> and <code>pop</code>.</li>
+  <li>Prove that a doubling array gives amortised <span class="math">O(1)</span> push, and explain why it must shrink at one-quarter (not one-half) full.</li>
+  <li>Explain how the call stack makes function calls and recursion work, and why deep recursion overflows.</li>
+  <li>Solve the classic stack problems: balanced brackets, postfix evaluation, infix-to-postfix conversion (shunting-yard), min-stack, and queue-from-two-stacks.</li>
+  <li>Recognise the <em>monotonic stack</em> pattern (“next greater element”, “largest rectangle”) and argue its <span class="math">O(n)</span> running time.</li>
+  <li>Choose correctly between <code>list</code>, <code>collections.deque</code> and <code>queue.LifoQueue</code> in Python.</li>
+</ol>
+
+<div class="callout key"><span class="ct">The one-sentence promise</span>
+A stack lets you add and remove items at one end only — the <em>top</em> — and in exchange both operations cost <span class="math">O(1)</span>, and the item you get back is always the one you most recently saved. That “most recent first” order is exactly what nesting, undoing and returning from function calls need. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></div>
+
+<div class="callout note"><span class="ct">How the visuals in this chapter are made</span>
+This environment has no image-generation model, so every “whiteboard” illustration is drawn in code: a small sketch renderer produces hand-drawn-style strokes and handwriting labels as SVG from the <em>actual data</em> of each example. That keeps every index, value and pointer exactly correct while still looking like marker on a whiteboard. All six interactive labs are fully working.</div>
+
+<h2 id="fundamentals"><span class="sec">B</span>Fundamental understanding</h2>
+
+<h3>What is a stack?</h3>
+<p>Picture a spring-loaded pile of plates in a cafeteria. You can only put a clean plate on top, and you can only take the top plate. The plate you put down last is the first one taken. A <strong>stack</strong> is a collection that enforces exactly this discipline. Sedgewick and Wayne define it as a collection “based on the last-in-first-out (LIFO) policy”, and CLRS define it by its delete operation: the element removed is always the one most recently inserted. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></p>
+
+<div class="callout def"><span class="ct">Formal definition</span>
+A <strong>stack</strong> is an abstract data type (ADT) holding a finite sequence <span class="math">S = ⟨s<sub>1</sub>, s<sub>2</sub>, …, s<sub>k</sub>⟩</span>, where <span class="math">s<sub>k</sub></span> is the <em>top</em>, with the operations
+<br>• <code>push(x)</code>: <span class="math">S ← ⟨s<sub>1</sub>, …, s<sub>k</sub>, x⟩</span>;
+<br>• <code>pop()</code>: if <span class="math">k = 0</span> signal <em>underflow</em>; otherwise return <span class="math">s<sub>k</sub></span> and set <span class="math">S ← ⟨s<sub>1</sub>, …, s<sub>k−1</sub>⟩</span>;
+<br>• <code>peek()</code> / <code>top()</code>: return <span class="math">s<sub>k</sub></span> without removing it; <code>is_empty()</code>: test <span class="math">k = 0</span>; <code>size()</code>: return <span class="math">k</span>.
+<br>The defining axiom is <span class="math">pop(push(S, x)) = (S, x)</span>: a pop undoes the most recent push. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-19">[19]</a></div>
+
+<div class="callout tip"><span class="ct">Simple English definition</span>
+A stack is a pile where you only ever touch the top. Put things on the top (<em>push</em>), take things off the top (<em>pop</em>), or look at the top (<em>peek</em>). Whatever went in last comes out first.</div>
+
+<p>Two words describe the error states. Popping or peeking an empty stack is <strong>underflow</strong>; pushing onto a stack that has a fixed maximum size and is already full is <strong>overflow</strong>. <a class="cite" href="#ref-19">[19]</a><a class="cite" href="#ref-2">[2]</a> A stack backed by a growable array or a linked list never overflows in the ADT sense — it simply asks for more memory — but the <em>call stack</em> of a running program does have a fixed size, which is where the famous “stack overflow” error comes from (Section F.5). <a class="cite" href="#ref-20">[20]</a></p>
+
+<h3>An abstract data type, not a memory layout</h3>
+<p>“Stack” names a <em>behaviour</em>, not a storage scheme. Any structure that can add and remove at one end in constant time can implement it: an array whose last used slot is the top, or a linked list whose head node is the top. Both are standard textbook implementations. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a> In Python, the built-in <code>list</code> already behaves as a stack through <code>append()</code> and argument-less <code>pop()</code>, which the official tutorial describes as using a list as a stack. <a class="cite" href="#ref-4">[4]</a></p>
+
+<h3>Why does this concept exist?</h3>
+<p>Many computations are <em>nested</em>: a function calls a function that calls a function; a bracket opens inside another bracket; an HTML tag contains other tags; an edit is undone after a later edit was undone. Nested structure always closes in the reverse order it opened. A stack is the data structure whose removal order is the reverse of its insertion order, so it is the natural memory for “what am I in the middle of, and what do I return to next?”. That is why stacks appear in compilers, interpreters, processors and operating systems. <a class="cite" href="#ref-20">[20]</a><a class="cite" href="#ref-15">[15]</a></p>
+
+<h3>A little history</h3>
+<p>Alan Turing used the terms “bury” and “unbury” for calling and returning from subroutines in his 1946 design for the ACE computer. Klaus Samelson and Friedrich L. Bauer developed the stack principle (German <em>Kellerprinzip</em>, “cellar principle”) for translating arithmetic formulas, filed a patent on it in 1957, and Bauer received the IEEE Computer Pioneer Award in 1988 for the invention of the stack principle. <a class="cite" href="#ref-19">[19]</a> In 1961 Edsger Dijkstra described the <em>shunting-yard</em> algorithm, which uses an operator stack to convert ordinary infix formulas into postfix order for the ALGOL 60 compiler. <a class="cite" href="#ref-21">[21]</a><a class="cite" href="#ref-18">[18]</a> Today stacks are built into hardware: the x86 instruction set has <code>push</code>, <code>pop</code>, <code>call</code> and <code>ret</code> instructions that operate on a stack in memory. <a class="cite" href="#ref-14">[14]</a></p>
+
+<h3>Fundamental principles</h3>
+<ol>
+<li><strong>Restricted access is a feature.</strong> By forbidding access to anything but the top, a stack can make every operation <span class="math">O(1)</span> and makes programs easier to reason about: no index bookkeeping, no searching. <a class="cite" href="#ref-2">[2]</a></li>
+<li><strong>Reversal.</strong> Pushing a sequence and popping it all gives the sequence back reversed. Every stack algorithm exploits this: matching the most recently opened bracket, returning to the most recent caller, undoing the most recent edit.</li>
+<li><strong>Deferred work.</strong> A stack stores work you have started but cannot finish yet (an open bracket waiting for its partner, a caller waiting for a return value, an operator waiting for its right operand). The top is always the most urgent pending item. <a class="cite" href="#ref-17">[17]</a></li>
+</ol>
+
+<h2 id="problem"><span class="sec">C</span>The problem statement</h2>
+
+<h3>The “most recent unfinished item” problem</h3>
+<p>Stacks solve a family of problems rather than one. A representative member, used throughout this chapter, is <strong>bracket matching</strong>:</p>
+<div class="tbl-wrap"><table>
+<tr><th style="width:150px">Component</th><th>Specification</th></tr>
+<tr><td><strong>Input</strong></td><td>A string <span class="math">s</span> of length <span class="math">n</span> over the characters <code>( ) [ ] { }</code> (and possibly others to ignore).</td></tr>
+<tr><td><strong>Output</strong></td><td><code>True</code> if every closing bracket closes the most recently opened, still-unclosed bracket of the same type, and no bracket is left open; otherwise <code>False</code>.</td></tr>
+<tr><td><strong>Typical constraints</strong></td><td>LeetCode 20 “Valid Parentheses” uses <span class="math">1 ≤ n ≤ 10<sup>4</sup></span>; an <span class="math">O(n)</span> single pass is expected.</td></tr>
+<tr><td><strong>Key observation</strong></td><td>“Most recently opened, still unclosed” is precisely the top of a stack of open brackets.</td></tr>
+</table></div>
+
+<h3>Why the naive approach is inefficient</h3>
+<p>A natural first idea is to repeatedly find and delete an adjacent matching pair such as <code>()</code> or <code>[]</code> until nothing changes. Each scan is <span class="math">O(n)</span>, each scan may remove only one pair, and building the shortened string costs another <span class="math">O(n)</span>; for an input such as <code>((((…))))</code> that is <span class="math">n/2</span> rounds, so <span class="math">Θ(n<sup>2</sup>)</span> work. Counting brackets with a single integer is <span class="math">O(n)</span> but <em>wrong</em> once there are several bracket types: <code>([)]</code> has balanced counts for both types yet is not properly nested. <em>(Our own worked example; both claims are checked by the lab in Section E.)</em></p>
+
+<h3>Limitations of other approaches</h3>
+<p>A plain array with an index lets you reach any element, but then you must manage that index yourself and nothing stops code from reading the wrong slot. A queue removes the <em>oldest</em> item, which is the wrong order for nesting: the bracket that must close first is the newest one. A recursive-descent parser does work, but only because recursion uses the call stack implicitly — which means it is still a stack, with a hard depth limit (Python’s default recursion limit is 1000 frames). <a class="cite" href="#ref-8">[8]</a></p>
+
+<h3>How a stack improves the solution</h3>
+<p>Scan once. Push every opening bracket. On a closing bracket, pop and check that the popped opener matches; at the end, require the stack to be empty. Every character is pushed at most once and popped at most once, so the algorithm is <span class="math">Θ(n)</span> time and <span class="math">O(n)</span> space in the worst case (all openers). The same skeleton — push what is unfinished, pop when it is finished — evaluates expressions, converts infix to postfix, and drives depth-first search. <a class="cite" href="#ref-17">[17]</a><a class="cite" href="#ref-24">[24]</a></p>
+
+<div class="callout tip"><span class="ct">Real-world analogy: the stack of trays and the pile of open tabs</span>
+Imagine reading a document that links to a definition, which links to an example, which links to a footnote. You keep each page open as you go deeper. When you finish the footnote you close it and land back on the example, then the definition, then the document — the reverse of the order you opened them. Your mental “where was I?” list is a stack: open = push, finish = pop, and the page you return to is always the top. <em>(Illustrative analogy.)</em></div>
+
+<h2 id="whiteboard"><span class="sec">D</span>Visual whiteboard explanations</h2>
+<p>All diagrams in this chapter use one colour language. Learn it once and every picture reads the same way:</p>
+<div class="legend" style="font-size:14px;margin:8px 0 4px">
+<span><i class="lg-blue"></i>Blue — stored data, array slots, memory blocks</span>
+<span><i class="lg-green"></i>Green — push / successful operation / result</span>
+<span><i class="lg-red"></i>Red — pop / removal / error (underflow, mismatch)</span>
+<span><i class="lg-yellow"></i>Yellow/orange — the top pointer / current element</span>
+<span><i class="lg-purple"></i>Purple — links, next-pointers, call frames, copies</span>
+<span><i class="lg-black"></i>Black — labels and definitions</span>
+</div>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.1 · Concept introduction</small>Only the top is reachable</div>
+  <svg id="d-concept" viewBox="0 0 860 390" role="img" aria-label="A stack holding 3, 7, 5 with push and pop arrows at the top"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>stored item</span><span><i class="lg-yellow"></i>top item</span><span><i class="lg-green"></i>push enters at the top</span><span><i class="lg-red"></i>pop leaves from the top</span></div>
+  <figcaption>
+  <ol>
+    <li>Three items were pushed in the order 3, 7, 5. The first one pushed (3) sits at the bottom.</li>
+    <li><strong>Left:</strong> <code>push(9)</code> enters through the only opening and lands on 5, becoming the new top.</li>
+    <li><strong>Right:</strong> on the same stack, <code>pop()</code> removes 5 — the most recent push — and 7 becomes the top (yellow). <code>peek()</code> would read the top without removing it.</li>
+  </ol>
+  <span class="interp">Technical interpretation: the container has exactly one opening. No operation can reach 7 or 3 without first popping everything above them — that restriction is what makes the order LIFO and every operation O(1). <a class="cite" href="#ref-1">[1]</a></span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.2 · Memory representation</small>Two ways to store the same stack</div>
+  <svg id="d-memory" viewBox="0 0 860 430" role="img" aria-label="Array-backed stack with size and capacity, and linked-list stack with head as top"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>occupied slot / node value</span><span><i class="lg-yellow"></i>top</span><span><i class="lg-black"></i>free slot (capacity not yet used)</span><span><i class="lg-purple"></i>next pointer</span><span><i class="lg-green"></i>where the next push writes</span></div>
+  <figcaption>
+  <ol>
+    <li><strong>Array-backed:</strong> items live in contiguous slots 0…n−1 with the bottom at index 0. The size <code>n = 4</code> doubles as the index of the next free slot, so the top is <code>data[n−1]</code> and a push writes <code>data[n]</code>.</li>
+    <li>The array has <em>capacity</em> 8 but only 4 slots are in use; the spare room makes most pushes a single write.</li>
+    <li><strong>Linked list:</strong> each node holds a value and a pointer to the node below it. The list’s head is the top, so push and pop only ever touch the head.</li>
+  </ol>
+  <span class="interp">Technical interpretation: both layouts give O(1) push/pop. The array wins on memory locality and per-item overhead; the linked list never needs to copy, so every single operation is O(1) in the worst case, not just on average. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.3 · Step-by-step execution</small>push 3, push 7, push 5, pop, push 9</div>
+  <svg id="d-steps" viewBox="0 0 860 360" role="img" aria-label="Six snapshots of a stack as operations are applied"></svg>
+  <div class="legend"><span><i class="lg-green"></i>just pushed</span><span><i class="lg-red"></i>just popped (returned)</span><span><i class="lg-blue"></i>unchanged</span><span><i class="lg-yellow"></i>top pointer</span></div>
+  <figcaption>
+  <ol>
+    <li>Start empty: <code>top = −1</code> (array view) or <code>head = None</code> (list view).</li>
+    <li>Each push places the new item above the old top; the top pointer moves up by one.</li>
+    <li><code>pop()</code> returns 5 — the last item pushed — and the top drops back to 7.</li>
+    <li><code>push(9)</code> reuses the slot that 5 vacated.</li>
+  </ol>
+  <span class="interp">Technical interpretation: after any sequence of operations the stack content equals the pushes that have not yet been “cancelled” by a later pop — like matched parentheses, where each pop matches the nearest unmatched push to its left.</span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.4 · Before-and-after comparison</small>Pointer changes in a linked-list push and pop</div>
+  <svg id="d-llops" viewBox="0 0 860 400" role="img" aria-label="Linked list push and pop pointer changes"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>existing node</span><span><i class="lg-green"></i>new node</span><span><i class="lg-purple"></i>next pointer</span><span><i class="lg-yellow"></i>head (= top)</span><span><i class="lg-red"></i>unlinked node</span></div>
+  <figcaption>
+  <ol>
+    <li><strong>push(9):</strong> ① create node 9; ② set <code>node.next = head</code> (purple); ③ set <code>head = node</code> (yellow). Order matters — doing ③ first would lose the rest of the list.</li>
+    <li><strong>pop():</strong> remember <code>node = head</code>, set <code>head = head.next</code>, return <code>node.value</code>. The old node is no longer referenced and is reclaimed by the garbage collector.</li>
+  </ol>
+  <span class="interp">Technical interpretation: each operation changes a constant number of pointers, independent of the list length — Θ(1) in the worst case. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></span>
+  </figcaption>
+</figure>
+
+<h2 id="interactive"><span class="sec">E</span>Interactive lab</h2>
+<p>The labs below are fully working. Change the inputs, step forwards and backwards, and read the state panel. Labs 2–5 preview algorithms explained in detail in Sections F, I and N; feel free to come back to them later.</p>
+
+<div class="widget" id="w1">
+  <div class="wt"><small>Lab 1 · Stack playground</small>Push, pop and peek — watch three views of the same stack</div>
+  <div class="controls">
+    <label>Value <input type="text" id="w1-val" value="42" style="width:80px"></label>
+    <button class="btn primary" id="w1-push">push(x)</button>
+    <button class="btn" id="w1-pop">pop()</button>
+    <button class="btn" id="w1-peek">peek()</button>
+    <button class="btn" id="w1-many">push ×5 random</button>
+    <button class="btn" id="w1-clear">⟲ Clear</button>
+  </div>
+  <div class="err" id="w1-err"></div>
+  <div class="lane">
+    <div><div class="lab-h" style="color:var(--ink)">The stack (ADT view)</div><div class="bucket ptrs" id="w1-bucket"></div><div class="bucket-cap" id="w1-size"></div></div>
+    <div style="flex:1;min-width:280px">
+      <div class="lab-h" style="color:var(--blue)">Array-backed: data[0 … capacity−1]</div>
+      <div class="slots" id="w1-arr"></div>
+      <div class="small" id="w1-arrinfo" style="margin:4px 0 12px"></div>
+      <div class="lab-h" style="color:var(--purple)">Linked list: head = top</div>
+      <div class="ll" id="w1-ll"></div>
+      <div style="margin-top:10px"><span class="counter" id="w1-c-ops"></span><span class="counter" id="w1-c-copies"></span><span class="counter" id="w1-c-avg"></span></div>
+    </div>
+  </div>
+  <div class="status" id="w1-status"></div>
+</div>
+
+<div class="widget" id="w2">
+  <div class="wt"><small>Lab 2 · Balanced brackets</small>Step through the stack-based checker</div>
+  <div class="controls">
+    <label>String <input type="text" id="w2-input" value="{[()()]}([)]" style="width:220px"></label>
+    <button class="btn" id="w2-load">Load</button>
+    <button class="btn" id="w2-ex1">Example: valid</button>
+    <button class="btn" id="w2-ex2">Example: unclosed</button>
+  </div>
+  <div class="err" id="w2-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w2-play">▶ Play</button>
+    <button class="btn" id="w2-prev">◀ Prev</button>
+    <button class="btn" id="w2-next">Next ▶</button>
+    <button class="btn" id="w2-reset">⟲ Reset</button>
+  </div>
+  <div class="lane">
+    <div style="flex:1;min-width:260px"><div class="lab-h">Input (current character in yellow)</div><div class="chars" id="w2-chars"></div></div>
+    <div><div class="lab-h">Stack of open brackets</div><div class="bucket short" id="w2-stack"></div></div>
+  </div>
+  <div class="status" id="w2-status"></div>
+</div>
+
+<div class="widget" id="w3">
+  <div class="wt"><small>Lab 3 · Expressions</small>Infix → postfix (shunting-yard), then evaluate the postfix</div>
+  <div class="controls">
+    <label>Infix <input type="text" id="w3-input" value="(5+3)*2-4/2" style="width:220px"></label>
+    <button class="btn" id="w3-load">Load</button>
+    <span class="small">Integers, + − * / ^ and parentheses. <code>/</code> truncates toward zero; <code>^</code> is right-associative.</span>
+  </div>
+  <div class="err" id="w3-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w3-play">▶ Play</button>
+    <button class="btn" id="w3-prev">◀ Prev</button>
+    <button class="btn" id="w3-next">Next ▶</button>
+    <button class="btn" id="w3-reset">⟲ Reset</button>
+    <span class="small" id="w3-phase"></span>
+  </div>
+  <div class="lab-h">Tokens</div><div class="tok" id="w3-tokens"></div>
+  <div class="lane">
+    <div><div class="lab-h" id="w3-stacklabel">Operator stack</div><div class="bucket short ptrs" id="w3-stack"></div></div>
+    <div style="flex:1;min-width:240px"><div class="lab-h" style="color:var(--green)">Postfix output</div><div class="tok" id="w3-out"></div></div>
+  </div>
+  <div class="status" id="w3-status"></div>
+</div>
+
+<div class="widget" id="w4">
+  <div class="wt"><small>Lab 4 · Monotonic stack</small>Next greater element in one pass</div>
+  <div class="controls">
+    <label>nums <input type="text" id="w4-input" value="4, 5, 2, 25, 7, 3, 8"></label>
+    <button class="btn" id="w4-load">Load</button>
+    <button class="btn" id="w4-rand">Random</button>
+  </div>
+  <div class="err" id="w4-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w4-play">▶ Play</button>
+    <button class="btn" id="w4-prev">◀ Prev</button>
+    <button class="btn" id="w4-next">Next ▶</button>
+    <button class="btn" id="w4-reset">⟲ Reset</button>
+  </div>
+  <div class="stage">
+    <div class="mbars" id="w4-bars"></div>
+    <div class="mlab" id="w4-idx"></div>
+    <div class="mlab ans" id="w4-ans"></div>
+  </div>
+  <div style="font-family:var(--sans);font-size:14px;margin-top:6px"><strong>Stack (indices, bottom → top):</strong> <span class="kv" id="w4-stack" style="display:inline-flex"></span></div>
+  <div class="status" id="w4-status"></div>
+</div>
+
+<div class="widget" id="w5">
+  <div class="wt"><small>Lab 5 · The call stack</small>Watch frames being pushed and popped by recursion</div>
+  <div class="controls">
+    <label>Function <select id="w5-fn" style="font-family:var(--mono);font-size:14px;padding:5px"><option value="fact">factorial(n)</option><option value="fib">fib(n)</option></select></label>
+    <label>n <input type="number" id="w5-n" value="4" min="0" max="7"></label>
+    <button class="btn" id="w5-load">Load</button>
+  </div>
+  <div class="err" id="w5-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w5-play">▶ Play</button>
+    <button class="btn" id="w5-prev">◀ Prev</button>
+    <button class="btn" id="w5-next">Next ▶</button>
+    <button class="btn" id="w5-reset">⟲ Reset</button>
+  </div>
+  <div class="lane" style="align-items:flex-start">
+    <div><div class="lab-h">Call stack (top = running)</div><div class="cstack" id="w5-stack"></div></div>
+    <div style="flex:1;min-width:240px"><div class="lab-h">Event log</div><div class="log" id="w5-log"></div>
+      <pre style="margin-top:10px;font-size:13px" id="w5-code"></pre></div>
+  </div>
+  <div class="status" id="w5-status"></div>
+</div>
+
+<h2 id="internal"><span class="sec">F</span>Internal working</h2>
+
+<h3>F.1 Memory representation of an array-backed stack</h3>
+<p>An array-backed stack keeps two pieces of state: a block of slots <code>data</code> and a count <code>n</code>. Items occupy <code>data[0..n−1]</code> with the bottom at index 0, so the top is <code>data[n−1]</code> and the next push writes <code>data[n]</code>. Keeping the top at the <em>end</em> of the array is essential: adding or removing at the end moves nothing, whereas adding at the front would shift every element. Python’s documentation states the consequence for lists directly — <code>append</code> is <span class="math">O(1)</span> amortised and <code>pop(k)</code> costs <span class="math">O(n−k)</span>, so <code>pop()</code> from the end is <span class="math">O(1)</span> while <code>pop(0)</code> is <span class="math">O(n)</span>. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-4">[4]</a></p>
+<p>In CPython a <code>list</code> is exactly this structure: a contiguous array of pointers to objects, plus a size and an allocated capacity. <code>list.append</code> is therefore a stack push and <code>list.pop()</code> a stack pop. <a class="cite" href="#ref-10">[10]</a><a class="cite" href="#ref-4">[4]</a></p>
+
+<h3>F.2 Execution flow of push and pop (array)</h3>
+<ol>
+<li><strong>push(x):</strong> if <code>n == capacity</code>, allocate a new array of twice the capacity and copy the <code>n</code> items (the only expensive step); write <code>data[n] = x</code>; increment <code>n</code>.</li>
+<li><strong>pop():</strong> if <code>n == 0</code>, raise an underflow error; decrement <code>n</code>; read <code>x = data[n]</code>; clear the slot (<code>data[n] = None</code>) so the stack does not keep a dead object alive; if <code>n</code> has fallen to a quarter of the capacity, shrink to half; return <code>x</code>.</li>
+<li><strong>peek():</strong> if <code>n == 0</code>, raise; return <code>data[n−1]</code>. Nothing changes.</li>
+</ol>
+<p>The doubling-on-full and halving-at-one-quarter policy is the one used by Sedgewick and Wayne’s <code>ResizingArrayStack</code>. <a class="cite" href="#ref-1">[1]</a> Clearing the popped slot matters in garbage-collected languages: if the array still points at a popped object, that object cannot be reclaimed even though the program can no longer reach it through the stack (Java programmers call this <em>loitering</em>).</p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure F.1 · Internal working</small>Growing a full array: allocate, copy, write</div>
+  <svg id="d-resize" viewBox="0 0 860 338" role="img" aria-label="A full array of capacity 4 is copied into a new array of capacity 8"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>live items</span><span><i class="lg-purple"></i>copy during resize</span><span><i class="lg-green"></i>the new push</span><span><i class="lg-red"></i>old block (freed)</span><span><i class="lg-black"></i>free slots</span></div>
+  <figcaption>
+  <ol>
+    <li>The array has capacity 4 and holds 4 items, so <code>push(2)</code> finds no room.</li>
+    <li>A new block of capacity 8 is allocated and the 4 items are copied across (4 purple arrows = 4 units of extra work).</li>
+    <li>2 is written into slot 4; the old block is released.</li>
+    <li>The next three pushes (slots 5–7) cost one write each — the copying is “paid back” over them.</li>
+  </ol>
+  <span class="interp">Technical interpretation: a resize costs Θ(n), but it happens only when n reaches a power of two, so n pushes cost fewer than 3n writes in total — amortised O(1) per push (proved in Section G). <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-1">[1]</a></span>
+  </figcaption>
+</figure>
+
+<h3>F.3 What CPython actually does</h3>
+<p>CPython does not double. Its <code>list_resize</code> over-allocates by about one eighth of the requested size plus a small constant, rounded to a multiple of 4; the source comment gives the growth pattern “0, 4, 8, 16, 24, 32, 40, 52, 64, 76, …”. <a class="cite" href="#ref-10">[10]</a> Any constant-<em>factor</em> growth (here about 1.125×) still gives amortised <span class="math">O(1)</span> appends — only the constant changes. <a class="cite" href="#ref-2">[2]</a> You can watch it yourself: running <code>sys.getsizeof</code> after each <code>append</code> on CPython 3.11 shows capacity jumps at lengths 1, 5, 9 and 17, to 4, 8, 16 and 24 slots — matching the comment. <em>(Measured by us.)</em></p>
+
+<h3>F.4 Execution flow of push and pop (linked list)</h3>
+<ol>
+<li><strong>push(x):</strong> <code>head = Node(x, head)</code> — the new node’s <code>next</code> is the old head, then the head moves to the new node.</li>
+<li><strong>pop():</strong> if <code>head is None</code>, raise; <code>node = head</code>; <code>head = node.next</code>; return <code>node.value</code>.</li>
+</ol>
+<p>Sedgewick and Wayne’s linked-list <code>Stack</code> implements push and pop by inserting and removing at the beginning of the list, exactly as above. <a class="cite" href="#ref-1">[1]</a> No step depends on the number of nodes, so both are <span class="math">Θ(1)</span> in the worst case. The price is one extra pointer per item and an allocation for every push. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>F.5 The call stack: the stack you use without noticing</h3>
+<p>Every running program has a <strong>call stack</strong>. When a function is called, a <em>stack frame</em> is pushed holding its return address, parameters and local variables; when it returns, the frame is popped and execution resumes at the saved return address. <a class="cite" href="#ref-20">[20]</a> The operating-systems textbook <em>OSTEP</em> describes the stack as the part of a process’s address space used “to keep track of where it is in the function call chain” and to hold local variables, parameters and return values. <a class="cite" href="#ref-15">[15]</a> On x86, <code>call</code> pushes the return address and the stack grows toward lower addresses. <a class="cite" href="#ref-14">[14]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure F.2 · Step-by-step execution</small>The call stack while computing fact(3)</div>
+  <svg id="d-calls" viewBox="0 0 860 382" role="img" aria-label="Call stack snapshots for fact(3)"></svg>
+  <div class="legend"><span><i class="lg-purple"></i>suspended frame (waiting)</span><span><i class="lg-yellow"></i>running frame (top)</span><span><i class="lg-green"></i>frame returning a value</span><span><i class="lg-red"></i>base case</span></div>
+  <figcaption>
+  <ol>
+    <li><code>main</code> calls <code>fact(3)</code>: a frame with <code>n = 3</code> is pushed. It cannot finish until <code>fact(2)</code> returns, so it waits.</li>
+    <li><code>fact(2)</code> and <code>fact(1)</code> are pushed in turn. <code>fact(1)</code> is the base case and returns 1 immediately.</li>
+    <li>Frames pop in reverse order: <code>fact(2)</code> computes 2 × 1 = 2, then <code>fact(3)</code> computes 3 × 2 = 6, and control returns to <code>main</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: recursion depth d means d frames live at once — O(d) memory even if the function itself allocates nothing. Python caps the depth (default 1000) and raises <code>RecursionError</code> instead of overflowing the C stack. <a class="cite" href="#ref-8">[8]</a></span>
+  </figcaption>
+</figure>
+
+<p>Interpreters use stacks too. CPython compiles Python to bytecode that operates on a value stack — the <code>dis</code> documentation calls it <code>STACK</code> and says its top “corresponds to <code>STACK[-1]</code>”. <a class="cite" href="#ref-9">[9]</a> Every Java Virtual Machine frame “contains a last-in-first-out (LIFO) stack known as its operand stack”, and WebAssembly instructions likewise “interact with an implicit stack”. <a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-13">[13]</a></p>
+
+<h3>F.6 Edge cases</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Situation</th><th>Correct behaviour</th></tr>
+<tr><td>Pop or peek on an empty stack (underflow)</td><td>Raise an exception (Python’s <code>list.pop()</code> raises <code>IndexError</code>) or return a sentinel <em>by documented contract</em>; never return garbage. <a class="cite" href="#ref-19">[19]</a></td></tr>
+<tr><td>Push on a full fixed-capacity stack (overflow)</td><td>Raise, block (as <code>queue.LifoQueue(maxsize)</code> does by default), or grow. <a class="cite" href="#ref-7">[7]</a></td></tr>
+<tr><td>Storing <code>None</code> as a value</td><td>Do not use <code>None</code> both as data and as the “empty” signal; test emptiness with <code>len()</code> or <code>is_empty()</code>.</td></tr>
+<tr><td>Shrinking</td><td>Shrink at one-quarter, not one-half, full; otherwise alternating push/pop at the boundary causes a copy on every operation (Section G.3). <a class="cite" href="#ref-1">[1]</a></td></tr>
+<tr><td>Iteration order</td><td>Iterating a Python list used as a stack goes bottom → top; iterate <code>reversed(stack)</code> for pop order.</td></tr>
+<tr><td>Concurrency</td><td>Separate peek-then-pop calls are not atomic across threads; use <code>queue.LifoQueue</code> (internally locked) or your own lock. <a class="cite" href="#ref-7">[7]</a></td></tr>
+<tr><td>Very deep recursion</td><td>Convert to an explicit stack (Section I.9) rather than raising the recursion limit; a too-high limit can crash the interpreter. <a class="cite" href="#ref-8">[8]</a></td></tr>
+</table></div>
+
+<h2 id="math"><span class="sec">G</span>Mathematical foundation</h2>
+
+<h3>G.1 The LIFO axioms</h3>
+<p>A stack is fully specified by equations relating its operations (an <em>algebraic specification</em>): for every stack <span class="math">S</span> and item <span class="math">x</span>, <span class="math">top(push(S, x)) = x</span>, <span class="math">pop(push(S, x)) = S</span>, <span class="math">isEmpty(new()) = true</span> and <span class="math">isEmpty(push(S, x)) = false</span>; <span class="math">top(new())</span> and <span class="math">pop(new())</span> are errors (underflow). Any implementation satisfying these equations is a correct stack. <a class="cite" href="#ref-19">[19]</a></p>
+
+<h3>G.2 Invariant for the array implementation</h3>
+<div class="callout key"><span class="ct">Representation invariant</span><span class="math">0 ≤ n ≤ capacity</span>; the stack’s contents bottom→top are exactly <span class="math">data[0], …, data[n−1]</span>; and every slot <span class="math">data[i]</span> with <span class="math">i ≥ n</span> holds <code>None</code>. With shrinking, also <span class="math">n ≥ capacity/4</span> whenever <span class="math">n &gt; 0</span>.</div>
+<p><strong>Proof sketch.</strong> The empty constructor establishes it. <code>push</code> only writes slot <span class="math">n</span> (which is free, after growing if needed) then increments <span class="math">n</span>, so the prefix property and the “free slots are None” property both hold afterwards. <code>pop</code> decrements <span class="math">n</span>, reads the old top and sets it to <code>None</code>, restoring both properties. Resizing copies exactly the prefix. Hence each method preserves the invariant, and the axioms of G.1 follow from it.</p>
+
+<h3>G.3 Amortised analysis of the doubling array</h3>
+<p>Count one unit for each element write, including copies. Starting from capacity 1, the <span class="math">i</span>-th push copies <span class="math">i − 1</span> items when <span class="math">i − 1</span> is a power of two, and otherwise copies nothing. For <span class="math">n</span> pushes:</p>
+<div class="mathblock">T(n) = n + Σ<sub>j=0</sub><sup>⌊log₂(n−1)⌋</sup> 2<sup>j</sup> &nbsp;&lt;&nbsp; n + 2n = 3n &nbsp;&nbsp;⟹&nbsp;&nbsp; T(n)/n &lt; 3 = O(1) amortised</div>
+<p>This is the <em>aggregate method</em>. The <em>accounting method</em> gives the same bound: charge each push 3 units — 1 pays for its own write and 2 are saved; when a full array of size <span class="math">m</span> doubles, the <span class="math">m/2</span> items pushed since the last resize have saved <span class="math">m</span> units, exactly enough to copy all <span class="math">m</span> items. CLRS present both methods, including this dynamic-table example. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-3">[3]</a></p>
+<div class="callout warn"><span class="ct">Why shrink at a quarter, not a half?</span>If the array halved as soon as it became half full, then at <span class="math">n = capacity/2</span> the sequence push, pop, push, pop, … would grow and shrink on <em>every</em> operation, each costing <span class="math">Θ(n)</span> — <span class="math">Θ(n)</span> per operation forever. Halving only at one-quarter leaves the new array half full, so at least <span class="math">capacity/4</span> operations must happen before the next resize, and the amortised cost stays <span class="math">O(1)</span>. This is exactly the policy of <code>ResizingArrayStack</code>, and CLRS analyse the same contraction rule for dynamic tables. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></div>
+<p>Growth by a constant <em>amount</em> (say +10 slots) is not enough: then a resize happens every 10 pushes and copies <span class="math">Θ(n)</span> items, so <span class="math">n</span> pushes cost <span class="math">Θ(n<sup>2</sup>)</span>. Lab 6 below lets you compare the two policies.</p>
+
+<h3>G.4 The “pushed once, popped once” argument</h3>
+<p>Many stack algorithms have a loop like <code>while stack and condition: stack.pop()</code> inside a <code>for</code> loop, which looks quadratic. It is not: each element is pushed exactly once, so it can be popped at most once, so the total number of pops over the entire run is at most <span class="math">n</span>. Summing, the whole algorithm does <span class="math">O(n)</span> pushes + <span class="math">O(n)</span> pops + <span class="math">O(n)</span> loop tests. CLRS use the same argument for a stack with a <code>MULTIPOP(k)</code> operation: any sequence of <span class="math">n</span> push/pop/multipop operations costs <span class="math">O(n)</span>, so <span class="math">O(1)</span> amortised each, even though one multipop can cost <span class="math">Θ(n)</span>. <a class="cite" href="#ref-2">[2]</a> The potential function is simply <span class="math">Φ = </span> number of items on the stack. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>G.5 Correctness of bracket matching</h3>
+<p>Define a string to be <em>balanced</em> if it is empty, or <code>XY</code> for balanced <code>X, Y</code>, or <code>(X)</code> / <code>[X]</code> / <code>{X}</code> for balanced <code>X</code>. Invariant of the checker: after reading a prefix <span class="math">p</span>, the stack holds, bottom to top, exactly the opening brackets of <span class="math">p</span> that are not yet closed, in the order they were opened. A closing bracket is legal iff it matches the <em>latest</em> unclosed opener — the top — so the pop-and-compare test is both necessary and sufficient; and the whole string is balanced iff no opener remains, i.e. the stack ends empty.</p>
+
+<h3>G.6 How many orders can a stack produce?</h3>
+<p>Push the numbers <span class="math">1, 2, …, n</span> in order, popping whenever you like and writing down each popped value. Not every permutation is reachable — with <span class="math">n = 3</span> you cannot output <code>3 1 2</code>. The number of reachable output orders is the Catalan number <span class="math">C<sub>n</sub> = (2n choose n)/(n+1)</span> (1, 2, 5, 14, 42, …), because a valid push/pop sequence is exactly a balanced bracket string of <span class="math">n</span> pairs. This question was posed by Knuth in 1968, and the related <em>stack-sortable</em> permutations are counted by the same numbers. <a class="cite" href="#ref-23">[23]</a></p>
+
+<h2 id="complexity"><span class="sec">H</span>Operations and complexity analysis</h2>
+
+<p><strong>Assumptions:</strong> <span class="math">n</span> = number of items currently on the stack. “Resizing array” means doubling when full and halving at one-quarter full. Copying one item and allocating one node are <span class="math">O(1)</span>. Python costs are those documented for CPython’s <code>list</code> and <code>collections.deque</code>. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-5">[5]</a></p>
+
+<div class="tbl-wrap"><table>
+<tr><th>Operation</th><th>Best case</th><th>Average case</th><th>Worst case</th><th>Auxiliary space</th></tr>
+<tr><td>push — resizing array</td><td>Θ(1)</td><td>Θ(1) amortised</td><td>Θ(n) (the push that triggers a resize)</td><td>Θ(n) temporarily during a resize</td></tr>
+<tr><td>pop — resizing array</td><td>Θ(1)</td><td>Θ(1) amortised</td><td>Θ(n) (the pop that triggers a shrink)</td><td>O(1) (Θ(n) during a shrink)</td></tr>
+<tr><td>push / pop — linked list</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>O(1) (one node per push)</td></tr>
+<tr><td>peek / is_empty / size</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>O(1)</td></tr>
+<tr><td>search for a value (not a stack operation)</td><td>Θ(1) (at the top)</td><td>Θ(n)</td><td>Θ(n)</td><td>O(1)</td></tr>
+<tr><td>Any sequence of m operations (either implementation)</td><td>Θ(m)</td><td>Θ(m)</td><td>Θ(m)</td><td>Θ(max size)</td></tr>
+<tr><td>Storage for n items</td><td colspan="3">array: between n and 4n slots (with quarter-shrink); list: n nodes × (value + pointer + object header)</td><td>—</td></tr>
+<tr><td>Balanced brackets / postfix eval / shunting-yard</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td><td>O(n)</td></tr>
+<tr><td>Monotonic stack (next greater, histogram)</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td><td>O(n)</td></tr>
+</table></div>
+
+<h3>Reasoning behind each entry</h3>
+<p><strong>Array push/pop.</strong> Without a resize, a push or pop is one write and one counter update: <span class="math">Θ(1)</span>. A resize copies all <span class="math">n</span> items, so the worst single operation is <span class="math">Θ(n)</span> — that is a true worst case, which matters for latency-sensitive code. Averaged over any sequence of operations the cost is <span class="math">O(1)</span> (Section G.3). This is why Python documents <code>list.append</code> as amortised <span class="math">O(1)</span>, noting that an individual operation may occasionally be <span class="math">O(n)</span> when storage is resized. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-2">[2]</a></p>
+<p><strong>Linked-list push/pop.</strong> A constant number of pointer assignments and one allocation: <span class="math">Θ(1)</span> in the worst case (assuming allocation is <span class="math">O(1)</span>). <a class="cite" href="#ref-2">[2]</a></p>
+<p><strong>Big-O, Ω and Θ here.</strong> Every stack operation must do at least a constant amount of work, so each is <span class="math">Ω(1)</span>; combined with the <span class="math">O(1)</span> bounds they are <span class="math">Θ(1)</span> (amortised for arrays). Stack-based scanning algorithms must read all <span class="math">n</span> inputs (<span class="math">Ω(n)</span>) and do <span class="math">O(n)</span> work by the pushed-once argument, hence <span class="math">Θ(n)</span>.</p>
+<p><strong>Recurrence view of recursion.</strong> A recursive call stack of depth <span class="math">d</span> uses <span class="math">Θ(d)</span> space. For <code>fact(n)</code>, <span class="math">T(n) = T(n−1) + Θ(1)</span> gives <span class="math">Θ(n)</span> time <em>and</em> <span class="math">Θ(n)</span> stack space; naive <code>fib(n)</code> takes exponential time but its stack depth is only <span class="math">n</span>, because at any moment only one root-to-leaf path of the recursion tree is on the stack (try Lab 5).</p>
+
+<div class="widget" id="w6">
+  <div class="wt"><small>Lab 6 · Time-complexity visualisation</small>The cost of every push: doubling vs growing by a constant</div>
+  <div class="controls">
+    <label>pushes <input type="range" id="w6-n" min="4" max="128" value="40"> <b id="w6-nv"></b></label>
+    <label>policy <select id="w6-pol" style="font-family:var(--mono);font-size:14px;padding:5px"><option value="dbl">double when full (×2)</option><option value="py">CPython-style (≈×1.125 + 6)</option><option value="add">add 4 slots when full (+4)</option></select></label>
+  </div>
+  <div class="abars" id="w6-bars"></div>
+  <div class="small" style="margin-top:4px">Each bar is one push. Blue = the write itself (1 unit); red = items copied during a resize. The dashed green line is the running average cost per push.</div>
+  <div class="status" id="w6-status"></div>
+</div>
+
+<h3>Time–space trade-offs</h3>
+<p>A doubling array may hold up to twice as many slots as items when growing (and up to four times after shrinks, with the quarter rule), but every slot is just a reference and the slots are contiguous, which is cache-friendly. A linked list uses exactly <span class="math">n</span> nodes but each node carries a pointer plus allocator and object overhead, and nodes are scattered in memory. In practice array-backed stacks are usually faster; linked stacks win when you need a hard <span class="math">O(1)</span> worst case per operation, or when many stacks share structure (persistent stacks, Section N). <a class="cite" href="#ref-1">[1]</a></p>
+
+<h3>Theory versus actual Python behaviour</h3>
+<ul>
+<li><strong><code>list</code></strong>: <code>append</code> amortised <span class="math">O(1)</span>; <code>pop()</code> <span class="math">O(1)</span>; <code>pop(0)</code> and <code>insert(0, x)</code> <span class="math">O(n)</span> — so the top must be the end of the list. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-4">[4]</a></li>
+<li><strong><code>collections.deque</code></strong>: appends and pops from either side with “approximately the same O(1) performance”; indexed access is <span class="math">O(1)</span> at the ends but <span class="math">O(n)</span> in the middle. <a class="cite" href="#ref-5">[5]</a></li>
+<li><strong><code>queue.LifoQueue</code></strong>: a LIFO queue with locking for multi-producer, multi-consumer threads. The locks make it much slower than a list for single-threaded use. <a class="cite" href="#ref-7">[7]</a></li>
+<li><strong>Recursion</strong>: CPython limits interpreter stack depth (default 1000; read it with <code>sys.getrecursionlimit()</code>) to prevent an overflow of the C stack from crashing Python. <a class="cite" href="#ref-8">[8]</a></li>
+</ul>
+
+<h2 id="python"><span class="sec">I</span>Python implementation</h2>
+<p>Every code block in this section and in Sections M and P was run with CPython 3.11; the outputs shown are the real outputs.</p>
+
+<h3>I.1 Array-backed stack from scratch</h3>
+<p>Python’s <code>list</code> already resizes itself, so to <em>see</em> the mechanism we manage a fixed block of slots manually and never call <code>append</code> on it.</p>
+<pre><code class="language-python">class ArrayStack:
+    """LIFO stack on a manually resized array (doubling / quarter-full halving)."""
+
+    def __init__(self, capacity=1):
+        self._data = [None] * capacity   # fixed block of slots
+        self._n = 0                      # number of items; top is _data[_n - 1]
+
+    def __len__(self):
+        return self._n
+
+    def is_empty(self):
+        return self._n == 0
+
+    def _resize(self, capacity):
+        new = [None] * capacity          # allocate a new block...
+        for i in range(self._n):         # ...and copy the n live items: Θ(n)
+            new[i] = self._data[i]
+        self._data = new
+
+    def push(self, item):
+        if self._n == len(self._data):   # full -> double
+            self._resize(2 * len(self._data))
+        self._data[self._n] = item
+        self._n += 1
+
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")      # underflow
+        self._n -= 1
+        item = self._data[self._n]
+        self._data[self._n] = None       # avoid loitering: drop the reference
+        if 0 &lt; self._n &lt;= len(self._data) // 4:            # quarter full -> halve
+            self._resize(len(self._data) // 2)
+        return item
+
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self._data[self._n - 1]
+
+    def capacity(self):
+        return len(self._data)
+
+    def __repr__(self):
+        return f"ArrayStack({self._data[:self._n]}, cap={len(self._data)})"</code></pre>
+
+<h4>Line-by-line notes</h4>
+<ul>
+<li><code>self._data = [None] * capacity</code> — a block of slots, standing in for a raw array; <code>self._n</code> is both the size and the index of the next free slot.</li>
+<li><code>_resize</code> — the only <span class="math">Θ(n)</span> code path: allocate, copy the live prefix, swap the reference.</li>
+<li><code>push</code> — grow <em>before</em> writing when full, then write slot <code>n</code> and increment.</li>
+<li><code>pop</code> — check for underflow first, decrement, read, clear the slot, then maybe shrink. The <code>0 &lt; n</code> guard keeps the capacity ≥ 1.</li>
+<li>Errors use <code>IndexError</code>, the same exception <code>list.pop()</code> raises on an empty list, so the class is a drop-in replacement.</li>
+</ul>
+
+<h4>Sample run and dry-run table</h4>
+<pre><code class="language-python">s = ArrayStack()
+for x in [10, 20, 30, 40, 50]:
+    s.push(x)
+print(s)                      # ArrayStack([10, 20, 30, 40, 50], cap=8)
+print([s.pop() for _ in range(4)], s)   # [50, 40, 30, 20] ArrayStack([10], cap=2)
+try:
+    ArrayStack().pop()
+except IndexError as e:
+    print("underflow:", e)    # underflow: pop from empty stack</code></pre>
+<div class="tbl-wrap"><table>
+<tr><th>Operation</th><th>Resize?</th><th>Items copied</th><th>Live items (bottom → top)</th><th>n</th><th>capacity</th><th>Returns</th></tr>
+<tr><td>push(10)</td><td>—</td><td>0</td><td>[10]</td><td>1</td><td>1</td><td>—</td></tr>
+<tr><td>push(20)</td><td>grow 1 → 2</td><td>1</td><td>[10, 20]</td><td>2</td><td>2</td><td>—</td></tr>
+<tr><td>push(30)</td><td>grow 2 → 4</td><td>2</td><td>[10, 20, 30]</td><td>3</td><td>4</td><td>—</td></tr>
+<tr><td>push(40)</td><td>—</td><td>0</td><td>[10, 20, 30, 40]</td><td>4</td><td>4</td><td>—</td></tr>
+<tr><td>push(50)</td><td>grow 4 → 8</td><td>4</td><td>[10, 20, 30, 40, 50]</td><td>5</td><td>8</td><td>—</td></tr>
+<tr><td>pop()</td><td>—</td><td>0</td><td>[10, 20, 30, 40]</td><td>4</td><td>8</td><td>50</td></tr>
+<tr><td>pop()</td><td>—</td><td>0</td><td>[10, 20, 30]</td><td>3</td><td>8</td><td>40</td></tr>
+<tr><td>pop()</td><td>shrink 8 → 4 (n = 2 ≤ 8/4)</td><td>2</td><td>[10, 20]</td><td>2</td><td>4</td><td>30</td></tr>
+<tr><td>pop()</td><td>shrink 4 → 2 (n = 1 ≤ 4/4)</td><td>1</td><td>[10]</td><td>1</td><td>2</td><td>20</td></tr>
+</table></div>
+
+<h3>I.2 Linked-list stack from scratch</h3>
+<pre><code class="language-python">class _Node:
+    __slots__ = ("value", "next")        # no per-instance __dict__: smaller nodes
+
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
+
+
+class LinkedStack:
+    """LIFO stack on a singly linked list; the head node is the top."""
+
+    def __init__(self):
+        self._head = None
+        self._n = 0
+
+    def __len__(self):
+        return self._n
+
+    def is_empty(self):
+        return self._head is None
+
+    def push(self, item):
+        self._head = _Node(item, self._head)   # new node points at old top
+        self._n += 1
+
+    def pop(self):
+        if self._head is None:
+            raise IndexError("pop from empty stack")
+        node = self._head
+        self._head = node.next                # unlink the old top
+        self._n -= 1
+        return node.value
+
+    def peek(self):
+        if self._head is None:
+            raise IndexError("peek from empty stack")
+        return self._head.value
+
+    def __iter__(self):                       # top -> bottom
+        node = self._head
+        while node:
+            yield node.value
+            node = node.next
+
+    def __repr__(self):
+        return "top -> " + " -> ".join(map(str, self)) + " -> None"
+
+
+ls = LinkedStack()
+for x in "ABC":
+    ls.push(x)
+print(ls)                    # top -> C -> B -> A -> None
+print(ls.pop(), ls.peek())   # C B</code></pre>
+<p><code>_Node(item, self._head)</code> evaluates <code>self._head</code> <em>before</em> the assignment, so the new node captures the old top and the pointer update is safe in one line. <code>__slots__</code> is a Python-specific memory optimisation; it removes the per-object attribute dictionary.</p>
+
+<h3>I.3 Built-in Python alternatives</h3>
+<pre><code class="language-python">from collections import deque
+from queue import LifoQueue
+
+st = []                 # 1. list: the idiomatic stack
+st.append(1); st.append(2)
+assert st[-1] == 2      # peek (IndexError if empty)
+assert st.pop() == 2    # pop  (IndexError if empty)
+assert st == [1]        # emptiness test is simply `if not st:`
+
+d = deque()             # 2. deque: O(1) at both ends, no big resize copies
+d.append(1); d.append(2)
+assert d.pop() == 2
+
+q = LifoQueue()         # 3. thread-safe, blocking LIFO queue
+q.put(1); q.put(2)
+assert q.get() == 2</code></pre>
+<div class="tbl-wrap"><table>
+<tr><th>Choice</th><th>push / pop / peek</th><th>Strengths</th><th>Use when</th></tr>
+<tr><td><code>list</code></td><td><code>append</code> / <code>pop()</code> / <code>[-1]</code></td><td>Fastest in practice, contiguous, idiomatic; documented as a stack in the Python tutorial. <a class="cite" href="#ref-4">[4]</a></td><td>Default choice for single-threaded code.</td></tr>
+<tr><td><code>collections.deque</code></td><td><code>append</code> / <code>pop()</code> / <code>[-1]</code></td><td>O(1) at both ends; supports <code>maxlen</code> (bounded history). <a class="cite" href="#ref-5">[5]</a></td><td>You also need the other end (e.g. a bounded undo history that drops the oldest entry).</td></tr>
+<tr><td><code>queue.LifoQueue</code></td><td><code>put</code> / <code>get</code> / —</td><td>Internal locking; blocking with timeouts; optional <code>maxsize</code>. <a class="cite" href="#ref-7">[7]</a></td><td>Producer/consumer threads sharing a LIFO work pool.</td></tr>
+<tr><td>Custom class</td><td>your API</td><td>Explicit errors, invariants, instrumentation.</td><td>Teaching, or when you need a restricted interface.</td></tr>
+</table></div>
+
+<h3>I.4 Balanced brackets</h3>
+<pre><code class="language-python">def is_balanced(s):
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack = []
+    for ch in s:
+        if ch in "([{":
+            stack.append(ch)                       # remember the unfinished opener
+        elif ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False                       # nothing to close, or wrong type
+    return not stack                               # leftovers are unclosed openers
+
+print([is_balanced(t) for t in ["{[()()]}", "([)]", "((", "", "())"]])
+# [True, False, False, True, False]</code></pre>
+<div class="tbl-wrap"><table>
+<tr><th>Char</th><th>Action</th><th>Stack after (bottom → top)</th></tr>
+<tr><td><code>{</code></td><td>push</td><td>{</td></tr>
+<tr><td><code>[</code></td><td>push</td><td>{ [</td></tr>
+<tr><td><code>(</code></td><td>push</td><td>{ [ (</td></tr>
+<tr><td><code>)</code></td><td>pop <code>(</code> — matches</td><td>{ [</td></tr>
+<tr><td><code>(</code></td><td>push</td><td>{ [ (</td></tr>
+<tr><td><code>)</code></td><td>pop <code>(</code> — matches</td><td>{ [</td></tr>
+<tr><td><code>]</code></td><td>pop <code>[</code> — matches</td><td>{</td></tr>
+<tr><td><code>}</code></td><td>pop <code>{</code> — matches</td><td>(empty) → <strong>True</strong></td></tr>
+</table></div>
+<p>Edge cases handled: a closer with an empty stack (<code>"())"</code>), a wrong closer (<code>"([)]"</code>), leftover openers (<code>"(("</code>) and the empty string (balanced by definition). Θ(n) time, O(n) space.</p>
+
+<h3>I.5 Min-stack: O(1) minimum</h3>
+<p>Store, next to each item, the minimum of the stack <em>up to and including</em> that item. Popping then restores the previous minimum automatically. CP-Algorithms describes exactly this pair-storing technique. <a class="cite" href="#ref-16">[16]</a></p>
+<pre><code class="language-python">class MinStack:
+    def __init__(self):
+        self._s = []                     # (value, minimum of stack up to here)
+
+    def push(self, x):
+        m = x if not self._s else min(x, self._s[-1][1])
+        self._s.append((x, m))
+
+    def pop(self):
+        return self._s.pop()[0]
+
+    def top(self):
+        return self._s[-1][0]
+
+    def get_min(self):
+        return self._s[-1][1]
+
+ms = MinStack()
+for x in [5, 3, 7, 3, 1]:
+    ms.push(x)
+print(ms.get_min()); ms.pop(); print(ms.get_min()); ms.pop(); print(ms.get_min())
+# 1  then 3  then 3   (the duplicate 3 is why we store per-item minima)</code></pre>
+
+<h3>I.6 Expressions: shunting-yard and postfix evaluation</h3>
+<p>Postfix (reverse Polish) notation puts each operator after its operands — <code>3 4 2 * +</code> means 3 + 4 × 2 — and needs no parentheses. It is evaluated with one operand stack: push numbers; on an operator pop two operands, apply, push the result. <a class="cite" href="#ref-1">[1]</a> Dijkstra’s shunting-yard algorithm converts infix to postfix with an <em>operator</em> stack, popping operators of higher (or equal, for left-associative operators) precedence before pushing a new one; it runs in <span class="math">O(n)</span>. <a class="cite" href="#ref-21">[21]</a><a class="cite" href="#ref-17">[17]</a></p>
+<pre><code class="language-python">import operator
+
+OPS = {"+": operator.add, "-": operator.sub, "*": operator.mul,
+       "/": lambda a, b: int(a / b), "^": operator.pow}    # / truncates toward 0
+PREC = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
+RIGHT_ASSOC = {"^"}
+
+
+def tokenize(expr):
+    tokens, num = [], ""
+    for ch in expr:
+        if ch.isdigit():
+            num += ch
+        else:
+            if num:
+                tokens.append(num)
+                num = ""
+            if ch in PREC or ch in "()":
+                tokens.append(ch)
+            elif not ch.isspace():
+                raise ValueError(f"unexpected character {ch!r}")
+    if num:
+        tokens.append(num)
+    return tokens
+
+
+def to_postfix(tokens):
+    out, ops = [], []
+    for t in tokens:
+        if t.isdigit():
+            out.append(t)                              # operands go straight out
+        elif t == "(":
+            ops.append(t)
+        elif t == ")":
+            while ops and ops[-1] != "(":
+                out.append(ops.pop())
+            if not ops:
+                raise ValueError("mismatched ')'")
+            ops.pop()                                   # discard "("
+        else:
+            while (ops and ops[-1] != "(" and
+                   (PREC[ops[-1]] &gt; PREC[t] or
+                    (PREC[ops[-1]] == PREC[t] and t not in RIGHT_ASSOC))):
+                out.append(ops.pop())                   # stronger operators first
+            ops.append(t)
+    while ops:
+        if ops[-1] == "(":
+            raise ValueError("mismatched '('")
+        out.append(ops.pop())
+    return out
+
+
+def eval_postfix(tokens):
+    st = []
+    for t in tokens:
+        if t in OPS:
+            if len(st) &lt; 2:
+                raise ValueError("not enough operands")
+            b, a = st.pop(), st.pop()                   # order matters: a op b
+            st.append(OPS[t](a, b))
+        else:
+            st.append(int(t))
+    if len(st) != 1:
+        raise ValueError("too many operands")
+    return st[0]
+
+
+for e in ["3+4*2", "(1+2)*(3+4)", "2^3^2", "8-3-2", "(5+3)*2-4/2"]:
+    p = to_postfix(tokenize(e))
+    print(e, "->", " ".join(p), "=", eval_postfix(p))
+# 3+4*2 -> 3 4 2 * + = 11
+# (1+2)*(3+4) -> 1 2 + 3 4 + * = 21
+# 2^3^2 -> 2 3 2 ^ ^ = 512
+# 8-3-2 -> 8 3 - 2 - = 3
+# (5+3)*2-4/2 -> 5 3 + 2 * 4 2 / - = 14</code></pre>
+<h4>Dry run: shunting-yard on <code>(5+3)*2-4/2</code></h4>
+<div class="tbl-wrap"><table>
+<tr><th>Token</th><th>Action</th><th>Operator stack</th><th>Output</th></tr>
+<tr><td>(</td><td>push</td><td>(</td><td></td></tr>
+<tr><td>5</td><td>output</td><td>(</td><td>5</td></tr>
+<tr><td>+</td><td>top is “(”, push</td><td>( +</td><td>5</td></tr>
+<tr><td>3</td><td>output</td><td>( +</td><td>5 3</td></tr>
+<tr><td>)</td><td>pop to “(”</td><td></td><td>5 3 +</td></tr>
+<tr><td>*</td><td>push</td><td>*</td><td>5 3 +</td></tr>
+<tr><td>2</td><td>output</td><td>*</td><td>5 3 + 2</td></tr>
+<tr><td>−</td><td>pop * (higher), push −</td><td>−</td><td>5 3 + 2 *</td></tr>
+<tr><td>4</td><td>output</td><td>−</td><td>5 3 + 2 * 4</td></tr>
+<tr><td>/</td><td>− is lower, push</td><td>− /</td><td>5 3 + 2 * 4</td></tr>
+<tr><td>2</td><td>output</td><td>− /</td><td>5 3 + 2 * 4 2</td></tr>
+<tr><td>end</td><td>pop all</td><td></td><td>5 3 + 2 * 4 2 / −</td></tr>
+</table></div>
+<h4>Dry run: evaluating <code>5 3 + 2 * 4 2 / −</code></h4>
+<div class="tbl-wrap"><table>
+<tr><th>Token</th><th>5</th><th>3</th><th>+</th><th>2</th><th>*</th><th>4</th><th>2</th><th>/</th><th>−</th></tr>
+<tr><td>Stack after</td><td>5</td><td>5 3</td><td>8</td><td>8 2</td><td>16</td><td>16 4</td><td>16 4 2</td><td>16 2</td><td><strong>14</strong></td></tr>
+</table></div>
+
+<h3>I.7 Monotonic stack: next greater element</h3>
+<p>Keep a stack of indices whose values are <em>decreasing</em> from bottom to top — elements still waiting for a larger value to their right. When a new value <code>x</code> arrives, every waiting element smaller than <code>x</code> has just found its answer: pop them all, then push <code>x</code>. This is the sequential stack algorithm for the <em>all nearest smaller (or larger) values</em> problem, which runs in linear time. <a class="cite" href="#ref-22">[22]</a></p>
+<pre><code class="language-python">def next_greater(nums):
+    ans = [-1] * len(nums)
+    st = []                                  # indices; values decreasing bottom->top
+    for i, x in enumerate(nums):
+        while st and nums[st[-1]] &lt; x:
+            ans[st.pop()] = x                # x is the first greater to the right
+        st.append(i)
+    return ans                               # leftovers keep -1
+
+print(next_greater([4, 5, 2, 25, 7, 3, 8]))  # [5, 25, 25, -1, 8, 8, -1]</code></pre>
+<div class="tbl-wrap"><table>
+<tr><th>i</th><th>x</th><th>Popped (index→answer)</th><th>Stack after (indices)</th><th>Values on stack</th></tr>
+<tr><td>0</td><td>4</td><td>—</td><td>[0]</td><td>4</td></tr>
+<tr><td>1</td><td>5</td><td>0→5</td><td>[1]</td><td>5</td></tr>
+<tr><td>2</td><td>2</td><td>—</td><td>[1, 2]</td><td>5 2</td></tr>
+<tr><td>3</td><td>25</td><td>2→25, 1→25</td><td>[3]</td><td>25</td></tr>
+<tr><td>4</td><td>7</td><td>—</td><td>[3, 4]</td><td>25 7</td></tr>
+<tr><td>5</td><td>3</td><td>—</td><td>[3, 4, 5]</td><td>25 7 3</td></tr>
+<tr><td>6</td><td>8</td><td>5→8, 4→8</td><td>[3, 6]</td><td>25 8</td></tr>
+</table></div>
+<p>Seven pushes and five pops in total — never more than one pop per element, so Θ(n) overall (Section G.4).</p>
+
+<h3>I.8 A queue from two stacks</h3>
+<pre><code class="language-python">class TwoStackQueue:
+    def __init__(self):
+        self._in, self._out = [], []
+
+    def enqueue(self, x):
+        self._in.append(x)
+
+    def dequeue(self):
+        if not self._out:
+            while self._in:                  # reverse 'in' into 'out'; each item moves once
+                self._out.append(self._in.pop())
+        if not self._out:
+            raise IndexError("dequeue from empty queue")
+        return self._out.pop()
+
+q = TwoStackQueue()
+for x in [1, 2, 3]:
+    q.enqueue(x)
+print(q.dequeue()); q.enqueue(4)
+print(q.dequeue(), q.dequeue(), q.dequeue())   # 1 then 2 3 4</code></pre>
+<p>Two reversals restore FIFO order. Each element is pushed onto <code>_in</code> once, moved once, and popped from <code>_out</code> once, so every operation is <span class="math">O(1)</span> amortised although a single dequeue may be <span class="math">Θ(n)</span>. <a class="cite" href="#ref-16">[16]</a></p>
+
+<h3>I.9 Replacing recursion with an explicit stack</h3>
+<p>Depth-first search is naturally recursive; replacing the call stack with your own stack removes the recursion-depth limit. Sedgewick and Wayne set exactly this as an exercise (a nonrecursive DFS “with an explicit stack instead of recursion”). <a class="cite" href="#ref-24">[24]</a></p>
+<pre><code class="language-python">def dfs_iterative(graph, start):
+    seen, order, st = set(), [], [start]
+    while st:
+        v = st.pop()
+        if v in seen:
+            continue                         # a vertex can be pushed more than once
+        seen.add(v)
+        order.append(v)
+        for w in reversed(graph[v]):         # reversed: neighbours pop in list order
+            if w not in seen:
+                st.append(w)
+    return order
+
+g = {"A": ["B", "C"], "B": ["D"], "C": ["D", "E"], "D": [], "E": []}
+print(dfs_iterative(g, "A"))                 # ['A', 'B', 'D', 'C', 'E']
+
+
+def factorial_explicit(n):
+    st, result = [], 1
+    while n &gt; 1:          # "call" phase: push pending multiplications
+        st.append(n)
+        n -= 1
+    while st:             # "return" phase: pop and combine
+        result *= st.pop()
+    return result
+
+print(factorial_explicit(5))                 # 120</code></pre>
+<p>DFS with this “push all neighbours, skip if seen” style is <span class="math">O(V + E)</span> time and <span class="math">O(E)</span> stack space in the worst case (a vertex may sit on the stack several times).</p>
+
+<h3>I.10 Comparison of implementations</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Implementation</th><th>push</th><th>pop</th><th>Memory per item</th><th>Notes</th></tr>
+<tr><td><code>ArrayStack</code> (I.1)</td><td>O(1) amortised, Θ(n) worst</td><td>O(1) amortised</td><td>1 reference (+ unused capacity)</td><td>Shows resizing explicitly; slower than <code>list</code> because the loop runs in Python.</td></tr>
+<tr><td><code>LinkedStack</code> (I.2)</td><td>Θ(1) worst</td><td>Θ(1) worst</td><td>a node object: value + next + header</td><td>No copies ever; more allocation and memory.</td></tr>
+<tr><td><code>list</code></td><td>O(1) amortised</td><td>O(1)</td><td>1 reference (+ ~12% slack)</td><td>Resizing implemented in C; best default. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-10">[10]</a></td></tr>
+<tr><td><code>deque</code></td><td>O(1)</td><td>O(1)</td><td>about 1 reference</td><td>Both ends O(1); slow middle indexing. <a class="cite" href="#ref-5">[5]</a></td></tr>
+<tr><td><code>LifoQueue</code></td><td>O(1) + lock</td><td>O(1) + lock</td><td>list inside</td><td>Thread-safe, blocking. <a class="cite" href="#ref-7">[7]</a></td></tr>
+</table></div>
+
+<h2 id="applications"><span class="sec">J</span>Real-world applications</h2>
+
+<h3>J.1 Operating systems and hardware: the call stack</h3>
+<p>Every thread of every process has a stack region in its address space holding the frames of active function calls; OSTEP lists code, heap and stack as the three main regions, with heap and stack placed at opposite ends so they can grow toward each other. <a class="cite" href="#ref-15">[15]</a> The processor supports it directly: on x86, <code>push</code> decrements the stack pointer and stores, <code>pop</code> loads and increments, and <code>call</code> pushes the return address. <a class="cite" href="#ref-14">[14]</a> Stack overflow — exceeding the fixed stack size, usually through runaway recursion — is a classic crash; the JVM reports it as <code>StackOverflowError</code>. <a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-20">[20]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure J.1 · Real-world application</small>Where the call stack lives in a process</div>
+  <svg id="d-addr" viewBox="0 0 860 386" role="img" aria-label="Process address space with code, heap and stack, and a zoom into stack frames"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>code / static data</span><span><i class="lg-green"></i>heap (malloc / new)</span><span><i class="lg-purple"></i>stack frames</span><span><i class="lg-yellow"></i>stack pointer (top)</span><span><i class="lg-red"></i>overflow if they meet</span></div>
+  <figcaption>
+  <ol>
+    <li>The heap grows from just after the code; the stack grows from the opposite end toward it (on x86, toward lower addresses).</li>
+    <li>Each call pushes a frame (return address, parameters, locals); each return pops it. The stack pointer marks the top.</li>
+  </ol>
+  <span class="interp">Technical interpretation: allocation on the stack is just moving one pointer, which is why local variables are so cheap — and why their lifetime ends when the function returns. Exact layouts vary by OS and architecture; the figure follows OSTEP’s simplified model. <a class="cite" href="#ref-15">[15]</a><a class="cite" href="#ref-14">[14]</a></span>
+  </figcaption>
+</figure>
+
+<h3>J.2 Language runtimes and virtual machines</h3>
+<p>Many virtual machines are <em>stack machines</em>: instructions take operands from, and push results onto, an operand stack instead of naming registers. CPython’s bytecode works this way (<code>dis</code> documents each instruction by its effect on <code>STACK</code>), the JVM gives each frame a LIFO operand stack, and WebAssembly instructions interact with an implicit stack of values, labels and activation frames. <a class="cite" href="#ref-9">[9]</a><a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-13">[13]</a> Stack code is compact and easy to generate from a parse tree — it is postfix notation.</p>
+
+<h3>J.3 Compilers, parsers, editors and linters</h3>
+<p>Parsing nested syntax is a stack problem: expression parsers use operator and operand stacks to honour precedence and associativity in <span class="math">O(n)</span>, and Dijkstra designed shunting-yard for an ALGOL 60 compiler. <a class="cite" href="#ref-17">[17]</a><a class="cite" href="#ref-21">[21]</a> The same bracket-matching logic runs in code editors (highlighting the matching bracket), linters, JSON/XML/HTML validators (matching open and close tags), and template engines.</p>
+
+<h3>J.4 Search and backtracking</h3>
+<p>Depth-first search, maze solving, flood fill, topological sorting and backtracking solvers (Sudoku, N-queens, regex engines with backtracking) all explore the most recently discovered option first — a stack, explicit or via recursion. <a class="cite" href="#ref-24">[24]</a> Large-scale systems prefer the explicit stack so that input size cannot crash the process through recursion depth. <a class="cite" href="#ref-8">[8]</a></p>
+
+<h3>J.5 Databases: nested savepoints</h3>
+<p>SQL savepoints nest like a stack. In PostgreSQL, <code>ROLLBACK TO SAVEPOINT s</code> “implicitly destroys all savepoints that were established after” <code>s</code> — rolling back to a point discards everything pushed after it. <a class="cite" href="#ref-25">[25]</a></p>
+
+<h3>J.6 Web and backend applications: undo/redo and navigation</h3>
+<div class="callout note"><span class="ct">Engineering illustration (our example)</span>A text editor or design tool keeps two stacks of states (or of reversible commands). Every edit pushes onto the undo stack and clears the redo stack; <em>undo</em> pops from undo and pushes onto redo; <em>redo</em> does the reverse. A bounded <code>deque(maxlen=…)</code> caps memory by silently dropping the oldest history. Backend request handling uses the same nesting idea — middleware layers and <code>with</code>-blocks are entered in one order and exited in the reverse order. The coding problem P.3 #3 builds this editor.</div>
+
+<h2 id="alternatives"><span class="sec">K</span>Comparison with alternatives</h2>
+
+<div class="tbl-wrap"><table>
+<tr><th>Structure</th><th>Removal order</th><th>Insert / remove</th><th>Random access</th><th>Choose it when…</th></tr>
+<tr><td><strong>Stack</strong></td><td>LIFO — newest first</td><td>O(1) at the top</td><td>No (by design)</td><td>Work is nested; you must return to the most recent unfinished item; undo; DFS.</td></tr>
+<tr><td>Queue</td><td>FIFO — oldest first</td><td>O(1) at the ends (rear in, front out)</td><td>No</td><td>Fairness/arrival order matters; BFS; job pipelines. <a class="cite" href="#ref-1">[1]</a></td></tr>
+<tr><td>Deque</td><td>Either end</td><td>O(1) at both ends <a class="cite" href="#ref-5">[5]</a></td><td>O(1) at ends, O(n) middle</td><td>You need stack and queue behaviour together (sliding-window maximum, bounded history).</td></tr>
+<tr><td>Priority queue (heap)</td><td>Smallest/largest key first</td><td>O(log n)</td><td>Only the min/max</td><td>Order depends on a priority, not on arrival time.</td></tr>
+<tr><td>Dynamic array (plain list)</td><td>Any</td><td>O(1) amortised at end, O(n) elsewhere <a class="cite" href="#ref-6">[6]</a></td><td>O(1)</td><td>You need indexing or iteration in the middle, not just the top.</td></tr>
+<tr><td>Recursion (implicit stack)</td><td>LIFO</td><td>Call / return</td><td>No</td><td>Depth is small and bounded; code clarity matters more than depth limits. <a class="cite" href="#ref-8">[8]</a></td></tr>
+</table></div>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure K.1 · Comparison with alternative approaches</small>Stack vs queue vs deque</div>
+  <svg id="d-compare" viewBox="0 0 860 320" role="img" aria-label="Stack, queue and deque access patterns"></svg>
+  <div class="legend"><span><i class="lg-green"></i>insert</span><span><i class="lg-red"></i>remove</span><span><i class="lg-blue"></i>stored items (numbers = arrival order)</span></div>
+  <figcaption>
+  <ol>
+    <li><strong>Stack:</strong> one opening — the item to leave is item 4, the newest.</li>
+    <li><strong>Queue:</strong> enter at the rear, leave at the front — item 1, the oldest, leaves first.</li>
+    <li><strong>Deque:</strong> both ends open for both operations; it can act as either.</li>
+  </ol>
+  <span class="interp">Technical interpretation: the structures differ only in which end removals come from. That single choice decides whether a graph search is depth-first (stack) or breadth-first (queue).</span>
+  </figcaption>
+</figure>
+
+<h3>Java’s cautionary tale</h3>
+<p><code>java.util.Stack</code> extends <code>Vector</code>, so it inherits methods that break the LIFO discipline (such as inserting at an arbitrary index), and every method is synchronised. Its own documentation now says the <code>Deque</code> interface provides “a more complete and consistent set of LIFO stack operations” that should be used in preference. <a class="cite" href="#ref-11">[11]</a> The lesson carries over to Python: expose the restricted interface you mean, even if the storage underneath is more capable.</p>
+
+<h3>When to avoid a stack</h3>
+<ul>
+<li>You need to look up or remove items other than the newest — use a list, dict or set.</li>
+<li>Items must be served in arrival order — use a queue (<code>collections.deque</code> with <code>popleft</code>). <a class="cite" href="#ref-4">[4]</a></li>
+<li>Items must be served by priority — use <code>heapq</code>.</li>
+<li>Many threads share it and you need blocking — use <code>queue.LifoQueue</code>, not a bare list. <a class="cite" href="#ref-7">[7]</a></li>
+</ul>
+
+<h2 id="mistakes"><span class="sec">L</span>Common mistakes and misconceptions</h2>
+
+<h3>L.1 Using the front of a list as the top</h3>
+<div class="cmp">
+<div><div class="h" style="color:var(--red)">✘ Incorrect (O(n) per operation)</div>
+<pre class="wrong"><code class="language-python">stack.insert(0, x)   # push: shifts every element
+top = stack.pop(0)   # pop:  shifts every element</code></pre></div>
+<div><div class="h" style="color:var(--green)">✔ Correct (O(1) amortised)</div>
+<pre class="right"><code class="language-python">stack.append(x)      # push at the end
+top = stack.pop()    # pop from the end</code></pre></div>
+</div>
+<p><code>insert(0, x)</code> and <code>pop(0)</code> move all <span class="math">n</span> elements. <a class="cite" href="#ref-5">[5]</a><a class="cite" href="#ref-6">[6]</a></p>
+
+<h3>L.2 Popping or peeking without checking for empty</h3>
+<div class="cmp">
+<div><div class="h" style="color:var(--red)">✘ Crashes on ")("</div>
+<pre class="wrong"><code class="language-python">for ch in s:
+    if ch == "(":
+        st.append(ch)
+    else:
+        st.pop()           # IndexError on empty
+return len(st) == 0</code></pre></div>
+<div><div class="h" style="color:var(--green)">✔ Guarded</div>
+<pre class="right"><code class="language-python">for ch in s:
+    if ch == "(":
+        st.append(ch)
+    elif not st:
+        return False       # underflow = invalid input
+    else:
+        st.pop()
+return not st</code></pre></div>
+</div>
+
+<h3>L.3 Forgetting the final emptiness check</h3>
+<p>Returning <code>True</code> at the end of a bracket checker without testing <code>not stack</code> accepts <code>"(("</code>. Every stack-validation algorithm has two failure points: during the scan and at the end.</p>
+
+<h3>L.4 Reversing operands in postfix evaluation</h3>
+<div class="cmp">
+<div><div class="h" style="color:var(--red)">✘ “8 3 −” gives −5</div>
+<pre class="wrong"><code class="language-python">a, b = st.pop(), st.pop()
+st.append(a - b)</code></pre></div>
+<div><div class="h" style="color:var(--green)">✔ The first pop is the RIGHT operand</div>
+<pre class="right"><code class="language-python">b, a = st.pop(), st.pop()
+st.append(a - b)   # 8 - 3 = 5</code></pre></div>
+</div>
+<p>Addition and multiplication hide this bug because they are commutative; subtraction, division and powers expose it. Also note Python’s <code>//</code> floors toward −∞, whereas many problems (e.g. LeetCode 150) require truncation toward zero: use <code>int(a / b)</code>.</p>
+
+<h3>L.5 Peeking with <code>stack[-1]</code> on an empty list — or worse, <code>stack[0]</code></h3>
+<p><code>stack[-1]</code> on an empty list raises <code>IndexError</code>; that is good. <code>stack[0]</code> is the <em>bottom</em>, not the top — a silent logic error that passes tests with one-element stacks.</p>
+
+<h3>L.6 Complexity misconceptions</h3>
+<ul>
+<li><strong>“A while-loop inside a for-loop is O(n²).”</strong> Not for monotonic stacks: total pops ≤ total pushes = n (Section G.4).</li>
+<li><strong>“append is always O(1).”</strong> It is O(1) <em>amortised</em>; a single append that triggers a resize is O(n). Fine for throughput, sometimes not for hard real-time latency. <a class="cite" href="#ref-6">[6]</a></li>
+<li><strong>“Recursion uses no memory.”</strong> Each active call holds a frame: depth d costs Θ(d) space. <a class="cite" href="#ref-20">[20]</a></li>
+<li><strong>“Shrink when half empty.”</strong> Causes thrashing; shrink at one-quarter (Section G.3). <a class="cite" href="#ref-1">[1]</a></li>
+</ul>
+
+<h3>L.7 Boundary errors in monotonic stacks</h3>
+<p>Whether the pop condition is <code>&lt;</code> or <code>&lt;=</code> decides how equal values are treated. For “next <em>strictly</em> greater” pop while <code>nums[top] &lt; x</code>; with <code>&lt;=</code> an equal value would wrongly become the answer. In the histogram problem, forgetting the final sentinel bar of height 0 leaves bars on the stack that are never measured.</p>
+
+<h3>L.8 Terminology confusion</h3>
+<p>“The stack” (call-stack memory) versus “the heap” (dynamically allocated memory) are memory regions; they are unrelated to the <em>heap data structure</em> (priority queue). “Protocol stack” and “tech stack” mean layers, not a LIFO structure.</p>
+
+<h3>L.9 Interview mistakes</h3>
+<ul>
+<li>Not saying out loud what the stack <em>stores</em> (values? indices? pairs?) and what invariant it keeps — interviewers grade the invariant.</li>
+<li>Storing values when the answer needs distances: store <strong>indices</strong> for “how many days until…” problems.</li>
+<li>Raising <code>sys.setrecursionlimit</code> to “fix” deep recursion — the docs warn a too-high limit can crash Python. Convert to an explicit stack instead. <a class="cite" href="#ref-8">[8]</a></li>
+<li>Forgetting the empty-input and single-element cases in a dry run.</li>
+</ul>
+
+<h2 id="interview"><span class="sec">M</span>Interview preparation</h2>
+
+<h3>M.1 Recognising a stack problem</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Signal in the problem statement</th><th>Pattern</th><th>What the stack holds</th></tr>
+<tr><td>Brackets, tags, nested structure, “valid”, “decode k[…]”</td><td>Matching / nesting</td><td>Unclosed openers or saved outer context</td></tr>
+<tr><td>Expressions, calculators, RPN</td><td>Operand / operator stacks</td><td>Numbers, operators, saved (result, sign)</td></tr>
+<tr><td>“Next greater/smaller”, “days until warmer”, “span”, “visible people”</td><td>Monotonic stack</td><td>Indices of unresolved elements</td></tr>
+<tr><td>“Largest rectangle”, “trapping rain water”, “maximal rectangle”</td><td>Monotonic stack with widths</td><td>Indices with increasing heights</td></tr>
+<tr><td>“Undo”, “backspace”, “simplify path”, “collisions”, “remove adjacent”</td><td>Simulation by cancellation</td><td>Surviving items so far</td></tr>
+<tr><td>“Get min in O(1)”, “queue with stacks”</td><td>Design / augmentation</td><td>Pairs, or two stacks</td></tr>
+<tr><td>DFS, backtracking, “iterative” version of recursion</td><td>Explicit call stack</td><td>Pending states</td></tr>
+</table></div>
+
+<h3>M.2 Common interview questions (conceptual)</h3>
+<ol>
+<li>What is the difference between a stack and a queue? Give one algorithm that needs each.</li>
+<li>How would you implement a stack with O(1) worst-case push? (Linked list; or a dynamic array with incremental copying — Section N.)</li>
+<li>Why is <code>list.append</code> amortised O(1)? What growth policy makes it so?</li>
+<li>How do you implement a queue with two stacks, and what is the amortised cost?</li>
+<li>Explain what happens in memory when a recursive function recurses too deeply.</li>
+<li>Why is the monotonic-stack solution linear even though it has a nested loop?</li>
+</ol>
+
+<h3>M.3 Coding exercises</h3>
+
+<h4>Easy</h4>
+<p><strong>E1. Valid Parentheses</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/valid-parentheses/">LeetCode 20</a></p>
+<details class="hint"><summary>Hint</summary>Map each closer to its opener. Two places can fail: during the scan and at the end.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<p>Identical to <code>is_balanced</code> in Section I.4. Θ(n) time, O(n) space.</p></details>
+
+<p><strong>E2. Implement Queue using Stacks</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/implement-queue-using-stacks/">LeetCode 232</a></p>
+<details class="hint"><summary>Hint</summary>Only move items from the in-stack to the out-stack when the out-stack is empty.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">class MyQueue:
+    def __init__(self):
+        self.inp, self.out = [], []
+    def push(self, x):
+        self.inp.append(x)
+    def _move(self):
+        if not self.out:
+            while self.inp:
+                self.out.append(self.inp.pop())
+    def pop(self):
+        self._move()
+        return self.out.pop()
+    def peek(self):
+        self._move()
+        return self.out[-1]
+    def empty(self):
+        return not self.inp and not self.out
+
+q = MyQueue(); q.push(1); q.push(2)
+assert q.peek() == 1 and q.pop() == 1 and not q.empty()</code></pre>
+<p>O(1) amortised per operation, O(n) space. <a class="cite" href="#ref-16">[16]</a></p></details>
+
+<p><strong>E3. Backspace String Compare</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/backspace-string-compare/">LeetCode 844</a></p>
+<details class="hint"><summary>Hint</summary>Build each final string with a stack: <code>#</code> pops (if possible), anything else pushes.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def backspace_compare(s, t):
+    def build(x):
+        st = []
+        for ch in x:
+            if ch == "#":
+                if st:
+                    st.pop()
+            else:
+                st.append(ch)
+        return st
+    return build(s) == build(t)
+
+assert backspace_compare("ab#c", "ad#c") and not backspace_compare("a#c", "b")</code></pre>
+<p>Θ(n + m) time, O(n + m) space. (A two-pointer scan from the right achieves O(1) space.)</p></details>
+
+<h4>Medium</h4>
+<p><strong>M1. Min Stack</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/min-stack/">LeetCode 155</a></p>
+<details class="hint"><summary>Hint</summary>Store the running minimum alongside every element.</details>
+<details class="ans"><summary>Optimised solution</summary><p>See <code>MinStack</code> in Section I.5. Every operation Θ(1); space Θ(n).</p></details>
+
+<p><strong>M2. Evaluate Reverse Polish Notation</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/">LeetCode 150</a></p>
+<details class="hint"><summary>Hint</summary>The first pop is the right operand. Division truncates toward zero.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def eval_rpn(tokens):
+    st = []
+    for t in tokens:
+        if t in {"+", "-", "*", "/"}:
+            b, a = st.pop(), st.pop()
+            if t == "+": st.append(a + b)
+            elif t == "-": st.append(a - b)
+            elif t == "*": st.append(a * b)
+            else: st.append(int(a / b))     # truncate toward zero
+        else:
+            st.append(int(t))
+    return st[0]
+
+assert eval_rpn(["4", "13", "5", "/", "+"]) == 6
+assert eval_rpn(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]) == 22</code></pre>
+<p>Θ(n) time, O(n) space.</p></details>
+
+<p><strong>M3. Daily Temperatures</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/daily-temperatures/">LeetCode 739</a></p>
+<details class="hint"><summary>Hint</summary>Next-greater with a monotonic stack — but store indices, because the answer is a distance.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def daily_temperatures(temps):
+    ans, st = [0] * len(temps), []
+    for i, t in enumerate(temps):
+        while st and temps[st[-1]] &lt; t:
+            j = st.pop()
+            ans[j] = i - j
+        st.append(i)
+    return ans
+
+assert daily_temperatures([73, 74, 75, 71, 69, 72, 76, 73]) == [1, 1, 4, 2, 1, 1, 0, 0]</code></pre>
+<p>Θ(n) time (each index pushed and popped at most once), O(n) space.</p></details>
+
+<p><strong>M4. Asteroid Collision</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/asteroid-collision/">LeetCode 735</a></p>
+<details class="hint"><summary>Hint</summary>A collision happens only when the stack top moves right (&gt; 0) and the incoming asteroid moves left (&lt; 0). Keep popping while the incoming one wins.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def asteroid_collision(asteroids):
+    st = []
+    for a in asteroids:
+        alive = True
+        while alive and a &lt; 0 and st and st[-1] &gt; 0:
+            if st[-1] &lt; -a:
+                st.pop()                     # top explodes, keep checking
+            elif st[-1] == -a:
+                st.pop(); alive = False      # both explode
+            else:
+                alive = False                # incoming explodes
+        if alive:
+            st.append(a)
+    return st
+
+assert asteroid_collision([5, 10, -5]) == [5, 10]
+assert asteroid_collision([10, 2, -5]) == [10]
+assert asteroid_collision([-2, -1, 1, 2]) == [-2, -1, 1, 2]</code></pre>
+<p>Θ(n) time, O(n) space.</p></details>
+
+<h4>Hard</h4>
+<p><strong>H1. Largest Rectangle in Histogram</strong> <span class="badge b-hard">Hard</span> — <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">LeetCode 84</a></p>
+<details class="hint"><summary>Hint 1</summary>For each bar, the widest rectangle of exactly its height extends to the nearest shorter bar on each side.</details>
+<details class="hint"><summary>Hint 2</summary>Keep indices of increasing heights. When a shorter bar arrives, the popped bar’s right limit is the current index and its left limit is the new stack top.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def largest_rectangle(heights):
+    st, best = [], 0                         # indices of increasing heights
+    for i, h in enumerate(heights + [0]):    # sentinel 0 flushes the stack
+        while st and heights[st[-1]] &gt; h:
+            height = heights[st.pop()]
+            left = st[-1] + 1 if st else 0
+            best = max(best, height * (i - left))
+        st.append(i)
+    return best
+
+assert largest_rectangle([2, 1, 5, 6, 2, 3]) == 10</code></pre>
+<p>Θ(n) time, O(n) space. (Note <code>heights[st[-1]]</code> never reads the sentinel because the sentinel index is pushed last and the loop ends.)</p></details>
+
+<p><strong>H2. Basic Calculator</strong> <span class="badge b-hard">Hard</span> — <a href="https://leetcode.com/problems/basic-calculator/">LeetCode 224</a></p>
+<details class="hint"><summary>Hint</summary>Only + and − and parentheses. On “(”, push the result so far and the sign in front of the parenthesis, then restart; on “)”, combine.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def calculate(s):
+    st, res, num, sign = [], 0, 0, 1
+    for ch in s:
+        if ch.isdigit():
+            num = num * 10 + int(ch)
+        elif ch in "+-":
+            res += sign * num
+            num, sign = 0, (1 if ch == "+" else -1)
+        elif ch == "(":
+            st.append((res, sign))           # save the outer context
+            res, sign = 0, 1
+        elif ch == ")":
+            res += sign * num
+            num = 0
+            prev_res, prev_sign = st.pop()
+            res = prev_res + prev_sign * res
+    return res + sign * num
+
+assert calculate("(1+(4+5+2)-3)+(6+8)") == 23
+assert calculate("-(2+3)") == -5</code></pre>
+<p>Θ(n) time, O(depth) space. Unary minus works because a leading “−” sets <code>sign = −1</code> before a number or parenthesis.</p></details>
+
+<p class="small">More practice: <a href="https://leetcode.com/problems/simplify-path/">71 Simplify Path</a>, <a href="https://leetcode.com/problems/decode-string/">394 Decode String</a>, <a href="https://leetcode.com/problems/online-stock-span/">901 Online Stock Span</a>, <a href="https://leetcode.com/problems/trapping-rain-water/">42 Trapping Rain Water</a>, <a href="https://leetcode.com/problems/longest-valid-parentheses/">32 Longest Valid Parentheses</a>, <a href="https://leetcode.com/problems/maximal-rectangle/">85 Maximal Rectangle</a>.</p>
+
+<h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
+
+<h3>N.1 Monotonic stacks in depth</h3>
+<p>A monotonic stack keeps its contents sorted (increasing or decreasing) by popping anything that would break the order before each push. Four variants cover most problems: next greater to the right (decreasing stack, scan left→right), next smaller to the right (increasing stack), and the same two “to the left” (read the stack top <em>after</em> popping, before pushing). The underlying problem is called <em>all nearest smaller values</em>; it is solved in linear time sequentially, and Berkman, Schieber and Vishkin showed how to solve it efficiently in parallel. <a class="cite" href="#ref-22">[22]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure N.1 · Execution diagram</small>Next greater element: every bar points right to its answer</div>
+  <svg id="d-mono" viewBox="0 0 860 360" role="img" aria-label="Bars of 4 5 2 25 7 3 8 with arrows to the next greater element"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>input value</span><span><i class="lg-purple"></i>arrow to next greater</span><span><i class="lg-green"></i>answer</span><span><i class="lg-red"></i>no greater value (−1)</span></div>
+  <figcaption>
+  <ol>
+    <li>Bars 2 (index 2) and 5 (index 1) both wait on the stack until 25 arrives and pops them together.</li>
+    <li>7 and 3 wait under 25 until 8 arrives; 8 pops 3 and 7 but not 25.</li>
+    <li>25 and 8 never find a greater value to their right: answer −1.</li>
+  </ol>
+  <span class="interp">Technical interpretation: arrows never cross over a taller bar — that is why a stack, which only exposes its most recent element, is enough to find them. Seven pushes, five pops: linear time.</span>
+  </figcaption>
+</figure>
+
+<h3>N.2 Queues and deques from stacks; min-queue</h3>
+<p>The two-stack queue (Section I.8) combined with the min-stack (I.5) gives a queue that reports its minimum in <span class="math">O(1)</span> amortised: keep a min-stack for input and one for output, and the answer is the smaller of their two minima. This is the basis of the sliding-window minimum in CP-Algorithms. <a class="cite" href="#ref-16">[16]</a></p>
+
+<h3>N.3 Worst-case O(1) array stacks</h3>
+<p>Amortised bounds allow an occasional <span class="math">Θ(n)</span> push. Real-time systems can avoid it by <em>incremental copying</em>: when the array becomes half full, allocate the bigger array and copy two old items on every subsequent push, so the copy finishes before the old array fills. Each push then does <span class="math">O(1)</span> work in the worst case, at the cost of keeping two arrays during the transition. <em>(A standard de-amortisation technique; we present it as a design sketch.)</em></p>
+
+<h3>N.4 Persistent (immutable) stacks</h3>
+<p>Because a linked stack’s push never modifies existing nodes, an old head still describes the old stack after a push. Many versions can share their common tail: pushing <code>4</code> onto <code>3→2→1</code> and pushing <code>9</code> onto the same <code>3→2→1</code> gives two stacks that share three nodes. Functional languages implement their basic list type this way (a “cons list”), and undo histories can keep every version in <span class="math">O(1)</span> extra space per operation.</p>
+
+<h3>N.5 Two stacks in one array, and stack machines</h3>
+<p>Two stacks can share one fixed array by growing toward each other from opposite ends — exactly the arrangement of heap and stack in a process address space (Figure J.1) — and overflow happens only when the total size exceeds the array. <a class="cite" href="#ref-15">[15]</a> Going further, an entire computer can be organised around a stack: the JVM and WebAssembly define their semantics this way, and compilers translate expression trees into stack code by a postorder traversal. <a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-13">[13]</a></p>
+
+<h3>N.6 Stacks and formal languages</h3>
+<p>A finite automaton plus one unbounded stack is a <em>pushdown automaton</em>, the machine model for context-free languages such as balanced brackets and programming-language grammars — the formal reason why nesting needs a stack, and why a regular expression without extensions cannot check balanced parentheses of arbitrary depth. Bauer and Samelson’s term <em>Kellerautomat</em> (“cellar automaton”) is a historical name for this machine. <a class="cite" href="#ref-19">[19]</a></p>
+
+<h2 id="notebook"><span class="sec">O</span>Notebook-ready summary</h2>
+<p>First, the whole idea on one page — copy this sheet into your notebook. The detailed revision notes follow it.</p>
+
+<div class="sheet">
+  <div class="sheet-title"><span>Stacks</span></div>
+  <div class="sheet-cols">
+    <div class="sheet-col">
+      <div class="sb"><span class="mk mk-red">What is it?</span>
+        <p class="hw">A collection where you only touch the <b>top</b>. The last item pushed is the <b>first</b> popped: <b>LIFO</b> — Last In, First Out.</p></div>
+      <div class="sb"><span class="mk mk-blue">Operations</span>
+        <div class="box b-blue">push(x) → put on top<br>pop() → remove &amp; return top<br>peek() → look at top</div>
+        <p class="hw small-hw">Empty pop / peek = <b>underflow</b> → raise an error.</p></div>
+      <div class="sb"><span class="mk mk-purple">Python</span>
+        <div class="box b-yellow">st = []<br>st.append(x) &nbsp;# push<br>st.pop() &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# pop<br>st[-1] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# peek<br>if not st: &nbsp;&nbsp;# empty?</div></div>
+      <div class="sb"><span class="mk mk-purple">Visual Intuition</span>
+        <svg id="d-sheet-vis" viewBox="0 0 420 270" role="img" aria-label="Stack of plates with push and pop arrows"></svg></div>
+    </div>
+
+    <div class="sheet-col">
+      <div class="sb center"><div class="box b-yellow big">top = the most recent<br>unfinished thing</div>
+        <p class="hw small-hw">nesting closes in reverse order of opening</p></div>
+      <div class="sb"><span class="mk mk-green">Example</span>
+        <p class="hw">push 3, push 7, push 5, pop, push 9:</p>
+        <div class="row"><div class="rowlabel" style="color:var(--blue)">after</div><div class="cells" id="sh-arr"></div></div>
+        <p class="hw small-hw">pop() returned <span class="circ">5</span> — the last one in.</p>
+      </div>
+      <div class="sb"><span class="mk mk-blue">Bracket check</span>
+        <p class="hw">open → push · close → pop &amp; must match · end → stack empty</p>
+        <div class="row"><div class="cells" id="sh-q"></div></div>
+      </div>
+      <div class="sb"><div class="box b-dash"><span class="mk mk-yellow" style="margin-bottom:4px">★ Key Takeaway</span>
+        <p class="hw" style="margin:0">Each item is pushed <span class="hlp">once</span> and popped <span class="hlp">at most once</span> ⇒ stack scans are <span class="hlg">O(n)</span>.</p></div></div>
+    </div>
+
+    <div class="sheet-col wide">
+      <div class="sb"><span class="mk mk-purple">Complexity</span>
+        <table class="sheet-tbl"><tr><td>push / pop (list)</td><td>O(1)*</td></tr><tr><td>peek / empty</td><td>O(1)</td></tr><tr><td>search</td><td class="bad">O(n)</td></tr><tr><td>space</td><td>O(n)</td></tr></table>
+        <p class="hw small-hw">* amortised (resize = O(n) once in a while)</p></div>
+      <div class="sb"><span class="mk mk-green">Benefits</span>
+        <ul class="ticks"><li>O(1) operations.</li><li>Natural for nesting, undo and recursion.</li><li>Simple: a Python list is enough.</li></ul></div>
+      <div class="sb"><span class="mk mk-yellow">Use Cases</span>
+        <ul class="uses"><li><span>🧩</span>Valid brackets / tags.</li><li><span>🧮</span>Expression evaluation (RPN).</li><li><span>📈</span>Next greater (monotonic).</li><li><span>↩️</span>Undo / redo, DFS, call stack.</li></ul></div>
+      <div class="sb"><span class="mk mk-red">Watch out</span>
+        <ul class="crosses"><li>Never <code>pop(0)</code> — O(n).</li><li>Check empty before pop.</li><li>RPN: first pop = right operand.</li><li>Deep recursion → explicit stack.</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<h3>Detailed revision notes</h3>
+<div class="notebook">
+<h4>1 · Definition</h4>
+<ul><li>ADT, sequence with one open end (top). LIFO.</li>
+<li>Axioms: <code>top(push(S,x)) = x</code>, <code>pop(push(S,x)) = S</code>.</li>
+<li>Underflow = pop/peek empty. Overflow = push on full fixed-size stack.</li></ul>
+<h4>2 · Picture to draw</h4>
+<svg id="d-mini" viewBox="0 0 760 210" style="width:100%;max-width:640px;background:transparent"></svg>
+<h4>3 · Implementations</h4>
+<ul><li>Array: <code>data[0..n−1]</code>, top = <code>data[n−1]</code>; double when full, halve at ¼.</li>
+<li>Linked list: head = top; push = <code>head = Node(x, head)</code>.</li></ul>
+<h4>4 · Complexity</h4>
+<table>
+<tr><th>Op</th><th>Array</th><th>Linked</th></tr>
+<tr><td>push</td><td>O(1) amortised, O(n) worst</td><td>Θ(1)</td></tr>
+<tr><td>pop</td><td>O(1) amortised</td><td>Θ(1)</td></tr>
+<tr><td>peek / size</td><td>Θ(1)</td><td>Θ(1)</td></tr>
+<tr><td>n pushes total</td><td>&lt; 3n writes</td><td>n allocations</td></tr>
+</table>
+<h4>5 · Python syntax</h4>
+<ul><li><code>list</code>: <code>append</code>, <code>pop()</code>, <code>[-1]</code> (default)</li>
+<li><code>deque</code>: same + O(1) left end, <code>maxlen</code></li>
+<li><code>LifoQueue</code>: <code>put</code>/<code>get</code>, thread-safe</li>
+<li>recursion limit: <code>sys.getrecursionlimit()</code> = 1000</li></ul>
+<h4>6 · Patterns</h4>
+<ul><li>Brackets: push open, pop+match on close, empty at end.</li>
+<li>RPN: num → push; op → <code>b=pop(); a=pop(); push(a op b)</code>.</li>
+<li>Shunting-yard: pop ops with higher (or equal &amp; left-assoc) precedence first.</li>
+<li>Monotonic: <code>while st and nums[st[-1]] &lt; x: ans[st.pop()] = x</code>.</li>
+<li>Min-stack: store <code>(x, min_so_far)</code>. Queue = 2 stacks.</li></ul>
+<h4>7 · Applications</h4>
+<ul><li>Call stack (frames), CPython / JVM / Wasm stack machines</li>
+<li>Parsers, editors, validators · DFS / backtracking · undo · SQL savepoints</li></ul>
+<h4>8 · Interview takeaways</h4>
+<ul><li>Say what the stack stores and its invariant.</li>
+<li>Indices, not values, when the answer is a distance.</li>
+<li>Nested loop is still O(n): pushed once, popped once.</li></ul>
+</div>
+
+<h2 id="assessment"><span class="sec">P</span>Knowledge assessment</h2>
+<p>Attempt everything before opening the answer key at the end of this section.</p>
+
+<h3>P.1 Conceptual questions</h3>
+<ol>
+<li>Why must an array-backed stack keep its top at the <em>end</em> of the array rather than at index 0?</li>
+<li>A stack doubles when full. Why is shrinking at one-half full a bad idea, and what rule fixes it?</li>
+<li>Give one situation where a linked-list stack is preferable to an array-backed one, and one where the opposite holds.</li>
+<li>The monotonic-stack algorithm has a <code>while</code> loop inside a <code>for</code> loop. Prove it runs in <span class="math">O(n)</span>.</li>
+<li>You push 1, 2, 3 in that order and may pop at any time, writing down each popped value. Which of these outputs are possible: <code>1 3 2</code>, <code>3 1 2</code>, <code>2 3 1</code>? Justify.</li>
+</ol>
+
+<h3>P.2 Dry-run exercises</h3>
+<ol>
+<li>Starting from an empty <code>ArrayStack()</code> (capacity 1), apply: push a, push b, push c, pop, pop, push d. Give <code>n</code>, capacity and contents after each step.</li>
+<li>Evaluate the postfix expression <code>2 3 4 * + 5 −</code>, showing the stack after every token.</li>
+<li>Compute the <em>stock span</em> (number of consecutive days up to and including today with price ≤ today’s) for prices <code>[100, 80, 60, 70, 60, 75, 85]</code> using a stack of <code>(price, span)</code> pairs. Show the stack after each day.</li>
+</ol>
+
+<h3>P.3 Coding problems</h3>
+<ol>
+<li><strong>Remove adjacent duplicates.</strong> Repeatedly remove pairs of equal adjacent letters: <code>"abbaca" → "ca"</code> (cf. <a href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/">LeetCode 1047</a>). <span class="math">O(n)</span>.</li>
+<li><strong>Decode string.</strong> <code>"3[a2[c]]" → "accaccacc"</code> (cf. <a href="https://leetcode.com/problems/decode-string/">LeetCode 394</a>).</li>
+<li><strong>Undo/redo editor.</strong> Implement <code>type(s)</code>, <code>undo()</code> and <code>redo()</code> on a text buffer; a new <code>type</code> after an undo must discard the redo history.</li>
+</ol>
+
+<h3>P.4 Practical engineering scenario</h3>
+<p>Your team runs an HTTP API that accepts user-uploaded JSON documents and validates them before storing them. A security review finds that a document consisting of 200,000 nested <code>[</code> characters crashes a worker process, because the validator is a recursive-descent parser. Propose a fix. Explain why the crash happens, how you would restructure the validator, what limits you would impose, and what the time and memory costs of your design are.</p>
+
+<h3>P.5 Answer key</h3>
+<details class="ans"><summary>Conceptual answers</summary>
+<ol>
+<li>Adding or removing at the end of an array touches one slot; at index 0 every other element must shift, costing <span class="math">Θ(n)</span> per operation. Python documents <code>pop(0)</code>/<code>insert(0, x)</code> as <span class="math">O(n)</span> for this reason. <a class="cite" href="#ref-5">[5]</a></li>
+<li>At exactly half full, push → grow (copy n), pop → shrink (copy n), push → grow… every operation becomes <span class="math">Θ(n)</span>. Halving only at one-quarter full leaves the new array half full, so <span class="math">Ω(capacity)</span> operations separate any two resizes and the amortised cost stays <span class="math">O(1)</span>. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-2">[2]</a></li>
+<li>Linked: hard real-time code that cannot tolerate a <span class="math">Θ(n)</span> resize pause, or persistent stacks sharing structure. Array: almost everything else — better cache locality and less memory per item, which is why Python’s <code>list</code> is the default stack.</li>
+<li>Each index is pushed exactly once (one push per iteration of the <code>for</code>) and every iteration of the <code>while</code> pops one index. An index cannot be popped more often than it was pushed, so total <code>while</code> iterations ≤ n. Total work = O(n) pushes + O(n) pops + O(n) failed tests = O(n).</li>
+<li><code>1 3 2</code>: push 1, pop 1, push 2, push 3, pop 3, pop 2 ✓. <code>2 3 1</code>: push 1, push 2, pop 2, push 3, pop 3, pop 1 ✓. <code>3 1 2</code> ✗: to output 3 first, 1 and 2 must both be on the stack with 2 above 1, so 2 must come out before 1. In general a stack cannot produce the pattern “high, low, middle” (231-style patterns in the related sorting problem); the reachable count is the Catalan number <span class="math">C<sub>3</sub> = 5</span> of the 6 orders. <a class="cite" href="#ref-23">[23]</a></li>
+</ol></details>
+
+<details class="ans"><summary>Dry-run answers (verified by running code)</summary>
+<ol>
+<li>
+<div class="tbl-wrap"><table>
+<tr><th>Step</th><th>n</th><th>capacity</th><th>Contents</th><th>Note</th></tr>
+<tr><td>push a</td><td>1</td><td>1</td><td>[a]</td><td></td></tr>
+<tr><td>push b</td><td>2</td><td>2</td><td>[a, b]</td><td>grow 1→2, copy 1</td></tr>
+<tr><td>push c</td><td>3</td><td>4</td><td>[a, b, c]</td><td>grow 2→4, copy 2</td></tr>
+<tr><td>pop → c</td><td>2</td><td>4</td><td>[a, b]</td><td>2 ≤ 4/4? no</td></tr>
+<tr><td>pop → b</td><td>1</td><td>2</td><td>[a]</td><td>1 ≤ 4/4 → shrink 4→2</td></tr>
+<tr><td>push d</td><td>2</td><td>2</td><td>[a, d]</td><td>room available, no resize</td></tr>
+</table></div></li>
+<li>2 → [2]; 3 → [2, 3]; 4 → [2, 3, 4]; * → [2, 12]; + → [14]; 5 → [14, 5]; − → [9]. Result <strong>9</strong>.</li>
+<li>
+<div class="tbl-wrap"><table>
+<tr><th>Day</th><th>Price</th><th>Popped</th><th>Span</th><th>Stack after (price, span)</th></tr>
+<tr><td>0</td><td>100</td><td>—</td><td>1</td><td>(100,1)</td></tr>
+<tr><td>1</td><td>80</td><td>—</td><td>1</td><td>(100,1) (80,1)</td></tr>
+<tr><td>2</td><td>60</td><td>—</td><td>1</td><td>(100,1) (80,1) (60,1)</td></tr>
+<tr><td>3</td><td>70</td><td>(60,1)</td><td>2</td><td>(100,1) (80,1) (70,2)</td></tr>
+<tr><td>4</td><td>60</td><td>—</td><td>1</td><td>(100,1) (80,1) (70,2) (60,1)</td></tr>
+<tr><td>5</td><td>75</td><td>(60,1) (70,2)</td><td>4</td><td>(100,1) (80,1) (75,4)</td></tr>
+<tr><td>6</td><td>85</td><td>(75,4) (80,1)</td><td>6</td><td>(100,1) (85,6)</td></tr>
+</table></div>
+Spans: <code>[1, 1, 1, 2, 1, 4, 6]</code>.</li>
+</ol></details>
+
+<details class="ans"><summary>Coding answers</summary>
+<pre><code class="language-python"># 1. Remove adjacent duplicates
+def remove_adjacent_duplicates(s):
+    st = []
+    for ch in s:
+        if st and st[-1] == ch:
+            st.pop()                         # the pair cancels
+        else:
+            st.append(ch)
+    return "".join(st)
+
+# 2. Decode string
+def decode_string(s):
+    st, cur, k = [], "", 0
+    for ch in s:
+        if ch.isdigit():
+            k = k * 10 + int(ch)
+        elif ch == "[":
+            st.append((cur, k)); cur, k = "", 0   # save outer context
+        elif ch == "]":
+            prev, times = st.pop()
+            cur = prev + cur * times
+        else:
+            cur += ch
+    return cur
+
+# 3. Undo / redo editor
+class UndoRedo:
+    def __init__(self):
+        self.text, self.undo_st, self.redo_st = "", [], []
+
+    def type(self, s):
+        self.undo_st.append(self.text)
+        self.text += s
+        self.redo_st.clear()                 # new edit invalidates redo history
+
+    def undo(self):
+        if self.undo_st:
+            self.redo_st.append(self.text)
+            self.text = self.undo_st.pop()
+
+    def redo(self):
+        if self.redo_st:
+            self.undo_st.append(self.text)
+            self.text = self.redo_st.pop()
+
+assert remove_adjacent_duplicates("abbaca") == "ca"
+assert decode_string("3[a2[c]]") == "accaccacc"
+ed = UndoRedo(); ed.type("a"); ed.type("b"); ed.undo(); ed.type("c"); ed.undo(); ed.redo()
+assert ed.text == "ac"</code></pre>
+<p>Complexities: (1) Θ(n) time and space; (2) time proportional to the output length, stack O(nesting depth); (3) each operation O(1) stack work, but storing whole snapshots costs O(length of text) per edit — store reversible <em>commands</em> (inserted text + position) instead for large documents.</p></details>
+
+<details class="ans"><summary>Engineering scenario — model answer</summary>
+<p><strong>Why it crashes.</strong> Each <code>[</code> makes the recursive parser call itself, pushing one frame on the call stack. 200,000 levels exceed Python’s recursion limit (default 1000, giving <code>RecursionError</code>) or, if someone raised the limit, overflow the C stack and kill the process — the Python docs warn that a too-high limit can crash the interpreter. <a class="cite" href="#ref-8">[8]</a><a class="cite" href="#ref-20">[20]</a> Either way an attacker controls the depth: a denial-of-service vector.</p>
+<p><strong>Fix.</strong> Rewrite the validator as an iterative parser with an explicit stack of open containers (<code>[</code> or <code>{</code> plus parser state such as “expecting key”). Open → push, close → pop and check the type matches, end → stack empty — the bracket algorithm of Section I.4 generalised. The explicit stack lives on the heap, so depth no longer threatens the process.</p>
+<p><strong>Limits.</strong> Still cap nesting depth (for example 512 levels) and total document size, and reject early with HTTP 400/413; legitimate documents are rarely deeply nested, and the cap bounds memory per request. Stream the input so validation memory is <span class="math">O(depth)</span> rather than <span class="math">O(size)</span>.</p>
+<p><strong>Costs.</strong> One pass over the input: <span class="math">Θ(n)</span> time; stack memory <span class="math">O(d)</span> with <span class="math">d ≤</span> the depth cap; each push/pop <span class="math">O(1)</span> amortised with a Python list.</p>
+</details>
+
+<h2 id="references"><span class="sec">Q</span>References and further reading</h2>
+<ol class="refs">
+<li id="ref-1">R. Sedgewick, K. Wayne, <a href="https://algs4.cs.princeton.edu/13stacks/">“Bags, Queues, and Stacks,” §1.3 of <em>Algorithms</em>, 4th ed.</a>, Princeton University (book site). <span class="why">LIFO definition, linked-list stack (push/pop at the head), ResizingArrayStack doubling when full and halving at one-quarter full, Dijkstra’s two-stack expression evaluation (Sections B, D, F, G, H, K, L).</span></li>
+<li id="ref-2">T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, <a href="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/"><em>Introduction to Algorithms</em>, 4th ed.</a>, MIT Press, 2022 — Ch. 10 (stacks and queues) and the chapter on amortised analysis (MULTIPOP stack, dynamic tables). <span class="why">Stack definition, O(1) operations, underflow/overflow, aggregate/accounting/potential methods, table expansion and contraction (Sections B, F, G, H).</span></li>
+<li id="ref-3">E. Demaine et al., MIT OpenCourseWare 6.006 Introduction to Algorithms (Spring 2020), <a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/resources/lecture-2-data-structures-and-dynamic-arrays/">Lecture 2: Data Structures and Dynamic Arrays</a>. <span class="why">Dynamic arrays and their amortised analysis (Section G).</span></li>
+<li id="ref-4">Python Software Foundation, <a href="https://docs.python.org/3/tutorial/datastructures.html#using-lists-as-stacks">The Python Tutorial, §5.1.1 “Using Lists as Stacks” and §5.1.2 “Using Lists as Queues”</a>. <span class="why">append/pop as a LIFO stack; front inserts/pops are slow (Sections B, F, H, I, K).</span></li>
+<li id="ref-5">Python Software Foundation, <a href="https://docs.python.org/3/library/collections.html#collections.deque">collections.deque</a>. <span class="why">Thread-safe O(1) appends/pops at both ends; list pop(0)/insert(0, v) cost O(n); O(n) middle indexing (Sections H, I, K, L, P).</span></li>
+<li id="ref-6">Python Software Foundation, <a href="https://docs.python.org/3/builtins/time-complexity.html">“Time complexity of operations on built-in types”</a>, Python 3 documentation. <span class="why">list append O(1) amortised, pop(k) O(n−k), resizing note (Sections F, H, I, K, L).</span></li>
+<li id="ref-7">Python Software Foundation, <a href="https://docs.python.org/3/library/queue.html#queue.LifoQueue">queue — A synchronized queue class (LifoQueue)</a>. <span class="why">LIFO queue with locking for multi-producer/multi-consumer use (Sections F, H, I, K).</span></li>
+<li id="ref-8">Python Software Foundation, <a href="https://docs.python.org/3/library/sys.html#sys.getrecursionlimit">sys.getrecursionlimit / sys.setrecursionlimit</a>. <span class="why">Interpreter stack depth limit preventing C-stack overflow; warning that a too-high limit can crash (Sections C, F, H, J, L, P).</span></li>
+<li id="ref-9">Python Software Foundation, <a href="https://docs.python.org/3/library/dis.html">dis — Disassembler for Python bytecode</a>. <span class="why">CPython bytecode described in terms of the interpreter stack STACK, top = STACK[-1] (Sections F, J).</span></li>
+<li id="ref-10">CPython developers, <a href="https://github.com/python/cpython/blob/main/Objects/listobject.c">Objects/listobject.c (list_resize)</a>, GitHub. <span class="why">List over-allocation and its growth pattern 0, 4, 8, 16, 24, 32, 40, 52, 64, 76, … (Sections F, I).</span></li>
+<li id="ref-11">Oracle, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Stack.html">java.util.Stack (Java SE 21 API)</a>. <span class="why">Stack extends Vector; Deque recommended for LIFO operations (Section K).</span></li>
+<li id="ref-12">Oracle, <a href="https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-2.html">The Java Virtual Machine Specification, SE 21, Ch. 2</a> (§2.5.2 JVM stacks, §2.6.2 operand stacks). <span class="why">Per-frame LIFO operand stack; StackOverflowError (Sections F, J, N).</span></li>
+<li id="ref-13">WebAssembly Community Group, <a href="https://webassembly.github.io/spec/core/exec/runtime.html">WebAssembly Core Specification — Runtime Structure</a>. <span class="why">Instructions operate on an implicit stack of values, labels and activations (Sections F, J, N).</span></li>
+<li id="ref-14">D. Evans, <a href="https://www.cs.virginia.edu/~evans/cs216/guides/x86.html">“Guide to x86 Assembly,”</a> CS216, University of Virginia. <span class="why">Hardware stack grows down; push/pop semantics; call pushes the return address (Sections B, F, J).</span></li>
+<li id="ref-15">R. H. Arpaci-Dusseau, A. C. Arpaci-Dusseau, <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf">“The Abstraction: Address Spaces,”</a> <em>Operating Systems: Three Easy Pieces</em>, University of Wisconsin–Madison. <span class="why">Stack region tracks the call chain, locals, parameters and return values; heap and stack at opposite ends growing toward each other (Sections B, F, J, N).</span></li>
+<li id="ref-16">CP-Algorithms, <a href="https://cp-algorithms.com/data_structures/stack_queue_modification.html">“Minimum Stack / Minimum Queue”</a>. <span class="why">Min-stack via (value, min) pairs; queue from two stacks in O(1) on average; minimum queue (Sections I, M, N).</span></li>
+<li id="ref-17">CP-Algorithms, <a href="https://cp-algorithms.com/string/expression_parsing.html">“Expression parsing”</a>. <span class="why">Two-stack O(n) expression evaluation with precedence, unary operators and right-associativity (Sections B, C, I, J).</span></li>
+<li id="ref-18">E. W. Dijkstra, <a href="https://www.cs.utexas.edu/~EWD/MCReps/MR35.PDF">“Algol 60 translation,” Mathematisch Centrum report MR 35</a>, 1961 (scan, E. W. Dijkstra Archive, University of Texas at Austin; identification via [21]). <span class="why">Original description of the shunting-yard algorithm (Sections B, J).</span></li>
+<li id="ref-19">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">“Stack (abstract data type)”</a> (secondary overview; history cross-checked with its cited sources). <span class="why">Turing’s bury/unbury, Samelson–Bauer 1957 patent, Bauer’s 1988 Computer Pioneer Award, push/pop/peek terminology, underflow/overflow (Sections B, F, G, N).</span></li>
+<li id="ref-20">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Call_stack">“Call stack”</a> (secondary). <span class="why">Stack frames hold return addresses, parameters and locals; stack overflow (Sections B, F, J, L, P).</span></li>
+<li id="ref-21">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Shunting_yard_algorithm">“Shunting yard algorithm”</a> (secondary). <span class="why">Invented by Dijkstra, published November 1961; produces postfix; O(n) (Sections B, I, J).</span></li>
+<li id="ref-22">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/All_nearest_smaller_values">“All nearest smaller values”</a> (secondary; cites Berkman, Schieber &amp; Vishkin 1993). <span class="why">Linear-time stack algorithm behind monotonic stacks; parallel algorithms (Sections I, N).</span></li>
+<li id="ref-23">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Stack-sortable_permutation">“Stack-sortable permutation”</a> (secondary; cites Knuth 1968). <span class="why">Catalan-number counts, 231-avoidance (Sections G, P).</span></li>
+<li id="ref-24">R. Sedgewick, K. Wayne, <a href="https://algs4.cs.princeton.edu/41graph/">“Undirected Graphs,” §4.1 of <em>Algorithms</em>, 4th ed.</a>, Princeton University. <span class="why">Depth-first search; nonrecursive DFS with an explicit stack (Sections C, I, J).</span></li>
+<li id="ref-25">PostgreSQL Global Development Group, <a href="https://www.postgresql.org/docs/current/sql-rollback-to.html">ROLLBACK TO SAVEPOINT</a>, PostgreSQL documentation. <span class="why">Rolling back to a savepoint destroys all later savepoints (Section J).</span></li>
+</ol>
+<h4>Practice problem sources</h4>
+<p class="small">LeetCode problems 20, 32, 42, 71, 84, 85, 150, 155, 224, 232, 394, 735, 739, 844, 901 and 1047 are linked at their point of use in Sections M and P. Problem statements are owned by their respective sites.</p>
+
+</main>
+</div>
+<script>
+/* ================= Sketch renderer (hand-drawn SVG from exact data) ================= */
+const NS='http://www.w3.org/2000/svg';
+const COL={blue:['#2563eb','#dbeafe'],green:['#16a34a','#dcfce7'],red:['#dc2626','#fee2e2'],yellow:['#d97706','#fef3c7'],purple:['#7c3aed','#ede9fe'],black:['#1f2937','#ffffff'],gray:['#94a3b8','#f8fafc']};
+class Sketch{
+  constructor(svg,seed){this.svg=svg;let s=seed||11;this.r=()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296;};}
+  j(a){return (this.r()-.5)*2*a;}
+  el(tag,attrs,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!==undefined)e.textContent=txt;this.svg.appendChild(e);return e;}
+  rect(x,y,w,h,o={}){
+    const c=COL[o.c||'blue'];const a=o.rough??1.6;
+    if(o.fill!==false){const p=[[x+this.j(a),y+this.j(a)],[x+w+this.j(a),y+this.j(a)],[x+w+this.j(a),y+h+this.j(a)],[x+this.j(a),y+h+this.j(a)]];
+      this.el('path',{d:'M'+p.map(q=>q.join(',')).join('L')+'Z',fill:o.fillc||c[1],stroke:'none',opacity:o.op??1});}
+    const passes=o.passes??2;
+    for(let k=0;k<passes;k++){
+      const pts=[[x+this.j(a),y+this.j(a)],[x+w+this.j(a),y+this.j(a)],[x+w+this.j(a),y+h+this.j(a)],[x+this.j(a),y+h+this.j(a)]];
+      let d='M'+pts[0].join(',');
+      for(let i=1;i<=4;i++){const p0=pts[i-1],p1=pts[i%4];const mx=(p0[0]+p1[0])/2+this.j(a*.8),my=(p0[1]+p1[1])/2+this.j(a*.8);d+=` Q${mx},${my} ${p1[0]+(i===4?this.j(a):0)},${p1[1]+(i===4?this.j(a):0)}`;}
+      this.el('path',{d,fill:'none',stroke:o.stroke||c[0],'stroke-width':(o.sw||2.2)-(k*.6),'stroke-linecap':'round','stroke-linejoin':'round',opacity:k?0.7:1,'stroke-dasharray':o.dash||''});
+    }
+  }
+  line(x1,y1,x2,y2,o={}){
+    const c=COL[o.c||'black'][0];const a=o.rough??1.2;
+    for(let k=0;k<(o.passes??2);k++){
+      const mx=(x1+x2)/2+this.j(a*2),my=(y1+y2)/2+this.j(a*2);
+      this.el('path',{d:`M${x1+this.j(a)},${y1+this.j(a)} Q${mx},${my} ${x2+this.j(a*.5)},${y2+this.j(a*.5)}`,fill:'none',stroke:o.stroke||c,'stroke-width':(o.sw||2)-(k*.5),'stroke-linecap':'round',opacity:k?0.6:1,'stroke-dasharray':o.dash||''});
+    }
+    if(o.arrow)this.head(x2,y2,Math.atan2(y2-y1,x2-x1),o.stroke||c,o.sw||2);
+  }
+  curve(x1,y1,cx,cy,x2,y2,o={}){
+    const c=COL[o.c||'purple'][0];const a=o.rough??1.2;
+    for(let k=0;k<(o.passes??2);k++){
+      this.el('path',{d:`M${x1+this.j(a)},${y1+this.j(a)} Q${cx+this.j(a*2)},${cy+this.j(a*2)} ${x2},${y2}`,fill:'none',stroke:c,'stroke-width':(o.sw||2)-(k*.5),'stroke-linecap':'round',opacity:k?0.6:1,'stroke-dasharray':o.dash||''});
+    }
+    if(o.arrow)this.head(x2,y2,Math.atan2(y2-cy,x2-cx),c,o.sw||2);
+  }
+  head(x,y,ang,stroke,sw){const L=11;for(const s of[-1,1]){const t=ang+Math.PI+s*0.45;this.el('path',{d:`M${x},${y} L${x+L*Math.cos(t)+this.j(.8)},${y+L*Math.sin(t)+this.j(.8)}`,stroke,'stroke-width':sw,'stroke-linecap':'round',fill:'none'});}}
+  circle(cx,cy,rx,ry,o={}){
+    const c=COL[o.c||'green'][0];ry=ry||rx;
+    for(let k=0;k<(o.passes??2);k++){
+      let d='';const st=this.r()*6.28;const N=26;
+      for(let i=0;i<=N+2;i++){const t=st+i/N*6.4;const rr=1+this.j(.06);const px=cx+rx*rr*Math.cos(t),py=cy+ry*rr*Math.sin(t);d+=(i?'L':'M')+px.toFixed(1)+','+py.toFixed(1);}
+      this.el('path',{d,fill:k===0&&o.fill?o.fill:'none',stroke:c,'stroke-width':(o.sw||2.2)-(k*.6),'stroke-linejoin':'round',opacity:k?0.65:1});
+    }
+  }
+  text(x,y,s,o={}){
+    const c=o.color||COL[o.c||'black'][0];
+    return this.el('text',{x,y,fill:c,'font-family':o.mono?"JetBrains Mono, monospace":(o.sans?"Inter, sans-serif":"Caveat, cursive"),'font-size':o.size||22,'font-weight':o.weight||(o.mono?600:700),'text-anchor':o.anchor||'middle','dominant-baseline':o.base||'middle','font-style':o.italic?'italic':'normal'},s);
+  }
+  brace(x1,x2,y,dir,o={}){ // horizontal curly brace; dir=+1 opens downward (tip down), -1 tip up
+    const c=COL[o.c||'purple'][0];const h=(o.h||14)*dir;const m=(x1+x2)/2;
+    const d=`M${x1},${y} Q${x1},${y+h*0.5} ${x1+12},${y+h*0.5} L${m-10},${y+h*0.5} Q${m},${y+h*0.5} ${m},${y+h} Q${m},${y+h*0.5} ${m+10},${y+h*0.5} L${x2-12},${y+h*0.5} Q${x2},${y+h*0.5} ${x2},${y}`;
+    for(let k=0;k<2;k++)this.el('path',{d,fill:'none',stroke:c,'stroke-width':(o.sw||2.2)-k*.7,'stroke-linecap':'round',opacity:k?.6:1,transform:k?`translate(${this.j(1)},${this.j(1)})`:''});
+    return [m,y+h];
+  }
+  cell(x,y,w,h,val,c,o={}){this.rect(x,y,w,h,{c,...o});this.text(x+w/2,y+h/2+1,String(val),{size:o.size||26,color:o.tc||'#1f2937'});}
+}
+
+/* ================= Helpers ================= */
+const $=id=>document.getElementById(id);
+function parseNums(str,min,max,maxLen){
+  const parts=str.split(/[\s,]+/).filter(Boolean);
+  if(!parts.length)throw new Error('Enter at least one integer.');
+  if(parts.length>maxLen)throw new Error(`Use at most ${maxLen} numbers.`);
+  return parts.map(p=>{if(!/^-?\d+$/.test(p))throw new Error(`“${p}” is not an integer.`);const v=parseInt(p,10);if(v<min||v>max)throw new Error(`Values must be between ${min} and ${max}.`);return v;});
+}
+function mkCell(val,cls,idx){const col=document.createElement('div');col.className='cellcol';const c=document.createElement('div');c.className='cell '+(cls||'');c.textContent=val;col.appendChild(c);if(idx!==undefined){const i=document.createElement('div');i.className='idx';i.textContent=idx;col.appendChild(i);}return col;}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ================= Static diagrams ================= */
+function svgById(id){const s=document.getElementById(id);if(s)s.innerHTML='';return s;}
+const IDX={size:12,mono:true,color:'#6b7280'};
+function walls(k,x,yTop,w,yBot,o={}){k.line(x,yTop,x,yBot,{sw:3,...o});k.line(x,yBot,x+w,yBot,{sw:3,...o});k.line(x+w,yBot,x+w,yTop,{sw:3,...o});}
+
+function drawConcept(){
+  const s=svgById('d-concept');if(!s)return;const k=new Sketch(s,3);
+  const panel=(x0,items,topCol)=>{walls(k,x0,80,160,350);items.forEach((v,i)=>{const y=350-8-(i+1)*60;k.cell(x0+12,y,136,52,v,i===items.length-1?topCol:'blue');});};
+  // left: push(9)
+  panel(80,[3,7,5],'yellow');
+  k.cell(92,10,136,50,9,'green');k.line(160,64,160,96,{c:'green',arrow:true,sw:2.6});
+  k.text(244,36,'push(9)',{size:26,c:'green',anchor:'start'});
+  k.text(250,128,'9 lands on top',{size:19,c:'green',anchor:'start'});
+  k.text(40,188,'top',{size:22,c:'yellow'});k.line(56,188,88,188,{c:'yellow',arrow:true,sw:2});
+  k.text(160,374,'bottom = first pushed',{size:18});
+  // right: pop()
+  panel(540,[3,7],'yellow');
+  k.cell(552,10,136,50,5,'red',{dash:'7 5'});k.line(620,98,620,66,{c:'red',arrow:true,sw:2.6});
+  k.text(704,36,'pop() → 5',{size:26,c:'red',anchor:'start'});
+  k.text(500,248,'top',{size:22,c:'yellow'});k.line(516,248,548,248,{c:'yellow',arrow:true,sw:2});
+  k.text(620,374,'7 is the new top',{size:18});
+  // middle
+  k.text(390,170,'LIFO',{size:44,c:'purple'});
+  k.text(390,212,'Last In,',{size:24,c:'purple'});k.text(390,240,'First Out',{size:24,c:'purple'});
+  k.text(390,290,'one opening:',{size:19});k.text(390,312,'the top',{size:19});
+}
+
+function drawMemory(){
+  const s=svgById('d-memory');if(!s)return;const k=new Sketch(s,5);
+  const x0=90,W=86,cw=66,y=78,vals=[3,7,5,9];const X=i=>x0+i*W;
+  k.text(20,26,'Array-backed stack',{size:24,anchor:'start',c:'blue'});
+  k.brace(X(0),X(7)+cw,y-8,-1,{c:'purple',h:16});k.text((X(0)+X(7)+cw)/2,y-36,'capacity = 8 slots',{size:20,c:'purple'});
+  for(let i=0;i<8;i++){if(i<4)k.cell(X(i),y,cw,cw,vals[i],i===3?'yellow':'blue');else k.rect(X(i),y,cw,cw,{c:i===4?'green':'gray',fill:false,dash:'6 5',sw:1.8});
+    k.text(X(i)+cw/2,y+cw+14,String(i),IDX);}
+  k.line(X(3)+cw/2,y+cw+52,X(3)+cw/2,y+cw+24,{c:'yellow',arrow:true,sw:2});k.text(X(3)+cw/2,y+cw+66,'top = data[n−1]',{size:19,c:'yellow'});
+  k.line(X(4)+cw/2+30,y+cw+52,X(4)+cw/2+4,y+cw+24,{c:'green',arrow:true,sw:2});k.text(X(4)+cw/2+80,y+cw+66,'next push → data[n]',{size:19,c:'green'});
+  k.text(430,y+cw+100,'n = 4 items (size)  ·  slots 4–7 reserved for future pushes',{size:20});
+  k.line(20,262,840,262,{c:'gray',dash:'6 7',sw:1.3,passes:1});
+  k.text(20,292,'Linked-list stack',{size:24,anchor:'start',c:'purple'});
+  const ny=318,nh=54,nx=i=>140+i*170;
+  [9,5,7,3].forEach((v,i)=>{const x=nx(i);k.cell(x,ny,62,nh,v,i===0?'yellow':'blue');k.rect(x+62,ny,38,nh,{c:'purple'});k.circle(x+81,ny+nh/2,4,4,{c:'purple',passes:1,fill:'#7c3aed'});
+    const ex=i<3?nx(i+1)-4:770;k.line(x+84,ny+nh/2,ex,ny+nh/2,{c:'purple',arrow:true,sw:2});});
+  k.text(800,ny+nh/2,'None',{size:16,mono:true,color:'#6b7280'});
+  k.text(62,ny+nh/2-8,'head',{size:22,c:'yellow'});k.text(62,ny+nh/2+14,'= top',{size:18,c:'yellow'});k.line(92,ny+nh/2,134,ny+nh/2,{c:'yellow',arrow:true,sw:2});
+  k.text(430,410,'each node = value + next pointer · push and pop only touch the head',{size:19});
+}
+
+function drawSteps(){
+  const s=svgById('d-steps');if(!s)return;const k=new Sketch(s,7);
+  const snaps=[['start',[],null],['push 3',[3],'push'],['push 7',[3,7],'push'],['push 5',[3,7,5],'push'],['pop → 5',[3,7],'pop'],['push 9',[3,7,9],'push']];
+  snaps.forEach(([t,items,op],c)=>{const x=10+c*142,cx=x+20;
+    k.text(x+70,28,t,{size:22,c:op==='pop'?'red':(op?'green':'black')});
+    walls(k,cx,70,100,300,{sw:2.4});
+    items.forEach((v,i)=>{const y=300-6-(i+1)*50;const last=i===items.length-1;k.cell(cx+8,y,84,44,v,last?(op==='push'?'green':'yellow'):'blue',{size:22,sw:last?2.8:2});});
+    if(op==='pop'){const y=300-6-3*50;k.cell(cx+8,y,84,44,5,'red',{size:22,dash:'6 4'});k.line(cx+50,y-4,cx+50,48,{c:'red',arrow:true,sw:2});}
+    k.text(x+70,324,'top index = '+(items.length-1),{size:17,c:'yellow'});
+    k.text(x+70,346,'size = '+items.length,{size:16,c:'black'});
+  });
+}
+
+function llNode(k,x,y,v,c,o={}){k.cell(x,y,56,48,v,c,{size:24,...o});k.rect(x+56,y,34,48,{c:c==='red'?'red':'purple',...o});k.circle(x+73,y+24,4,4,{c:c==='red'?'red':'purple',passes:1,fill:c==='red'?'#dc2626':'#7c3aed'});}
+function drawLLops(){
+  const s=svgById('d-llops');if(!s)return;const k=new Sketch(s,9);
+  const NX=i=>200+i*150,rows=[50,180,310];
+  const chain=(y,from)=>{for(let i=from;i<4;i++){const x=NX(i);llNode(k,x,y,[0,5,7,3][i],'blue');k.line(x+76,y+24,i<3?NX(i+1)-4:790,y+24,{c:'purple',arrow:true,sw:2});}k.text(818,y+24,'None',{size:15,mono:true,color:'#6b7280'});};
+  k.text(20,rows[0]+24,'before',{size:24,anchor:'start'});chain(rows[0],1);
+  k.text(300,rows[0]+24,'head',{size:21,c:'yellow',anchor:'end'});k.line(304,rows[0]+24,346,rows[0]+24,{c:'yellow',arrow:true,sw:2});
+  // push
+  const y1=rows[1];k.text(20,y1+24,'push(9)',{size:24,anchor:'start',c:'green'});chain(y1,1);
+  llNode(k,NX(0),y1,9,'green');k.line(NX(0)+76,y1+24,NX(1)-4,y1+24,{c:'purple',arrow:true,sw:2.6});
+  k.text(NX(0)+45,y1+70,'① new Node(9)',{size:19,c:'green'});
+  k.text(NX(0)+150,y1-16,'② node.next = head',{size:19,c:'purple'});
+  k.text(150,y1-6,'③ head = node',{size:19,c:'yellow'});k.line(150,y1+10,150,y1+24,{c:'yellow',sw:2,passes:1});k.line(150,y1+24,NX(0)-4,y1+24,{c:'yellow',arrow:true,sw:2.4});
+  // pop
+  const y2=rows[2];k.text(20,y2+24,'pop()',{size:24,anchor:'start',c:'red'});chain(y2,1);
+  llNode(k,NX(0),y2,9,'red',{dash:'6 4'});k.line(NX(0)+76,y2+24,NX(1)-4,y2+24,{c:'red',dash:'5 5',sw:1.6});
+  k.curve(150,y2+12,240,y2-50,NX(1)+20,y2-4,{c:'yellow',arrow:true,sw:2.4});k.text(150,y2+30,'head',{size:21,c:'yellow'});
+  k.text(NX(1)-50,y2-36,'head = head.next',{size:19,c:'yellow',anchor:'start'});
+  k.text(NX(0)+45,y2+72,'returns 9, node unlinked',{size:19,c:'red'});
+}
+
+function drawResize(){
+  const s=svgById('d-resize');if(!s)return;const k=new Sketch(s,11);
+  const x0=210,W=74,cw=58,X=i=>x0+i*W;
+  k.text(190,60,'old (cap 4, full)',{size:21,anchor:'end',c:'red'});
+  [3,7,5,9].forEach((v,i)=>{k.cell(X(i),34,cw,cw,v,'blue');k.text(X(i)+cw/2,16,String(i),IDX);});
+  k.rect(X(0)-8,26,4*W+2,cw+16,{c:'red',fill:false,dash:'8 6',sw:2});
+  k.text(X(4)+8,62,'← released after the copy',{size:20,c:'red',anchor:'start'});
+  const y2=200;k.text(190,y2+30,'new (cap 8)',{size:21,anchor:'end',c:'blue'});
+  for(let i=0;i<8;i++){if(i<4)k.cell(X(i),y2,cw,cw,[3,7,5,9][i],'blue');else if(i===4)k.cell(X(i),y2,cw,cw,2,'green',{sw:3});else k.rect(X(i),y2,cw,cw,{c:'gray',fill:false,dash:'6 5',sw:1.6});k.text(X(i)+cw/2,y2+cw+14,String(i),IDX);}
+  for(let i=0;i<4;i++)k.line(X(i)+cw/2,34+cw+12,X(i)+cw/2,y2-8,{c:'purple',arrow:true,sw:2});
+  k.text(X(4)+4,150,'copy n = 4 items: Θ(n)',{size:22,c:'purple',anchor:'start'});
+  k.text(X(4)+cw/2,y2+cw+38,'push(2) writes data[4]',{size:19,c:'green'});
+  k.text(430,322,'then pushes into slots 5, 6, 7 cost one write each',{size:20});
+}
+
+function drawCalls(){
+  const s=svgById('d-calls');if(!s)return;const k=new Sketch(s,13);
+  const M={n:'main()',st:'wait'};
+  const snaps=[
+    ['start',[{n:'main()',t:'calls fact(3)',c:'yellow'}]],
+    ['call fact(3)',[{n:'main()',t:'waiting',c:'purple'},{n:'fact(3)',t:'n = 3',c:'yellow'}]],
+    ['call fact(2)',[{n:'main()',t:'waiting',c:'purple'},{n:'fact(3)',t:'3 × ?',c:'purple'},{n:'fact(2)',t:'n = 2',c:'yellow'}]],
+    ['call fact(1)',[{n:'main()',t:'waiting',c:'purple'},{n:'fact(3)',t:'3 × ?',c:'purple'},{n:'fact(2)',t:'2 × ?',c:'purple'},{n:'fact(1)',t:'base: return 1',c:'red'}]],
+    ['pop fact(1)',[{n:'main()',t:'waiting',c:'purple'},{n:'fact(3)',t:'3 × ?',c:'purple'},{n:'fact(2)',t:'2 × 1 = 2',c:'green'}]],
+    ['pop fact(2)',[{n:'main()',t:'waiting',c:'purple'},{n:'fact(3)',t:'3 × 2 = 6',c:'green'}]],
+    ['pop fact(3)',[{n:'main()',t:'got 6',c:'yellow'}]]];
+  snaps.forEach(([t,fr],c)=>{const x=6+c*122;k.text(x+58,24,t,{size:19,c:t.startsWith('pop')?'green':(t==='start'?'black':'purple')});
+    walls(k,x,52,116,320,{sw:2.2});
+    fr.forEach((f,i)=>{const y=320-6-(i+1)*62;k.rect(x+6,y,104,56,{c:f.c,sw:f.c==='yellow'?2.8:2});k.text(x+58,y+18,f.n,{size:15,mono:true,color:'#1f2937'});k.text(x+58,y+40,f.t,{size:17,c:f.c==='yellow'?'black':f.c});});
+    k.text(x+58,344,'frames: '+fr.length,{size:17});});
+  k.text(430,366,'pushed on call (purple → yellow), popped on return (green)',{size:18,c:'black'});
+}
+
+function drawAddr(){
+  const s=svgById('d-addr');if(!s)return;const k=new Sketch(s,17);
+  const x=90,w=200;
+  k.rect(x,30,w,50,{c:'blue'});k.text(x+w/2,55,'program code',{size:22,c:'blue'});
+  k.rect(x,80,w,70,{c:'green'});k.text(x+w/2,108,'heap',{size:24,c:'green'});k.text(x+w/2,132,'(malloc / new)',{size:17,c:'green'});
+  k.line(x+w/2,154,x+w/2,196,{c:'green',arrow:true,sw:2.4});k.text(x+w/2+46,180,'grows',{size:18,c:'green'});
+  k.rect(x,150,w,110,{c:'gray',fill:false,dash:'6 6',sw:1.5});k.text(x+w/2,222,'free',{size:20,c:'gray'});k.text(x+w/2,246,'(collide → overflow)',{size:15,c:'red'});
+  k.rect(x,260,w,90,{c:'purple'});k.text(x+w/2,300,'stack',{size:24,c:'purple'});k.text(x+w/2,324,'(frames)',{size:17,c:'purple'});
+  k.line(x+w/2-50,258,x+w/2-50,214,{c:'purple',arrow:true,sw:2.4});k.text(x+w/2-80,236,'grows',{size:18,c:'purple'});
+  k.text(x-10,34,'0KB',{size:15,mono:true,color:'#6b7280',anchor:'end'});k.text(x-10,348,'16KB',{size:15,mono:true,color:'#6b7280',anchor:'end'});
+  k.text(x+w/2,372,'address space (OSTEP’s simplified model)',{size:17});
+  // zoom
+  k.line(x+w,260,500,60,{c:'purple',dash:'5 6',sw:1.4,passes:1});k.line(x+w,350,500,350,{c:'purple',dash:'5 6',sw:1.4,passes:1});
+  const fr=[['main()','return addr · locals'],['handle_request(req)','params · locals'],['parse(doc)','params · locals'],['parse(child)','running now']];
+  fr.forEach(([n,t],i)=>{const y=350-(i+1)*70;const top=i===fr.length-1;k.rect(510,y,240,62,{c:top?'yellow':'purple',sw:top?2.8:2});k.text(630,y+22,n,{size:16,mono:true,color:'#1f2937'});k.text(630,y+46,t,{size:18,c:top?'black':'purple'});});
+  k.text(800,92,'SP',{size:22,c:'yellow'});k.text(800,114,'(top)',{size:17,c:'yellow'});k.line(788,100,758,100,{c:'yellow',arrow:true,sw:2.2});
+  k.text(630,44,'call → push frame · return → pop',{size:19,c:'purple'});
+}
+
+function drawCompare(){
+  const s=svgById('d-compare');if(!s)return;const k=new Sketch(s,19);
+  // stack
+  k.text(145,28,'STACK (LIFO)',{size:26,c:'black'});
+  walls(k,90,90,110,290,{sw:2.6});[1,2,3,4].forEach((v,i)=>k.cell(98,290-6-(i+1)*48,94,42,v,i===3?'yellow':'blue',{size:22}));
+  k.line(60,52,100,86,{c:'green',arrow:true,sw:2.4});k.text(48,44,'push',{size:20,c:'green'});
+  k.line(190,86,230,52,{c:'red',arrow:true,sw:2.4});k.text(244,44,'pop',{size:20,c:'red'});
+  k.text(145,312,'out next: 4 (newest)',{size:19,c:'red'});
+  // queue
+  k.text(435,28,'QUEUE (FIFO)',{size:26,c:'black'});
+  k.line(330,140,540,140,{sw:2.6});k.line(330,200,540,200,{sw:2.6});
+  [1,2,3,4].forEach((v,i)=>k.cell(338+i*50,148,44,44,v,i===0?'yellow':'blue',{size:22}));
+  k.line(600,170,548,170,{c:'green',arrow:true,sw:2.4});k.text(585,140,'enqueue',{size:19,c:'green'});
+  k.line(326,170,280,170,{c:'red',arrow:true,sw:2.4});k.text(300,232,'dequeue',{size:19,c:'red'});
+  k.text(350,118,'front',{size:18,c:'yellow'});k.text(520,118,'rear',{size:18});
+  k.text(435,312,'out next: 1 (oldest)',{size:19,c:'red'});
+  // deque
+  k.text(745,28,'DEQUE',{size:26,c:'black'});
+  k.line(660,140,830,140,{sw:2.6});k.line(660,200,830,200,{sw:2.6});
+  [1,2,3].forEach((v,i)=>k.cell(674+i*50,148,44,44,v,'blue',{size:22}));
+  k.line(640,160,664,160,{c:'green',arrow:true,sw:2});k.line(664,184,640,184,{c:'red',arrow:true,sw:2});
+  k.line(850,160,826,160,{c:'green',arrow:true,sw:2});k.line(826,184,850,184,{c:'red',arrow:true,sw:2});
+  k.text(745,312,'either end, O(1)',{size:19,c:'purple'});
+}
+
+function drawMono(){
+  const s=svgById('d-mono');if(!s)return;const k=new Sketch(s,23);
+  const a=[4,5,2,25,7,3,8],ans=[5,25,25,-1,8,8,-1],nxt=[1,3,3,-1,6,6,-1];const base=290,X=i=>90+i*100,H=v=>v*8;
+  k.line(60,base,800,base,{sw:2});
+  a.forEach((v,i)=>{k.rect(X(i),base-H(v),54,H(v),{c:'blue',rough:1});k.text(X(i)+27,base-H(v)-14,String(v),{size:20,mono:true,color:'#1e3a8a'});k.text(X(i)+27,base+16,String(i),IDX);
+    k.text(X(i)+27,base+44,ans[i]<0?'−1':'→ '+ans[i],{size:22,c:ans[i]<0?'red':'green'});});
+  a.forEach((v,i)=>{const j=nxt[i];if(j<0)return;const x1=X(i)+40,y1=base-H(v)-30,x2=X(j)+14,y2=base-H(a[j])-6;k.curve(x1,y1,(x1+x2)/2,Math.min(y1,y2)-40-(i===1?30:0),x2,y2,{c:'purple',arrow:true,sw:2});});
+  k.text(640,22,'stack keeps indices with decreasing values',{size:19,c:'purple'});
+}
+
+function drawMini(){
+  const s=svgById('d-mini');if(!s)return;const k=new Sketch(s,29);
+  walls(k,90,40,130,200,{sw:2.6});[3,7,5].forEach((v,i)=>k.cell(100,200-6-(i+1)*50,110,44,v,i===2?'yellow':'blue',{size:22}));
+  k.line(40,20,96,58,{c:'green',arrow:true,sw:2.4});k.text(30,14,'push',{size:22,c:'green'});
+  k.line(214,58,270,20,{c:'red',arrow:true,sw:2.4});k.text(290,14,'pop',{size:22,c:'red'});
+  k.text(250,100,'← top = data[n−1]',{size:22,c:'yellow',anchor:'start'});
+  k.text(320,150,'push / pop / peek: O(1) — only the top',{size:22,anchor:'start'});
+  k.text(320,180,'n pushes < 3n writes (doubling)',{size:22,anchor:'start',c:'purple'});
+}
+
+function drawSheetVis(){
+  const s=svgById('d-sheet-vis');if(!s)return;const k=new Sketch(s,31);
+  walls(k,140,70,140,256,{sw:2.8});[1,2,3].forEach((v,i)=>k.cell(150,256-6-(i+1)*52,120,46,'item '+v,i===2?'yellow':'blue',{size:20}));
+  k.cell(150,8,120,40,'item 4','green',{size:20,dash:'6 4'});
+  k.line(110,30,146,30,{c:'green',arrow:true,sw:2.4});k.text(70,30,'push',{size:22,c:'green'});
+  k.curve(274,120,340,90,350,40,{c:'red',arrow:true,sw:2.4});k.text(372,70,'pop',{size:22,c:'red'});
+  k.text(72,150,'LIFO',{size:30,c:'purple'});k.text(350,200,'last in,',{size:20,c:'purple'});k.text(350,224,'first out',{size:20,c:'purple'});
+}
+
+function sheetCells(){
+  const put=(id,items)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML='';items.forEach(x=>el.appendChild(x));};
+  put('sh-arr',[3,7,9].map((v,i)=>mkCell(v,i===2?'p':'',i)));
+  put('sh-q',[...'{[()]}'].map((ch,i)=>mkCell(ch,i<3?'':'p',i)));
+}
+function drawAll(){try{drawConcept();drawMemory();drawSteps();drawLLops();drawResize();drawCalls();drawAddr();drawCompare();drawMono();drawMini();drawSheetVis();}catch(e){console.error(e);}}
+
+/* ================= Shared step controller ================= */
+function stepper(p,ctl){
+  let step=0,timer=null;
+  const stop=()=>{if(timer){clearInterval(timer);timer=null;}};
+  const r=()=>{const n=ctl.count();if(step>n)step=n;ctl.render(step);$(p+'-prev').disabled=step===0;$(p+'-next').disabled=step>=n;$(p+'-play').textContent=timer?'⏸ Pause':'▶ Play';};
+  $(p+'-play').onclick=()=>{if(timer){stop();r();return;}if(step>=ctl.count())step=0;timer=setInterval(()=>{if(step<ctl.count())step++;if(step>=ctl.count())stop();r();},ctl.delay||850);r();};
+  $(p+'-next').onclick=()=>{stop();if(step<ctl.count())step++;r();};
+  $(p+'-prev').onclick=()=>{stop();if(step>0)step--;r();};
+  $(p+'-reset').onclick=()=>{stop();step=0;r();};
+  return {load(){stop();step=0;r();}};
+}
+function bucketFill(el,items,opt={}){ // items bottom->top; opt.top class, opt.ghost value
+  el.innerHTML='';items.forEach((v,i)=>{const c=document.createElement('div');const last=i===items.length-1;c.className='cell '+(last?(opt.topCls||'active'):(opt.cls||''));c.textContent=v;
+    if(last&&opt.ptr!==false){const sp=document.createElement('span');sp.className='ptr';sp.textContent='← top';c.appendChild(sp);}el.appendChild(c);});
+  if(opt.ghost!==undefined){const g=document.createElement('div');g.className='ghost';g.textContent=opt.ghost;el.appendChild(g);}
+  if(!items.length&&opt.ghost===undefined){const e=document.createElement('div');e.className='small';e.style.margin='auto';e.textContent='(empty)';el.appendChild(e);}
+}
+
+/* ================= Lab 1: playground ================= */
+(function(){
+  let items=[],cap=1,ops=0,copies=0,last=null;const MAX=12;
+  function render(){
+    bucketFill($('w1-bucket'),items,{topCls:last&&last.t==='push'?'plus':'active',ghost:last&&last.t==='pop'?last.v:undefined});
+    $('w1-size').textContent=`size = ${items.length}`;
+    const arr=$('w1-arr');arr.innerHTML='';
+    for(let i=0;i<cap;i++){const has=i<items.length;arr.appendChild(mkCell(has?items[i]:'·',has?(i===items.length-1?'active':''):'empty',i));}
+    let info=`n = ${items.length}, capacity = ${cap}`+(items.length?` · top = data[${items.length-1}] = ${items[items.length-1]}`:' · top: none')+` · next push writes data[${items.length}]`;
+    if(last&&last.resize)info+=` · <b style="color:var(--purple)">${last.resize}</b>`;
+    $('w1-arrinfo').innerHTML=info;
+    const ll=$('w1-ll');ll.innerHTML='<span class="lhead">head →</span>';
+    for(let i=items.length-1;i>=0;i--){const n=document.createElement('span');n.className='lnode'+(i===items.length-1?(last&&last.t==='push'?' new':' top'):'');n.innerHTML=`<b></b><i>next</i>`;n.firstChild.textContent=items[i];ll.appendChild(n);const a=document.createElement('span');a.className='larrow';a.textContent='→';ll.appendChild(a);}
+    const nn=document.createElement('span');nn.className='lnull';nn.textContent='None';ll.appendChild(nn);
+    $('w1-c-ops').textContent=`operations: ${ops}`;$('w1-c-copies').textContent=`items copied by resizes: ${copies}`;
+    $('w1-c-avg').textContent=`average cost/op: ${ops?((ops+copies)/ops).toFixed(2):'0.00'} units`;
+  }
+  function push(v){
+    if(items.length>=MAX){$('w1-err').textContent=`This lab stops at ${MAX} items so everything stays visible.`;return false;}
+    let resize=null;
+    if(items.length===cap){copies+=items.length;resize=`grew ${cap} → ${cap*2}, copied ${items.length} item${items.length===1?'':'s'}`;cap*=2;}
+    items.push(v);ops++;last={t:'push',v,resize};
+    $('w1-status').innerHTML=`<b>push(${esc(v)})</b>: written to data[${items.length-1}]; it is the new top (green).`+(resize?` The array was full, so it ${resize} first — the only O(n) step.`:' No resize needed: one write, O(1).');
+    return true;
+  }
+  $('w1-push').onclick=()=>{const v=$('w1-val').value.trim();$('w1-err').textContent='';
+    if(!v){$('w1-err').textContent='Type a value to push.';return;}if(v.length>5){$('w1-err').textContent='Keep values to at most 5 characters.';return;}
+    if(push(v)){$('w1-val').value=String(Math.floor(Math.random()*90)+10);render();}};
+  $('w1-val').addEventListener('keydown',e=>{if(e.key==='Enter')$('w1-push').click();});
+  $('w1-pop').onclick=()=>{$('w1-err').textContent='';
+    if(!items.length){last=null;$('w1-status').innerHTML='<b style="color:var(--red)">Underflow!</b> pop() on an empty stack. Python’s <code>list.pop()</code> raises <code>IndexError: pop from empty list</code>.';render();return;}
+    const v=items.pop();ops++;let resize=null;
+    if(items.length>0&&items.length<=cap/4){copies+=items.length;resize=`shrank ${cap} → ${cap/2}, copied ${items.length} item${items.length===1?'':'s'}`;cap/=2;}
+    last={t:'pop',v,resize};
+    $('w1-status').innerHTML=`<b>pop()</b> returned <b style="color:var(--red)">${esc(v)}</b> — the most recent push (red, leaving). `+(items.length?`New top: ${esc(items[items.length-1])}.`:'The stack is now empty.')+(resize?` Size fell to a quarter of capacity, so it ${resize}.`:'');render();};
+  $('w1-peek').onclick=()=>{$('w1-err').textContent='';last=null;
+    $('w1-status').innerHTML=items.length?`<b>peek()</b> = <b>${esc(items[items.length-1])}</b>. Nothing changes; O(1).`:'<b style="color:var(--red)">Underflow!</b> peek() on an empty stack — <code>stack[-1]</code> raises <code>IndexError</code>.';render();};
+  $('w1-many').onclick=()=>{$('w1-err').textContent='';let done=0;for(let i=0;i<5;i++){if(!push(String(Math.floor(Math.random()*90)+10)))break;done++;}if(done>1)$('w1-status').innerHTML=`Pushed ${done} values. `+$('w1-status').innerHTML;render();};
+  $('w1-clear').onclick=()=>{items=[];cap=1;ops=0;copies=0;last=null;$('w1-err').textContent='';$('w1-status').innerHTML='Cleared. capacity = 1. Push a few values and watch the array double at sizes 1, 2, 4, 8.';render();};
+  ['3','7','5'].forEach(push);last=null;$('w1-status').innerHTML='The stack holds 3, 7, 5 (pushed in that order). Try <b>pop()</b>, then push several values and watch the capacity double.';render();
+})();
+
+/* ================= Lab 2: brackets ================= */
+(function(){
+  let s='',snaps=[];const OPEN='([{',CLOSE={')':'(',']':'[','}':'{'};
+  function compute(){
+    snaps=[{i:-1,st:[],msg:'<b>Start.</b> Empty stack. Openers will be pushed; each closer must match the top.',bad:-1}];const st=[];let err=false;
+    for(let i=0;i<s.length;i++){const ch=s[i];
+      if(OPEN.includes(ch)){st.push(ch);snaps.push({i,st:st.slice(),msg:`<b>“${esc(ch)}”</b> opens a group → push. Stack size ${st.length}.`,bad:-1});}
+      else if(CLOSE[ch]){
+        if(!st.length){snaps.push({i,st:[],msg:`<b>“${esc(ch)}”</b> closes, but the stack is empty — nothing to close. <b style="color:var(--red)">Invalid.</b>`,bad:i,end:true});err=true;break;}
+        const t=st.pop();
+        if(t!==CLOSE[ch]){snaps.push({i,st:st.slice(),msg:`<b>“${esc(ch)}”</b> pops “${t}”, but needs “${CLOSE[ch]}”. Wrong type of bracket. <b style="color:var(--red)">Invalid.</b>`,bad:i,end:true});err=true;break;}
+        snaps.push({i,st:st.slice(),msg:`<b>“${esc(ch)}”</b> pops “${t}” — a match. Stack size ${st.length}.`,bad:-1});}
+      else snaps.push({i,st:st.slice(),msg:`“${esc(ch)}” is not a bracket — skip it.`,bad:-1});}
+    if(!err)snaps.push({i:s.length,st:st.slice(),end:true,bad:-1,msg:st.length?`End of input, but ${st.length} opener${st.length>1?'s are':' is'} still open (${st.join(' ')}). <b style="color:var(--red)">Invalid.</b>`:'End of input and the stack is empty. <b style="color:var(--green)">✅ Balanced.</b>'});
+  }
+  const ctl=stepper('w2',{count:()=>snaps.length-1,render(step){const sn=snaps[step];const errAt=snaps[snaps.length-1].bad;
+    const row=$('w2-chars');row.innerHTML='';[...s].forEach((ch,j)=>{let c='';if(j===sn.bad)c='bad';else if(j===sn.i)c='active';else if(j<sn.i)c='done';else if(errAt>=0&&j>errAt&&sn.end)c='dim';row.appendChild(mkCell(ch,c,j));});
+    bucketFill($('w2-stack'),sn.st);$('w2-status').innerHTML=`<b>Step ${step} / ${snaps.length-1}.</b> `+sn.msg;}});
+  function load(v){$('w2-err').textContent='';if(v.length>30){$('w2-err').textContent='Use at most 30 characters.';return;}if(!v.length){$('w2-err').textContent='Enter a string (try {[()]}).';return;}s=v;compute();ctl.load();}
+  $('w2-load').onclick=()=>load($('w2-input').value);
+  $('w2-ex1').onclick=()=>{$('w2-input').value='{[()()]}';load('{[()()]}');};
+  $('w2-ex2').onclick=()=>{$('w2-input').value='(a[b]{c}';load('(a[b]{c}');};
+  load($('w2-input').value);
+})();
+
+/* ================= Lab 3: expressions ================= */
+(function(){
+  const PREC={'+':1,'-':1,'*':2,'/':2,'^':3};let toks=[],post=[],snaps=[];
+  function tokenize(e){const t=[];let num='';for(const ch of e){if(/[0-9]/.test(ch))num+=ch;else{if(num){t.push(num);num='';}if(PREC[ch]||ch==='('||ch===')')t.push(ch);else if(!/\s/.test(ch))throw new Error(`Unexpected character “${ch}”.`);}}if(num)t.push(num);if(!t.length)throw new Error('Enter an expression.');if(t.length>25)throw new Error('Use at most 25 tokens.');return t;}
+  function compute(){
+    snaps=[];const out=[],ops=[];snaps.push({ph:1,ti:-1,ops:[],out:[],msg:'<b>Phase 1 — shunting-yard.</b> Numbers go straight to the output; operators wait on the stack until a weaker operator or “)” forces them out.'});
+    toks.forEach((t,ti)=>{let msg;
+      if(/^\d+$/.test(t)){out.push(t);msg=`Number ${t} → output.`;}
+      else if(t==='('){ops.push(t);msg='“(” → push; it shields the operators below it.';}
+      else if(t===')'){const moved=[];while(ops.length&&ops[ops.length-1]!=='('){moved.push(ops.pop());out.push(moved[moved.length-1]);}if(!ops.length)throw new Error('Mismatched “)”.');ops.pop();msg=`“)” → pop ${moved.length?moved.join(' '):'nothing'} to output until “(”, then discard “(”.`;}
+      else{const moved=[];while(ops.length&&ops[ops.length-1]!=='('&&(PREC[ops[ops.length-1]]>PREC[t]||(PREC[ops[ops.length-1]]===PREC[t]&&t!=='^'))){moved.push(ops.pop());out.push(moved[moved.length-1]);}ops.push(t);
+        msg=(moved.length?`“${t}” first pops ${moved.join(' ')} (higher${t==='^'?'':' or equal'} precedence) to output, then is pushed.`:`“${t}” → push (nothing stronger on top${t==='^'?'; ^ is right-associative':''}).`);}
+      snaps.push({ph:1,ti,ops:ops.slice(),out:out.slice(),msg});});
+    if(ops.includes('('))throw new Error('Mismatched “(”.');
+    while(ops.length){out.push(ops.pop());}
+    snaps.push({ph:1,ti:toks.length,ops:[],out:out.slice(),msg:`End of input → pop the remaining operators. Postfix: <b>${out.join(' ')}</b>`});
+    post=out;const st=[];snaps.push({ph:2,ti:-1,st:[],msg:'<b>Phase 2 — evaluate the postfix.</b> Numbers are pushed; an operator pops its right operand, then its left operand.'});
+    post.forEach((t,ti)=>{let msg;
+      if(/^\d+$/.test(t)){st.push(+t);msg=`${t} → push.`;}
+      else{if(st.length<2)throw new Error('Not enough operands (unary minus is not supported).');const b=st.pop(),a=st.pop();let r;
+        if(t==='+')r=a+b;else if(t==='-')r=a-b;else if(t==='*')r=a*b;else if(t==='/'){if(b===0)throw new Error('Division by zero.');r=Math.trunc(a/b);}else{if(b<0||b>64)throw new Error('Keep exponents between 0 and 64.');r=a**b;}
+        if(!Number.isSafeInteger(r))throw new Error('Result too large for this lab.');st.push(r);msg=`“${t}”: pop b = ${b}, pop a = ${a}, push a ${t} b = <b>${r}</b>.`;}
+      snaps.push({ph:2,ti,st:st.slice(),msg});});
+    if(st.length!==1)throw new Error('Malformed expression (too many operands).');
+    snaps[snaps.length-1].msg+=` <br>✅ One value left: the result is <b>${st[0]}</b>.`;
+  }
+  const ctl=stepper('w3',{delay:900,count:()=>snaps.length-1,render(step){const sn=snaps[step];
+    const list=sn.ph===1?toks:post;const row=$('w3-tokens');row.innerHTML='';list.forEach((t,j)=>row.appendChild(mkCell(t,j===sn.ti?'active':(j<sn.ti?'done':''),undefined)));
+    $('w3-stacklabel').textContent=sn.ph===1?'Operator stack':'Operand stack';$('w3-phase').textContent=sn.ph===1?'Phase 1: infix → postfix':'Phase 2: evaluate postfix';
+    bucketFill($('w3-stack'),sn.ph===1?sn.ops:sn.st);
+    const o=$('w3-out');o.innerHTML='';(sn.ph===1?sn.out:post).forEach(t=>o.appendChild(mkCell(t,'p')));
+    $('w3-status').innerHTML=`<b>Step ${step} / ${snaps.length-1}.</b> `+sn.msg;}});
+  function load(){$('w3-err').textContent='';try{toks=tokenize($('w3-input').value);compute();ctl.load();}catch(e){$('w3-err').textContent=e.message;}}
+  $('w3-load').onclick=load;$('w3-input').addEventListener('keydown',e=>{if(e.key==='Enter')load();});
+  load();
+})();
+
+/* ================= Lab 4: monotonic stack ================= */
+(function(){
+  let a=[],snaps=[];
+  function compute(){snaps=[{i:-1,st:[],ans:a.map(()=>null),popped:[],msg:'<b>Start.</b> The stack will hold indices of elements still waiting for a greater value.'}];const st=[],ans=a.map(()=>null);
+    a.forEach((x,i)=>{const popped=[];while(st.length&&a[st[st.length-1]]<x){const j=st.pop();ans[j]=x;popped.push(j);}st.push(i);
+      snaps.push({i,st:st.slice(),ans:ans.slice(),popped,msg:`i = ${i}, x = ${x}: `+(popped.length?`pops ${popped.map(j=>`index ${j} (${a[j]})`).join(', ')} — ${x} is their next greater element.`:`nothing on the stack is smaller than ${x}.`)+` Push ${i}.`});});
+    const fin=ans.map(v=>v===null?-1:v);snaps.push({i:a.length,st:st.slice(),ans:fin,popped:[],fin:true,msg:`Done. Indices left on the stack (${st.join(', ')||'none'}) have no greater element to their right → −1. Pushes: ${a.length}, pops: ${a.length-st.length} — linear time.`});}
+  const ctl=stepper('w4',{count:()=>snaps.length-1,render(step){const sn=snaps[step];const mx=Math.max(...a,1);const inSt=new Set(sn.st);
+    const bars=$('w4-bars');bars.innerHTML='';a.forEach((v,j)=>{const b=document.createElement('div');let c='';if(j===sn.i)c='active';else if(sn.popped.includes(j))c='popnow';else if(inSt.has(j))c='instack';else if(sn.ans[j]!==null)c='solved';
+      b.className='mbar '+c;b.style.height=Math.max(18,v/mx*170)+'px';b.textContent=v;bars.appendChild(b);});
+    $('w4-idx').innerHTML=a.map((_,j)=>`<div>${j}</div>`).join('');
+    $('w4-ans').innerHTML=sn.ans.map(v=>`<div style="${v===-1?'color:var(--red)':''}">${v===null?'':v}</div>`).join('');
+    const ks=$('w4-stack');ks.innerHTML='';if(!sn.st.length)ks.innerHTML='<span>empty</span>';sn.st.forEach((j,t)=>{const sp=document.createElement('span');sp.textContent=`${j} (${a[j]})`;if(t===sn.st.length-1)sp.className='lookup';ks.appendChild(sp);});
+    $('w4-status').innerHTML=`<b>Step ${step} / ${snaps.length-1}.</b> `+sn.msg+' <span class="small">Yellow = current, red = popped now, purple = waiting on stack, green = answered.</span>';}});
+  function load(arr){$('w4-err').textContent='';a=arr;compute();ctl.load();}
+  $('w4-load').onclick=()=>{try{load(parseNums($('w4-input').value,0,99,10));}catch(e){$('w4-err').textContent=e.message;}};
+  $('w4-rand').onclick=()=>{const arr=Array.from({length:8},()=>Math.floor(Math.random()*30)+1);$('w4-input').value=arr.join(', ');load(arr);};
+  load(parseNums($('w4-input').value,0,99,10));
+})();
+
+/* ================= Lab 5: call stack ================= */
+(function(){
+  let ev=[];
+  const CODE={fact:'def fact(n):\n    if n <= 1:\n        return 1          # base case\n    return n * fact(n - 1)',fib:'def fib(n):\n    if n < 2:\n        return n          # base case\n    return fib(n - 1) + fib(n - 2)'};
+  function gen(fn,n){ev=[];const st=[{name:'main()',note:`calls ${fn}(${n})`}];let calls=0,maxd=1;
+    const snap=(log,ret)=>{maxd=Math.max(maxd,st.length);ev.push({frames:st.map(f=>({...f})),log,ret,calls,maxd});};
+    snap('start in main()');
+    function fact(k){calls++;st.push({name:`fact(${k})`,note:k<=1?'base case':`n = ${k}`});snap(`call fact(${k})`);
+      if(k<=1){st[st.length-1].note='return 1';snap(`fact(${k}) returns 1`,true);st.pop();return 1;}
+      st[st.length-1].note=`waiting: ${k} × fact(${k-1})`;const r=fact(k-1);st[st.length-1].note=`${k} × ${r} = ${k*r}`;snap(`fact(${k}) returns ${k*r}`,true);st.pop();return k*r;}
+    function fib(k){calls++;st.push({name:`fib(${k})`,note:k<2?'base case':`n = ${k}`});snap(`call fib(${k})`);
+      if(k<2){st[st.length-1].note=`return ${k}`;snap(`fib(${k}) returns ${k}`,true);st.pop();return k;}
+      st[st.length-1].note=`waiting: fib(${k-1}) + fib(${k-2})`;const x=fib(k-1);st[st.length-1].note=`${x} + fib(${k-2})`;const y=fib(k-2);st[st.length-1].note=`${x} + ${y} = ${x+y}`;snap(`fib(${k}) returns ${x+y}`,true);st.pop();return x+y;}
+    const r=fn==='fact'?fact(n):fib(n);st[0].note=`got ${r}`;snap(`back in main(): result ${r}`);}
+  const ctl=stepper('w5',{delay:700,count:()=>ev.length-1,render(step){const e=ev[step];
+    const cs=$('w5-stack');cs.innerHTML='';e.frames.forEach((f,i)=>{const d=document.createElement('div');const top=i===e.frames.length-1;d.className='frame'+(top?(e.ret?' ret':' active'):'');d.innerHTML=`<small>${i===0?'bottom':top?'top (running)':'suspended'}</small>`;d.append(f.name+'  ');const sp=document.createElement('span');sp.style.fontFamily='var(--hand)';sp.style.fontSize='18px';sp.textContent=f.note;d.appendChild(sp);cs.appendChild(d);});
+    const lg=$('w5-log');lg.innerHTML='';ev.slice(0,step+1).forEach((x,i)=>{const d=document.createElement('div');d.textContent=`${String(i).padStart(2,' ')}  ${'  '.repeat(Math.max(0,x.frames.length-1-(x.ret?0:0)))}${x.log}`;if(i===step)d.className='now';lg.appendChild(d);});lg.scrollTop=lg.scrollHeight;
+    $('w5-status').innerHTML=`<b>Step ${step} / ${ev.length-1}.</b> ${e.log}. Frames on the stack now: <b>${e.frames.length}</b> · deepest so far: <b>${e.maxd}</b> · calls made: <b>${e.calls}</b>.`+(step===ev.length-1?' <br>✅ Every frame pushed by a call was popped by its return — in reverse order.':'');}});
+  function load(){$('w5-err').textContent='';const fn=$('w5-fn').value,v=$('w5-n').value.trim();const lim=fn==='fact'?8:6;
+    if(!/^\d+$/.test(v)||+v>lim){$('w5-err').textContent=`n must be an integer from 0 to ${lim} for ${fn}.`;return;}
+    $('w5-code').textContent=CODE[fn];gen(fn,+v);ctl.load();}
+  $('w5-load').onclick=load;$('w5-fn').onchange=load;load();
+})();
+
+/* ================= Lab 6: amortised cost ================= */
+(function(){
+  function render(){const n=+$('w6-n').value,pol=$('w6-pol').value;$('w6-nv').textContent=n;
+    let cap=pol==='py'?0:(pol==='add'?4:1),size=0,total=0,resizes=0;const costs=[];
+    for(let i=0;i<n;i++){let cp=0;if(size===cap){cp=size;resizes++;if(pol==='dbl')cap*=2;else if(pol==='add')cap+=4;else{const ns=size+1;cap=(ns+(ns>>3)+6)&~3;}}size++;total+=1+cp;costs.push(cp);}
+    const mx=Math.max(...costs)+1;const box=$('w6-bars');box.innerHTML='';box.style.position='relative';
+    costs.forEach(cp=>{const col=document.createElement('div');col.style.cssText='flex:1 0 6px;min-width:5px;display:flex;flex-direction:column;justify-content:flex-end;height:100%';
+      if(cp){const r=document.createElement('div');r.className='abar copy';r.style.height=(cp/mx*160)+'px';col.appendChild(r);}const b=document.createElement('div');b.className='abar';b.style.height=Math.max(3,1/mx*160)+'px';col.appendChild(b);box.appendChild(col);});
+    const avg=total/n;const line=document.createElement('div');line.className='avg';line.style.cssText+=`;position:absolute;left:0;right:0;bottom:${avg/mx*160}px`;box.appendChild(line);
+    $('w6-status').innerHTML=`${n} pushes → total cost <b>${total}</b> units (${n} writes + ${total-n} copies), <b>${resizes}</b> resize${resizes===1?'':'s'}. Average per push: <b style="color:var(--green)">${avg.toFixed(2)}</b>. `+
+      (pol==='add'?'Growing by a constant makes resizes frequent and each one bigger: the average keeps rising with n (Θ(n) amortised, Θ(n²) total).':pol==='dbl'?'With doubling the average never reaches 3, however large n gets: O(1) amortised.':'CPython grows by about 1/8 plus a constant: more frequent, smaller resizes, still O(1) amortised. (Counts every resize as a full copy; C realloc can sometimes extend in place.)');}
+  $('w6-n').oninput=render;$('w6-pol').onchange=render;render();
+})();
+
+try{sheetCells();}catch(e){console.error(e);}
+
+/* ================= Page chrome ================= */
+/* ================= Page chrome ================= */
+document.querySelectorAll('pre').forEach(pre=>{const b=document.createElement('button');b.className='copy';b.textContent='Copy';b.onclick=()=>{const t=pre.querySelector('code').innerText;navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200);}).catch(()=>{b.textContent='Select & copy';});};pre.appendChild(b);});
+(function(){const links=[...document.querySelectorAll('#toc a')];const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map.get(e.target.id);if(a)a.classList.add('active');}});},{rootMargin:'-10% 0px -80% 0px'});
+  map.forEach((a,id)=>{const el=document.getElementById(id);if(el)obs.observe(el);});})();
+
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(drawAll);}else drawAll();
+drawAll();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>try{if(window.hljs){document.querySelectorAll('pre code.language-python').forEach(el=>hljs.highlightElement(el));}}catch(e){}</script>
+</body>
+</html>

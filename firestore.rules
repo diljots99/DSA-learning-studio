@@ -1,0 +1,94 @@
+rules_version = '2';
+
+// DSA Learning Studio — Firestore security rules.
+//
+// Data model
+//   users/{uid}                       profile + recorded consent (one per account)
+//   users/{uid}/progress/{problemId}  solved tick + private note for one practice problem
+//
+// Principles
+//   * Deny by default: anything not matched below is rejected.
+//   * A signed-in user can only read or write documents under their own uid.
+//   * Every write is validated: only known fields, correct types, size limits,
+//     server-set timestamps, and identity fields that cannot be changed.
+//   * Progress can only be stored after consent has been recorded (DPDP Act notice + consent).
+//   * Users can always delete their own data (consent withdrawal / account deletion).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function profilePath(uid) {
+      return /databases/$(database)/documents/users/$(uid);
+    }
+
+    function hasConsent(uid) {
+      return exists(profilePath(uid))
+        && get(profilePath(uid)).data.consent.accepted == true
+        && get(profilePath(uid)).data.consent.ageConfirmed == true;
+    }
+
+    function validConsent(c) {
+      return c is map
+        && c.keys().hasOnly(['accepted', 'ageConfirmed', 'version', 'acceptedAt'])
+        && c.keys().hasAll(['accepted', 'ageConfirmed', 'version', 'acceptedAt'])
+        && c.accepted == true
+        && c.ageConfirmed == true
+        && c.version is string && c.version.size() > 0 && c.version.size() <= 32
+        && c.acceptedAt is timestamp;
+    }
+
+    function validProfile(d, uid) {
+      return d.keys().hasOnly(['uid', 'displayName', 'email', 'createdAt', 'updatedAt', 'consent'])
+        && d.keys().hasAll(['uid', 'displayName', 'email', 'createdAt', 'updatedAt', 'consent'])
+        && d.uid == uid
+        && d.displayName is string && d.displayName.size() <= 80
+        && d.email is string && d.email.size() <= 254
+        && d.email == request.auth.token.email
+        && d.createdAt is timestamp
+        && d.updatedAt == request.time
+        && validConsent(d.consent);
+    }
+
+    function validProgress(d, problemId) {
+      return d.keys().hasOnly(['problemId', 'solved', 'note', 'updatedAt'])
+        && d.keys().hasAll(['problemId', 'solved', 'note', 'updatedAt'])
+        && d.problemId is string && d.problemId.size() > 0 && d.problemId.size() <= 200
+        && d.solved is bool
+        && d.note is string && d.note.size() <= 5000
+        && d.updatedAt == request.time
+        && problemId.size() <= 300;
+    }
+
+    match /users/{uid} {
+      allow get: if isOwner(uid);
+      allow list: if false;
+
+      allow create: if isOwner(uid)
+        && validProfile(request.resource.data, uid)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.consent.acceptedAt == request.time;
+
+      allow update: if isOwner(uid)
+        && validProfile(request.resource.data, uid)
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.consent == resource.data.consent;
+
+      allow delete: if isOwner(uid);
+
+      match /progress/{problemId} {
+        allow read: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && hasConsent(uid)
+          && validProgress(request.resource.data, problemId);
+        allow delete: if isOwner(uid);
+      }
+    }
+  }
+}
