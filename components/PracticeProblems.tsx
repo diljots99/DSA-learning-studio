@@ -102,7 +102,7 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
   const anyVisible = all.some(visible);
 
   const chip = (pressed: boolean, label: string, onClick: () => void) => (
-    <button type="button" className={s.chip} aria-pressed={pressed} onClick={onClick}>
+    <button key={label} type="button" className={s.chip} aria-pressed={pressed} onClick={onClick}>
       {label}
     </button>
   );
