@@ -83,7 +83,7 @@ export default function Onboarding() {
             <b>Play with the labs.</b> Step through the interactive labs to watch each algorithm run on real data.
           </li>
           <li>
-            <b>Practise.</b> Every chapter ends with problems grouped by level. Filter by difficulty, open a problem to solve it, then tick it off and keep notes on your approach.
+            <b>Practise.</b> Every chapter ends with problems grouped by level. Filter by difficulty, open a problem to solve it, then tick it off and use “My solution” to save your code, approach and notes for revision.
           </li>
           <li>
             <b>Watch your progress.</b> The progress bar counts what you’ve solved.{" "}
@@ -109,7 +109,7 @@ export default function Onboarding() {
       </h2>
       <p className={s.body}>Right now your ticks and notes live only in this browser. With a free account:</p>
       <ul className={s.list}>
-        <li>Solved problems and notes sync to your account, so they’re there on any device.</li>
+        <li>Solved problems, your saved solutions and notes sync to your account, so they’re there on any device.</li>
         <li>Progress you’ve already made here is copied in when you sign in. Nothing is lost.</li>
         <li>Your account page shows progress by chapter and your recent notes.</li>
         <li>You can download or delete your data at any time.</li>

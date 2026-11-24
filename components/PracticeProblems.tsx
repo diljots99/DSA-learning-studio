@@ -3,51 +3,90 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useProgressStore } from "./ProgressProvider";
 import { LocalProgressStore } from "@/lib/progress/local-store";
-import { emptyProgress, type ProgressMap } from "@/lib/progress/types";
+import { emptyProgress, hasSolution, TEXT_FIELDS, TEXT_LIMITS, type ProblemProgress, type ProgressMap, type TextField } from "@/lib/progress/types";
 import type { Difficulty, Level, Problem, ProblemSet } from "@/lib/types";
 import s from "./PracticeProblems.module.css";
 
 const DIFFICULTIES: Difficulty[] = ["Easy", "Medium", "Hard"];
 type Filter<T> = T | "all";
 
-function NoteEditor({ initial, onSave, label }: { initial: string; onSave: (v: string) => Promise<void>; label: string }) {
-  const [value, setValue] = useState(initial);
-  const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
+const LANGUAGES = ["Python", "Java", "C++", "C", "JavaScript", "TypeScript", "Go", "C#", "Kotlin", "Rust", "Swift", "Other"];
+type Draft = Pick<ProblemProgress, TextField>;
+const draftOf = (p: ProblemProgress): Draft => Object.fromEntries(TEXT_FIELDS.map((f) => [f, p[f]])) as Draft;
+
+/** The learner's write-up for one problem: language, approach, complexity, code and revision notes. Autosaves. */
+function SolutionEditor({ initial, onSave, name }: { initial: ProblemProgress; onSave: (d: Draft) => Promise<void>; name: string }) {
+  const [draft, setDraft] = useState<Draft>(() => draftOf(initial));
+  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const latest = useRef(initial);
+  const latest = useRef(draft);
 
   const flush = useCallback(async () => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = null;
     setStatus("saving");
-    await onSave(latest.current);
-    setStatus("saved");
+    try {
+      await onSave(latest.current);
+      setStatus("saved");
+    } catch {
+      setStatus("error"); // keep the draft on screen so nothing typed is lost
+    }
   }, [onSave]);
 
   useEffect(() => () => {
     if (timer.current) {
       clearTimeout(timer.current);
-      void onSave(latest.current);
+      void onSave(latest.current).catch(() => undefined);
     }
   }, [onSave]);
 
+  const set = (f: TextField) => (e: { target: { value: string } }) => {
+    const next = { ...latest.current, [f]: e.target.value };
+    latest.current = next;
+    setDraft(next);
+    setStatus("idle");
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(flush, 700);
+  };
+  const onBlur = () => timer.current && void flush();
+  const field = (f: TextField) => ({ value: draft[f], onChange: set(f), onBlur, maxLength: TEXT_LIMITS[f] });
+
   return (
     <div className={s.note}>
-      <textarea
-        aria-label={label}
-        placeholder="Your approach, complexity, edge cases, mistakes to avoid…"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-          latest.current = e.target.value;
-          setStatus("idle");
-          if (timer.current) clearTimeout(timer.current);
-          timer.current = setTimeout(flush, 700);
-        }}
-        onBlur={() => timer.current && void flush()}
-        rows={4}
-      />
-      <span className={s.noteStatus}>{status === "saving" ? "Saving…" : status === "saved" ? "Saved" : " "}</span>
+      <div className={s.solRow}>
+        <label>
+          <span>Language</span>
+          <select value={draft.language} onChange={set("language")} onBlur={onBlur}>
+            <option value="">Choose…</option>
+            {LANGUAGES.map((l) => (
+              <option key={l}>{l}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>Time</span>
+          <input {...field("timeComplexity")} placeholder="O(n)" />
+        </label>
+        <label>
+          <span>Space</span>
+          <input {...field("spaceComplexity")} placeholder="O(1)" />
+        </label>
+      </div>
+      <label className={s.solField}>
+        <span>Approach</span>
+        <textarea {...field("approach")} rows={3} placeholder="The key idea, the pattern you used, why it works…" />
+      </label>
+      <label className={s.solField}>
+        <span>Your code</span>
+        <textarea {...field("code")} className={s.code} rows={8} spellCheck={false} autoCapitalize="off" autoCorrect="off" placeholder="Paste your accepted solution here" />
+      </label>
+      <label className={s.solField}>
+        <span>Notes to revise</span>
+        <textarea {...field("note")} rows={3} placeholder="Edge cases, mistakes to avoid, what to remember next time…" />
+      </label>
+      <span className={s.noteStatus} role="status" aria-label={`Save status for ${name}`}>
+        {status === "saving" ? "Saving…" : status === "saved" ? "Saved" : status === "error" ? "Couldn’t save. Check your connection; your text is still here." : "\u00a0"}
+      </span>
     </div>
   );
 }
@@ -87,9 +126,9 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
     const updated = await store.update(p.id, { solved: !get(p.id).solved });
     setProgress((cur) => ({ ...cur, [p.id]: updated }));
   };
-  const saveNote = useCallback(
-    async (id: string, note: string) => {
-      const updated = await store.update(id, { note });
+  const saveSolution = useCallback(
+    async (id: string, draft: Partial<ProblemProgress>) => {
+      const updated = await store.update(id, draft);
       setProgress((cur) => ({ ...cur, [id]: updated }));
     },
     [store],
@@ -114,7 +153,7 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
       </h2>
       <p>
         {data.intro} There are <strong>{all.length}</strong> problems, grouped by level and topic: {difficultySummary}. Each link opens
-        the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it, and keep private notes on your approach.
+        the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it, and use “My solution” to save your code, approach, complexity and notes to revise later.
       </p>
       <div className={s.pp}>
         <div className={s.bar}>
@@ -166,6 +205,7 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
                       {rows.map((p) => {
                         const pr = get(p.id);
                         const open = openNote === p.id;
+                        const written = hasSolution(pr) || Boolean(pr.note.trim());
                         return (
                           <li key={p.id} className={pr.solved ? s.done : undefined}>
                             <div className={s.item}>
@@ -175,17 +215,17 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
                               </a>
                               <button
                                 type="button"
-                                className={`${s.noteBtn} ${pr.note ? s.hasNote : ""}`}
+                                className={`${s.noteBtn} ${written ? s.hasNote : ""}`}
                                 aria-expanded={open}
                                 onClick={() => setOpenNote(open ? null : p.id)}
-                                title={pr.note ? "View or edit your notes" : "Add notes"}
+                                title={written ? "View or edit your solution and notes" : "Save your solution and notes"}
                               >
-                                {pr.note ? "Notes ●" : "Notes"}
+                                {written ? "My solution ●" : "My solution"}
                               </button>
                               <span className={`${s.d} ${s[p.difficulty]}`}>{p.difficulty.toUpperCase()}</span>
                               <span className={s.p}>{p.platform}</span>
                             </div>
-                            {open && <NoteEditor initial={pr.note} label={`Notes for ${p.name}`} onSave={(v) => saveNote(p.id, v)} />}
+                            {open && <SolutionEditor initial={pr} name={p.name} onSave={(d) => saveSolution(p.id, d)} />}
                           </li>
                         );
                       })}
