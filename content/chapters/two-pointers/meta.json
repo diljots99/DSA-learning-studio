@@ -1,0 +1,10 @@
+{
+  "number": 4,
+  "title": "Two Pointers",
+  "tagline": "two fingers, one pass",
+  "summary": "Converging, reader/writer, two-sequence and partition pointers, 3Sum, Dutch flag and Floyd’s tortoise and hare — quadratic searches turned into linear scans.",
+  "difficulty": "Beginner → Intermediate",
+  "readingTime": "~75 min",
+  "labs": "8 interactive labs",
+  "description": "Converging, reader/writer, two-sequence and partition pointers, 3Sum, Dutch flag and Floyd’s tortoise and hare — quadratic searches turned into linear scans."
+}

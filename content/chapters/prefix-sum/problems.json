@@ -1,0 +1,106 @@
+{
+  "intro": "Each problem is solved by building a running-total array (or a difference array) and answering questions from it.",
+  "levels": [
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Prefix Sum",
+          "blurb": "Precompute running totals once, then answer range questions in O(1).",
+          "problems": [
+            {
+              "id": "leetcode:running-sum-of-1d-array",
+              "name": "Running Sum of 1d Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/running-sum-of-1d-array/"
+            },
+            {
+              "id": "leetcode:range-sum-query-immutable",
+              "name": "Range Sum Query - Immutable",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/range-sum-query-immutable/"
+            },
+            {
+              "id": "gfg:equilibrium-point-1587115620",
+              "name": "Equilibrium Point",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/equilibrium-point-1587115620/1"
+            },
+            {
+              "id": "leetcode:find-the-highest-altitude",
+              "name": "Find the Highest Altitude",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-the-highest-altitude"
+            },
+            {
+              "id": "codeforces:contest/327/problem/A",
+              "name": "Flipping Game",
+              "difficulty": "Medium",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/contest/327/problem/A"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Prefix Sum & Intervals",
+          "blurb": "Difference arrays, 2D prefix sums and interval-based range updates.",
+          "problems": [
+            {
+              "id": "leetcode:can-you-eat-your-favorite-candy-on-your-favorite-day",
+              "name": "Can You Eat Your Favorite Candy on Your Favorite Day?",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day"
+            },
+            {
+              "id": "leetcode:points-that-intersect-with-cars",
+              "name": "Points That Intersect With Cars",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/points-that-intersect-with-cars"
+            },
+            {
+              "id": "leetcode:corporate-flight-bookings",
+              "name": "Corporate Flight Bookings",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/corporate-flight-bookings"
+            },
+            {
+              "id": "leetcode:car-pooling",
+              "name": "Car Pooling",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/car-pooling"
+            },
+            {
+              "id": "leetcode:range-sum-query-2d-immutable",
+              "name": "Range Sum Query 2D - Immutable",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/range-sum-query-2d-immutable"
+            },
+            {
+              "id": "leetcode:matrix-block-sum",
+              "name": "Matrix Block Sum",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/matrix-block-sum/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

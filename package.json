@@ -1,0 +1,26 @@
+{
+  "name": "dsa-learning-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Illustrated, interactive chapters on data structures and algorithms.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "new-chapter": "node scripts/new-chapter.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "11.11.1",
+    "next": "16.4.6",
+    "node-html-parser": "7.0.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "typescript": "5.8.3"
+  }
+}

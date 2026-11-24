@@ -1,0 +1,319 @@
+{
+  "intro": "For each problem, state the search space and the monotone yes/no question before writing the loop.",
+  "levels": [
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Binary Search",
+          "blurb": "Halve a sorted search space; lower and upper bounds; rotated arrays.",
+          "problems": [
+            {
+              "id": "leetcode:binary-search",
+              "name": "Binary Search",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/binary-search/"
+            },
+            {
+              "id": "leetcode:search-insert-position",
+              "name": "Search Insert Position",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/search-insert-position/"
+            },
+            {
+              "id": "leetcode:first-bad-version",
+              "name": "First Bad Version",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/first-bad-version/"
+            },
+            {
+              "id": "leetcode:sqrtx",
+              "name": "Sqrt(x)",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/sqrtx/"
+            },
+            {
+              "id": "gfg:floor-in-a-sorted-array-1587115620",
+              "name": "Floor in a Sorted Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1"
+            },
+            {
+              "id": "gfg:ceil-in-a-sorted-array",
+              "name": "Ceil in a Sorted Array",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/ceil-in-a-sorted-array/1"
+            },
+            {
+              "id": "gfg:implement-lower-bound",
+              "name": "Implement Lower Bound",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/implement-lower-bound/1"
+            },
+            {
+              "id": "gfg:implement-upper-bound",
+              "name": "Implement Upper Bound",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/implement-upper-bound/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Binary Search",
+          "blurb": "Halve a sorted search space; lower and upper bounds; rotated arrays.",
+          "problems": [
+            {
+              "id": "leetcode:search-in-rotated-sorted-array",
+              "name": "Search in Rotated Sorted Array",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+            },
+            {
+              "id": "leetcode:find-minimum-in-rotated-sorted-array",
+              "name": "Find Minimum in Rotated Sorted Array",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+            },
+            {
+              "id": "leetcode:find-peak-element",
+              "name": "Find Peak Element",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-peak-element/"
+            },
+            {
+              "id": "leetcode:search-a-2d-matrix",
+              "name": "Search a 2D Matrix",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/search-a-2d-matrix/"
+            },
+            {
+              "id": "leetcode:find-first-and-last-position-of-element-in-sorted-array",
+              "name": "Find First and Last Position of Element",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
+            }
+          ]
+        },
+        {
+          "name": "Binary Search on Answers",
+          "blurb": "Search over the answer itself using a monotone yes/no check.",
+          "problems": [
+            {
+              "id": "leetcode:capacity-to-ship-packages-within-d-days",
+              "name": "Capacity To Ship Packages Within D Days",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days"
+            },
+            {
+              "id": "leetcode:minimum-number-of-days-to-make-m-bouquets",
+              "name": "Minimum Number of Days to Make M Bouquets",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets"
+            },
+            {
+              "id": "leetcode:minimum-time-to-complete-trips",
+              "name": "Minimum Time to Complete Trips",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-time-to-complete-trips"
+            },
+            {
+              "id": "leetcode:find-the-smallest-divisor-given-a-threshold",
+              "name": "Find the Smallest Divisor Given a Threshold",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold"
+            },
+            {
+              "id": "leetcode:maximum-candies-allocated-to-k-children",
+              "name": "Maximum Candies Allocated to K Children",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-candies-allocated-to-k-children"
+            },
+            {
+              "id": "leetcode:koko-eating-bananas",
+              "name": "Koko Eating Bananas",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/koko-eating-bananas"
+            },
+            {
+              "id": "leetcode:minimum-speed-to-arrive-on-time",
+              "name": "Minimum Speed to Arrive on Time",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-speed-to-arrive-on-time"
+            },
+            {
+              "id": "leetcode:maximum-value-at-a-given-index-in-a-bounded-array",
+              "name": "Maximum Value at a Given Index in a Bounded Array",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array"
+            },
+            {
+              "id": "leetcode:maximum-font-to-fit-a-sentence-in-a-screen",
+              "name": "Maximum Font to Fit a Sentence in a Screen",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-font-to-fit-a-sentence-in-a-screen"
+            },
+            {
+              "id": "interviewbit:woodcutting-made-easy",
+              "name": "Wood Cutting Made Easy",
+              "difficulty": "Medium",
+              "platform": "InterviewBit",
+              "url": "https://www.interviewbit.com/problems/woodcutting-made-easy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Advanced",
+      "blurb": "Harder variants that need the full toolkit and careful invariants.",
+      "topics": [
+        {
+          "name": "Binary Search",
+          "blurb": "Halve a sorted search space; lower and upper bounds; rotated arrays.",
+          "problems": [
+            {
+              "id": "leetcode:find-in-mountain-array",
+              "name": "Find in Mountain Array",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-in-mountain-array"
+            },
+            {
+              "id": "leetcode:median-of-two-sorted-arrays",
+              "name": "Median of Two Sorted Arrays",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/median-of-two-sorted-arrays"
+            }
+          ]
+        },
+        {
+          "name": "Binary Search on Answers",
+          "blurb": "Search over the answer itself using a monotone yes/no check.",
+          "problems": [
+            {
+              "id": "gfg:aggressive-cows/0",
+              "name": "Aggressive Cows",
+              "difficulty": "Hard",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/aggressive-cows/0"
+            },
+            {
+              "id": "leetcode:split-array-largest-sum",
+              "name": "Split Array Largest Sum",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/split-array-largest-sum"
+            },
+            {
+              "id": "leetcode:maximize-the-minimum-powered-city",
+              "name": "Maximize the Minimum Powered City",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximize-the-minimum-powered-city"
+            },
+            {
+              "id": "gfg:allocate-minimum-number-of-pages0937",
+              "name": "Allocate Minimum Number of Pages",
+              "difficulty": "Hard",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1"
+            },
+            {
+              "id": "gfg:the-painters-partition-problem1535",
+              "name": "The Painter's Partition Problem-II",
+              "difficulty": "Hard",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/the-painters-partition-problem1535/1"
+            },
+            {
+              "id": "leetcode:minimum-cost-to-make-array-equal",
+              "name": "Minimum Cost to Make Array Equal",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-cost-to-make-array-equal"
+            },
+            {
+              "id": "interviewbit:red-zone",
+              "name": "Red Zone",
+              "difficulty": "Hard",
+              "platform": "InterviewBit",
+              "url": "https://www.interviewbit.com/problems/red-zone"
+            },
+            {
+              "id": "leetcode:maximum-running-time-of-n-computers",
+              "name": "Maximum Running Time of N Computers",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-running-time-of-n-computers"
+            },
+            {
+              "id": "leetcode:maximum-average-subarray-ii",
+              "name": "Maximum Average Subarray II",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-average-subarray-ii"
+            },
+            {
+              "id": "leetcode:shortest-subarray-with-sum-at-least-k",
+              "name": "Shortest Subarray with Sum at Least K",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k"
+            },
+            {
+              "id": "leetcode:minimize-max-distance-to-gas-station",
+              "name": "Minimize Max Distance to Gas Station",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimize-max-distance-to-gas-station"
+            },
+            {
+              "id": "leetcode:maximum-number-of-tasks-you-can-assign",
+              "name": "Maximum Number of Tasks You Can Assign",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign"
+            },
+            {
+              "id": "leetcode:minimum-time-for-k-virus-variants-to-spread",
+              "name": "Minimum Time For K Virus Variants to Spread",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-time-for-k-virus-variants-to-spread"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "intro": "Before coding, decide which family the problem belongs to: converging, reader/writer, two sequences or partition.",
+  "levels": [
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Two Pointers",
+          "blurb": "Two indices moving in one direction each to replace a nested loop.",
+          "problems": [
+            {
+              "id": "leetcode:two-sum-ii-input-array-is-sorted",
+              "name": "Two Sum II - Input Array Is Sorted",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"
+            },
+            {
+              "id": "leetcode:valid-palindrome",
+              "name": "Valid Palindrome",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/valid-palindrome/"
+            },
+            {
+              "id": "leetcode:squares-of-a-sorted-array",
+              "name": "Squares of a Sorted Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/squares-of-a-sorted-array/"
+            },
+            {
+              "id": "leetcode:merge-sorted-array",
+              "name": "Merge Sorted Array",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/merge-sorted-array/"
+            },
+            {
+              "id": "leetcode:reverse-string",
+              "name": "Reverse String",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/reverse-string/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Two Pointers",
+          "blurb": "Two indices moving in one direction each to replace a nested loop.",
+          "problems": [
+            {
+              "id": "leetcode:partition-labels",
+              "name": "Partition Labels",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/partition-labels/"
+            },
+            {
+              "id": "leetcode:string-compression",
+              "name": "String Compression",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/string-compression"
+            },
+            {
+              "id": "leetcode:3sum",
+              "name": "3 Sum",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/3sum"
+            },
+            {
+              "id": "leetcode:3sum-closest/description",
+              "name": "3 Sum Closest",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/3sum-closest/description/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

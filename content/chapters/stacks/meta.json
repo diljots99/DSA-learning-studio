@@ -1,0 +1,10 @@
+{
+  "number": 7,
+  "title": "Stacks",
+  "tagline": "last in, first out",
+  "summary": "The LIFO ADT, array and linked-list stacks, amortised resizing, the call stack, bracket matching, shunting-yard and monotonic stacks.",
+  "difficulty": "Beginner → Intermediate",
+  "readingTime": "~80 min",
+  "labs": "6 interactive labs",
+  "description": "The LIFO ADT, array and linked-list stacks, amortised resizing, the call stack, bracket matching, shunting-yard and monotonic stacks."
+}

@@ -1,0 +1,244 @@
+{
+  "intro": "Decide first whether the window has a fixed size or grows and shrinks, and what state you must keep as it moves.",
+  "levels": [
+    {
+      "level": "Basic",
+      "blurb": "Direct applications of this chapter’s core idea.",
+      "topics": [
+        {
+          "name": "Sliding Window",
+          "blurb": "Fixed and variable windows that update incrementally as they move.",
+          "problems": [
+            {
+              "id": "gfg:max-sum-subarray-of-size-k5313",
+              "name": "Max Sum Subarray of Size K",
+              "difficulty": "Easy",
+              "platform": "GeeksforGeeks",
+              "url": "https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1"
+            },
+            {
+              "id": "codeforces:363/B",
+              "name": "Fence (Codeforces)",
+              "difficulty": "Easy",
+              "platform": "Codeforces",
+              "url": "https://codeforces.com/problemset/problem/363/B"
+            },
+            {
+              "id": "leetcode:maximum-average-subarray-i",
+              "name": "Maximum Average Subarray I",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-average-subarray-i/"
+            },
+            {
+              "id": "leetcode:substrings-of-size-three-with-distinct-characters/description",
+              "name": "Substrings of Size Three with Distinct Characters",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/substrings-of-size-three-with-distinct-characters/description/"
+            },
+            {
+              "id": "leetcode:find-the-k-beauty-of-a-number",
+              "name": "Find the K-Beauty of a Number",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-the-k-beauty-of-a-number"
+            },
+            {
+              "id": "leetcode:defuse-the-bomb",
+              "name": "Defuse the Bomb",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/defuse-the-bomb"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Intermediate",
+      "blurb": "The pattern combined with one more idea, or applied to a less obvious setup.",
+      "topics": [
+        {
+          "name": "Sliding Window",
+          "blurb": "Fixed and variable windows that update incrementally as they move.",
+          "problems": [
+            {
+              "id": "leetcode:maximum-length-substring-with-two-occurrences",
+              "name": "Maximum Length Substring With Two Occurrences",
+              "difficulty": "Easy",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-length-substring-with-two-occurrences"
+            },
+            {
+              "id": "leetcode:minimum-size-subarray-sum",
+              "name": "Minimum Size Subarray Sum",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-size-subarray-sum"
+            },
+            {
+              "id": "leetcode:fruit-into-baskets",
+              "name": "Fruit Into Baskets",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/fruit-into-baskets/"
+            },
+            {
+              "id": "leetcode:longest-substring-without-repeating-characters",
+              "name": "Longest Substring Without Repeating Characters",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+            },
+            {
+              "id": "leetcode:longest-repeating-character-replacement",
+              "name": "Longest Repeating Character Replacement",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/longest-repeating-character-replacement"
+            },
+            {
+              "id": "leetcode:permutation-in-string",
+              "name": "Permutation in String",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/permutation-in-string"
+            },
+            {
+              "id": "leetcode:find-all-anagrams-in-a-string",
+              "name": "Find All Anagrams in a String",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/find-all-anagrams-in-a-string"
+            },
+            {
+              "id": "leetcode:minimum-recolors-to-get-k-consecutive-black-blocks",
+              "name": "Minimum Recolors to Get K Consecutive Black Blocks",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-recolors-to-get-k-consecutive-black-blocks"
+            },
+            {
+              "id": "leetcode:max-consecutive-ones-iii",
+              "name": "Max Consecutive Ones III",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/max-consecutive-ones-iii/"
+            },
+            {
+              "id": "leetcode:binary-subarrays-with-sum",
+              "name": "Binary Subarrays With Sum",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/binary-subarrays-with-sum/"
+            },
+            {
+              "id": "leetcode:maximum-number-of-vowels-in-a-substring-of-given-length",
+              "name": "Maximum Number of Vowels in a Substring of Given Length",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length"
+            },
+            {
+              "id": "leetcode:get-equal-substrings-within-budget",
+              "name": "Get Equal Substrings Within Budget",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/get-equal-substrings-within-budget"
+            },
+            {
+              "id": "leetcode:length-of-longest-subarray-with-at-most-k-frequency",
+              "name": "Length of Longest Subarray With at Most K Frequency",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/length-of-longest-subarray-with-at-most-k-frequency"
+            },
+            {
+              "id": "leetcode:subarray-product-less-than-k",
+              "name": "Subarray Product Less Than K",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/subarray-product-less-than-k"
+            },
+            {
+              "id": "leetcode:count-the-number-of-good-subarrays",
+              "name": "Count the Number of Good Subarrays",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-the-number-of-good-subarrays"
+            },
+            {
+              "id": "leetcode:maximum-sum-of-distinct-subarrays-with-length-k",
+              "name": "Maximum Sum of Distinct Subarrays With Length K",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k"
+            },
+            {
+              "id": "leetcode:count-zero-request-servers",
+              "name": "Count Zero Request Servers",
+              "difficulty": "Medium",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-zero-request-servers/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": "Advanced",
+      "blurb": "Harder variants that need the full toolkit and careful invariants.",
+      "topics": [
+        {
+          "name": "Sliding Window",
+          "blurb": "Fixed and variable windows that update incrementally as they move.",
+          "problems": [
+            {
+              "id": "leetcode:count-subarrays-with-fixed-bounds",
+              "name": "Count Subarrays With Fixed Bounds",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-subarrays-with-fixed-bounds/"
+            },
+            {
+              "id": "leetcode:subarrays-with-k-different-integers",
+              "name": "Subarrays with K Different Integers",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/subarrays-with-k-different-integers"
+            },
+            {
+              "id": "leetcode:minimum-window-substring",
+              "name": "Minimum Window Substring",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/minimum-window-substring"
+            },
+            {
+              "id": "leetcode:substring-with-concatenation-of-all-words",
+              "name": "Substring with Concatenation of All Words",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/substring-with-concatenation-of-all-words"
+            },
+            {
+              "id": "leetcode:count-complete-substrings",
+              "name": "Count Complete Substrings",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/count-complete-substrings"
+            },
+            {
+              "id": "leetcode:maximum-number-of-visible-points",
+              "name": "Maximum Number of Visible Points",
+              "difficulty": "Hard",
+              "platform": "LeetCode",
+              "url": "https://leetcode.com/problems/maximum-number-of-visible-points"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
