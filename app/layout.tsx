@@ -5,6 +5,7 @@ import { ProgressProvider } from "@/components/ProgressProvider";
 import AccountButton from "@/components/AccountButton";
 import ConsentGate from "@/components/ConsentGate";
 import CookieBanner from "@/components/CookieBanner";
+import Onboarding from "@/components/Onboarding";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <AccountButton />
             <ConsentGate />
             <CookieBanner />
+            <Onboarding />
           </ProgressProvider>
         </AuthProvider>
       </body>

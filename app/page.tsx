@@ -1,5 +1,6 @@
 import { listChapters } from "@/lib/content";
 import CookieSettingsLink from "@/components/CookieSettingsLink";
+import { GuideLink } from "@/components/Onboarding";
 import s from "./page.module.css";
 
 export default function Home() {
@@ -41,7 +42,7 @@ export default function Home() {
       </div>
 
       <footer className={s.footer}>
-        DSA Learning Studio · Diljot Singh · <a href="/privacy/">Privacy notice</a> · <CookieSettingsLink label="Cookie settings" />
+        DSA Learning Studio · Diljot Singh · <GuideLink /> · <a href="/privacy/">Privacy notice</a> · <CookieSettingsLink label="Cookie settings" />
       </footer>
     </main>
   );
