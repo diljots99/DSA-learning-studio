@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prefix Sum — An Illustrated, Interactive Chapter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2563eb; --blue-l:#dbeafe;
+  --green:#16a34a; --green-l:#dcfce7;
+  --red:#dc2626; --red-l:#fee2e2;
+  --yellow:#f59e0b; --yellow-l:#fef3c7;
+  --purple:#7c3aed; --purple-l:#ede9fe;
+  --ink:#1f2937; --muted:#6b7280; --paper:#fbfaf6; --card:#ffffff; --line:#e7e5e4;
+  --hand:'Caveat',cursive; --serif:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.68}
+a{color:var(--blue)}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:40px;max-width:1240px;margin:0 auto;padding:0 24px}
+nav.toc{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:28px 0 40px;font-family:var(--sans);font-size:13.5px}
+nav.toc b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:4px 10px;border-left:2px solid transparent;border-radius:0 6px 6px 0}
+nav.toc a:hover,nav.toc a.active{border-left-color:var(--purple);background:var(--purple-l)}
+main{min-width:0;padding:28px 0 120px;max-width:900px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}nav.toc{display:none}}
+header.hero{border-bottom:2px dashed #d6d3d1;padding:30px 0 28px;margin-bottom:28px}
+.kicker{font-family:var(--sans);font-weight:700;color:var(--purple);letter-spacing:.14em;text-transform:uppercase;font-size:12.5px}
+h1{font-family:var(--sans);font-weight:800;font-size:clamp(34px,5vw,52px);line-height:1.08;margin:.25em 0 .2em;letter-spacing:-.02em}
+h1 .hand{font-family:var(--hand);color:var(--green);font-weight:700;font-size:1.05em}
+.sub{font-size:20px;color:#44403c;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;font-family:var(--sans);font-size:13px}
+.pill{border:1.5px solid var(--ink);border-radius:999px;padding:4px 12px;background:#fff}
+h2{font-family:var(--sans);font-weight:800;font-size:29px;margin:2.6em 0 .5em;letter-spacing:-.01em;scroll-margin-top:16px}
+h2 .sec{display:inline-block;font-family:var(--hand);color:#fff;background:var(--purple);border-radius:10px 14px 9px 13px;padding:0 12px;margin-right:10px;font-size:28px;transform:rotate(-2deg)}
+h3{font-family:var(--sans);font-weight:700;font-size:21px;margin:1.8em 0 .4em;scroll-margin-top:16px}
+h4{font-family:var(--sans);font-weight:700;font-size:16.5px;margin:1.4em 0 .3em}
+p{margin:.7em 0}
+.cite{font-family:var(--sans);font-size:12.5px;font-weight:600;text-decoration:none;vertical-align:super;line-height:0;margin-left:1px}
+.cite:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.84em;background:#f1efe9;padding:.1em .35em;border-radius:4px}
+pre{background:#1e1e2e;color:#e5e7eb;border-radius:12px;padding:18px 20px;overflow:auto;font-size:14px;line-height:1.55;position:relative}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+pre .copy{position:absolute;top:8px;right:8px;font-family:var(--sans);font-size:11.5px;background:#374151;color:#fff;border:0;border-radius:6px;padding:4px 9px;cursor:pointer}
+.hljs-keyword,.hljs-built_in{color:#c4b5fd}.hljs-string{color:#86efac}.hljs-number{color:#fcd34d}.hljs-comment{color:#9ca3af;font-style:italic}.hljs-title{color:#93c5fd}.hljs-params{color:#fda4af}.hljs-literal{color:#fcd34d}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:var(--sans);font-size:14.5px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f5f5f4;font-weight:700}
+tr:last-child td{border-bottom:0}
+.tbl-wrap{overflow-x:auto}
+td.mono,th.mono{font-family:var(--mono);font-size:13px}
+.callout{border-radius:14px;padding:14px 18px 14px 18px;margin:1.3em 0;border:2px solid;font-size:17px;position:relative}
+.callout .ct{font-family:var(--hand);font-weight:700;font-size:24px;display:block;line-height:1.1;margin-bottom:4px}
+.callout.key{border-color:var(--purple);background:var(--purple-l)}
+.callout.key .ct{color:var(--purple)}
+.callout.warn{border-color:var(--red);background:#fff5f5}
+.callout.warn .ct{color:var(--red)}
+.callout.tip{border-color:var(--green);background:#f3fdf6}
+.callout.tip .ct{color:var(--green)}
+.callout.def{border-color:var(--ink);background:#fff}
+.callout.def .ct{color:var(--ink)}
+.callout.note{border-color:var(--yellow);background:#fffbeb}
+.callout.note .ct{color:#b45309}
+.math{font-family:'Source Serif 4',serif;font-style:italic;white-space:nowrap}
+.mathblock{display:block;text-align:center;font-family:var(--serif);font-style:italic;font-size:21px;margin:1em 0;padding:12px;background:#fff;border:1.5px dashed #d6d3d1;border-radius:12px;overflow-x:auto}
+.mathblock .up{font-style:normal}
+figure.fig{margin:1.8em 0;background:#fff;border:2px solid var(--ink);border-radius:18px 22px 16px 20px;padding:14px 16px 12px;box-shadow:4px 5px 0 #e7e5e4}
+.fig-title{font-family:var(--hand);font-size:27px;font-weight:700;line-height:1.1;margin:2px 4px 6px}
+.fig-title small{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+figure svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--sans);font-size:12.5px;margin:6px 4px 4px;color:#374151}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;border:2px solid;display:inline-block}
+.lg-blue{background:var(--blue-l);border-color:var(--blue)!important}.lg-green{background:var(--green-l);border-color:var(--green)!important}.lg-red{background:var(--red-l);border-color:var(--red)!important}.lg-yellow{background:var(--yellow-l);border-color:var(--yellow)!important}.lg-purple{background:var(--purple-l);border-color:var(--purple)!important}.lg-black{background:#fff;border-color:var(--ink)!important}
+figcaption{font-size:15.5px;color:#374151;border-top:1.5px dashed #e7e5e4;margin-top:8px;padding-top:8px}
+figcaption ol{margin:.3em 0 .3em 1.2em;padding:0}
+figcaption .interp{display:block;margin-top:6px;font-style:italic}
+/* widgets */
+.widget{background:#fff;border:2px solid var(--purple);border-radius:18px;padding:16px 18px;margin:1.8em 0;box-shadow:4px 5px 0 var(--purple-l)}
+.widget .wt{font-family:var(--hand);font-size:28px;font-weight:700;color:var(--purple);line-height:1.1}
+.widget .wt small{font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0;font-family:var(--sans);font-size:14px}
+.controls label{display:inline-flex;gap:6px;align-items:center}
+.controls input[type=text],.controls input[type=number]{font-family:var(--mono);font-size:14px;padding:6px 9px;border:1.5px solid #a8a29e;border-radius:8px;min-width:0}
+.controls input[type=text]{width:260px}
+.controls input[type=number]{width:72px}
+.btn{font-family:var(--sans);font-weight:600;font-size:13.5px;border:2px solid var(--ink);background:#fff;border-radius:10px 12px 9px 11px;padding:6px 12px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .05s}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.btn.primary{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:2px 2px 0 #4c1d95}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.status{font-family:var(--sans);font-size:14.5px;background:#f8fafc;border:1.5px solid #e2e8f0;border-left:5px solid var(--yellow);border-radius:10px;padding:10px 12px;margin-top:8px;min-height:44px}
+.status b{color:var(--purple)}
+.err{color:var(--red);font-family:var(--sans);font-size:13.5px;min-height:1em}
+.stage{overflow-x:auto;padding:4px 0}
+.cells{display:flex;gap:6px;align-items:flex-end;margin:6px 0}
+.cellcol{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:46px}
+.cell{width:46px;height:46px;border:2.5px solid var(--blue);background:var(--blue-l);border-radius:9px 11px 8px 12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:15px;transition:all .25s;cursor:default}
+.cell.p{border-color:var(--green);background:var(--green-l)}
+.cell.empty{border-style:dashed;border-color:#cbd5e1;background:#fff;color:#cbd5e1}
+.cell.active{border-color:var(--yellow);background:var(--yellow-l);transform:translateY(-4px);box-shadow:0 4px 0 var(--yellow)}
+.cell.sel{border-color:var(--yellow);background:#fde68a}
+.cell.minus{border-color:var(--red);background:var(--red-l)}
+.cell.plus{border-color:var(--green);background:#bbf7d0}
+.cell.link{border-color:var(--purple);background:var(--purple-l)}
+.cell.click{cursor:pointer}
+.idx{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.rowlabel{font-family:var(--hand);font-size:22px;font-weight:700;width:64px;flex:none;align-self:center}
+.row{display:flex;align-items:center;gap:8px}
+.kv{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--mono);font-size:13px}
+.kv span{border:1.5px solid var(--purple);background:var(--purple-l);border-radius:8px;padding:3px 8px}
+.kv span.hit{border-color:var(--green);background:var(--green-l);font-weight:700}
+.kv span.lookup{border-color:var(--yellow);background:var(--yellow-l)}
+.grid2d{display:grid;gap:4px;user-select:none;touch-action:none}
+.g{width:44px;height:44px;border:2px solid var(--blue);background:var(--blue-l);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:14px;cursor:pointer;position:relative}
+.g.in{border-color:var(--yellow);background:#fde68a}
+.g.corner-plus{outline:3px solid var(--green);outline-offset:2px}
+.g.corner-minus{outline:3px solid var(--red);outline-offset:2px}
+.g .tag{position:absolute;top:-9px;right:-7px;font-family:var(--sans);font-size:10px;font-weight:800;color:#fff;border-radius:999px;padding:0 5px;line-height:16px}
+.g.sp{background:#fff;border-color:var(--green);cursor:default;font-size:12.5px}
+.g.sp0{background:#f8fafc;border-color:#cbd5e1;color:#94a3b8;cursor:default}
+.two{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.small{font-family:var(--sans);font-size:13px;color:var(--muted)}
+input[type=range]{accent-color:var(--purple);width:180px}
+.bars{display:flex;flex-direction:column;gap:8px;font-family:var(--sans);font-size:13.5px;margin-top:8px}
+.bar{height:26px;border-radius:7px;border:2px solid;display:flex;align-items:center;padding:0 8px;font-weight:700;white-space:nowrap;transition:width .3s;min-width:4px}
+details.ans{background:#fff;border:2px solid var(--green);border-radius:14px;padding:10px 16px;margin:12px 0}
+details.ans summary{cursor:pointer;font-family:var(--sans);font-weight:700;color:var(--green)}
+details.hint{background:#fffbeb;border:1.5px dashed var(--yellow);border-radius:12px;padding:8px 14px;margin:8px 0}
+details.hint summary{cursor:pointer;font-family:var(--sans);font-weight:600;color:#b45309;font-size:14.5px}
+.notebook{background:#fffef5 repeating-linear-gradient(transparent 0 31px,#cfe0f5 31px 32px);border:2px solid #cbd5e1;border-left:6px double var(--red);border-radius:6px;padding:18px 22px 18px 34px;font-family:var(--hand);font-size:23px;line-height:32px}
+.notebook h4{font-family:var(--hand);font-size:29px;color:var(--purple);margin:.6em 0 0;line-height:32px}
+.notebook code{font-family:var(--mono);font-size:15px;background:#fef9c3}
+.notebook ul{margin:0;padding-left:22px}
+.notebook table{font-family:var(--sans);font-size:14px;line-height:1.4}
+.refs li{margin:.55em 0;font-size:16px}
+.refs .why{display:block;font-size:14px;color:var(--muted)}
+.badge{font-family:var(--sans);font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;color:#fff;vertical-align:middle;margin-left:4px}
+.b-easy{background:var(--green)}.b-med{background:var(--yellow)}.b-hard{background:var(--red)}
+.wrong{border-left:5px solid var(--red)}
+.right{border-left:5px solid var(--green)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.cmp{grid-template-columns:1fr}}
+.cmp .h{font-family:var(--hand);font-size:22px;font-weight:700}
+hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='12'><path d='M0 6 Q 15 1 30 6 T 60 6 T 90 6 T 120 6' fill='none' stroke='%23c4b5fd' stroke-width='2'/></svg>") repeat-x;margin:2.5em 0}
+.objectives li{margin:.25em 0}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" id="toc">
+<a href="/" style="margin-bottom:14px;font-weight:600;color:var(--purple)">← All chapters</a>
+<b>Chapter contents</b>
+<a href="#intro">A · Chapter introduction</a>
+<a href="#fundamentals">B · Fundamental understanding</a>
+<a href="#problem">C · The problem statement</a>
+<a href="#whiteboard">D · Whiteboard explanations</a>
+<a href="#interactive">E · Interactive lab</a>
+<a href="#internal">F · Internal working</a>
+<a href="#math">G · Mathematical foundation</a>
+<a href="#complexity">H · Operations &amp; complexity</a>
+<a href="#python">I · Python implementation</a>
+<a href="#applications">J · Real-world applications</a>
+<a href="#alternatives">K · Comparison with alternatives</a>
+<a href="#mistakes">L · Mistakes &amp; misconceptions</a>
+<a href="#interview">M · Interview preparation</a>
+<a href="#advanced">N · Advanced concepts</a>
+<a href="#notebook">O · Notebook-ready summary</a>
+<a href="#assessment">P · Knowledge assessment</a>
+<a href="#references">Q · References</a>
+</nav>
+<main>
+
+<header class="hero" id="intro">
+  <div class="kicker">DSA Learning Studio · Chapter on Array Techniques</div>
+  <h1>Prefix Sum <span class="hand">— add once, answer forever</span></h1>
+  <p class="sub">Cumulative sums, range queries, the hash-map counting trick, 2D summed-area tables and difference arrays — from first principles to interview-ready patterns.</p>
+  <div class="meta">
+    <span class="pill">Difficulty: Beginner → Intermediate (advanced section: Upper-intermediate)</span>
+    <span class="pill">Reading time: ~75 minutes (+ 30 min exercises)</span>
+    <span class="pill">Language: Python 3.8+</span>
+  </div>
+</header>
+
+<h2><span class="sec">A</span>Chapter introduction</h2>
+
+<h3>Prerequisites</h3>
+<p>You should be comfortable with Python lists and 0-based indexing, <code>for</code> loops, basic Big-O notation (what <span class="math">O(n)</span> and <span class="math">O(1)</span> mean), and Python dictionaries. No prior knowledge of trees or advanced mathematics is needed; the only formula you must remember fits on one line.</p>
+
+<h3>Learning objectives</h3>
+<p>After completing this chapter you will be able to:</p>
+<ol class="objectives">
+  <li>Define a prefix sum array formally and informally, and explain the role of the leading zero (the <em>sentinel</em>).</li>
+  <li>Answer any contiguous range-sum query in constant time using <span class="math">P[R+1] − P[L]</span>, and prove why it is correct.</li>
+  <li>Analyse the build, query and update costs, and explain exactly when prefix sums stop being the right tool.</li>
+  <li>Combine prefix sums with a hash map to count or find subarrays with a given property in linear time.</li>
+  <li>Extend the idea to two dimensions (summed-area tables / integral images) using inclusion–exclusion.</li>
+  <li>Use the inverse operation — the difference array — to apply many range updates in <span class="math">O(1)</span> each.</li>
+  <li>Recognise prefix-sum patterns in interview problems, and know the next structures to reach for (Fenwick tree, segment tree, parallel scan).</li>
+</ol>
+
+<div class="callout key"><span class="ct">The one-sentence promise</span>
+Spend <span class="math">O(n)</span> time once to record running totals, and every later question of the form “what is the sum between positions <span class="math">L</span> and <span class="math">R</span>?” becomes a single subtraction. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-3">[3]</a></div>
+
+<div class="callout note"><span class="ct">How the visuals in this chapter are made</span>
+This environment has no image-generation model, so every “whiteboard” illustration is drawn in code: a small sketch renderer produces hand-drawn-style strokes and handwriting labels as SVG from the <em>actual data</em> in each example. That keeps every index, value and arrow exactly correct while still looking like marker on a whiteboard. All interactive labs below are fully working.</div>
+
+<h2 id="fundamentals"><span class="sec">B</span>Fundamental understanding</h2>
+
+<h3>What is a prefix sum?</h3>
+<p>Take a list of numbers. Walk through it from left to right, keeping a running total, and write down the total after each step. The list of totals you wrote down is the list of <strong>prefix sums</strong> (also called <em>cumulative sums</em> or <em>running totals</em>). For the natural numbers 1, 2, 3, 4, 5, 6 the prefix sums are 1, 3, 6, 10, 15, 21 — the triangular numbers. <a class="cite" href="#ref-8">[8]</a></p>
+
+<div class="callout def"><span class="ct">Formal definition</span>
+Given a sequence <span class="math">A = [a<sub>0</sub>, a<sub>1</sub>, …, a<sub>n−1</sub>]</span> and a binary associative operator <span class="math">⊕</span>, the <strong>all-prefix-sums</strong> operation returns <span class="math">[a<sub>0</sub>, (a<sub>0</sub> ⊕ a<sub>1</sub>), …, (a<sub>0</sub> ⊕ a<sub>1</sub> ⊕ … ⊕ a<sub>n−1</sub>)]</span>. With <span class="math">⊕ = +</span>, the input <span class="math">[3 1 7 0 4 1 6 3]</span> yields <span class="math">[3 4 11 11 15 16 22 25]</span>. This is Blelloch’s definition from his 1990 Carnegie Mellon report, where the operation is also called a <em>scan</em>. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-12">[12]</a>
+</div>
+
+<div class="callout tip"><span class="ct">Simple English definition</span>
+A prefix sum array answers the question “how much has been added up <em>so far</em>?” for every position. Once you know the “so far” totals, the amount added <em>between</em> two positions is just the later total minus the earlier one.</div>
+
+<p>In algorithm design we almost always use the <strong>exclusive, sentinel-padded</strong> form, which has one extra slot at the front:</p>
+<div class="mathblock">P[0] = 0, &nbsp;&nbsp; P[i+1] = P[i] + A[i] &nbsp;&nbsp;<span class="up">for</span>&nbsp;&nbsp; 0 ≤ i &lt; n &nbsp;&nbsp;⟹&nbsp;&nbsp; P[i] = A[0] + A[1] + … + A[i−1]</div>
+<p>So <span class="math">P[i]</span> is the sum of the first <span class="math">i</span> elements, and <span class="math">P</span> has length <span class="math">n+1</span>. This is the convention used by CMU’s 15-451 lecture notes, Swarthmore’s competitive programming notes and the USACO Guide. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-13">[13]</a><a class="cite" href="#ref-3">[3]</a></p>
+
+<h3>Inclusive versus exclusive scans</h3>
+<p>The two forms differ only in whether element <span class="math">i</span> is included in output <span class="math">i</span>. An <strong>inclusive</strong> scan gives <span class="math">y<sub>i</sub> = a<sub>0</sub> + … + a<sub>i</sub></span>; an <strong>exclusive</strong> scan gives <span class="math">y<sub>i</sub> = a<sub>0</sub> + … + a<sub>i−1</sub></span> and starts with the identity (0 for addition). They convert into each other by shifting by one position, and real libraries ship both — C++ has <code>std::inclusive_scan</code> and <code>std::exclusive_scan</code>, MPI has <code>MPI_Scan</code> and <code>MPI_Exscan</code>. <a class="cite" href="#ref-8">[8]</a><a class="cite" href="#ref-12">[12]</a> The padded array <span class="math">P</span> above is simply the exclusive scan with the grand total appended at the end.</p>
+
+<h3>Why does this concept exist?</h3>
+<p>Many questions about a sequence are really questions about a <em>contiguous stretch</em> of it: total sales between day 30 and day 90, number of errors logged between two timestamps, how many 1-bits lie in a window. Answering each such question by looping over the stretch costs time proportional to its length. When the data does not change but the questions keep coming, that repeated work is wasted: the same additions are performed again and again. Prefix sums do the additions <em>once</em> and store them so that every future query reuses them. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>A little history</h3>
+<p>The running total is ancient, but the prefix sum as a named <em>algorithmic building block</em> has a well-documented modern history. Parallel prefix methods were studied for binary adder circuits by Ofman (1962) and Khrapchenko (1967); Ladner and Fischer (1980) gave general parallel prefix computation; Hillis and Steele (1986) published a short-span data-parallel algorithm; and Blelloch’s 1990 work made “scan” a primitive of data-parallel programming. <a class="cite" href="#ref-8">[8]</a><a class="cite" href="#ref-1">[1]</a> In computer graphics, Franklin Crow introduced the two-dimensional version — the <em>summed-area table</em> — for texture mapping at SIGGRAPH 1984, and Viola and Jones later popularised it in computer vision as the <em>integral image</em>. <a class="cite" href="#ref-10">[10]</a><a class="cite" href="#ref-9">[9]</a> Fenwick (1994) introduced the binary indexed tree to keep prefix sums under updates. <a class="cite" href="#ref-8">[8]</a><a class="cite" href="#ref-7">[7]</a></p>
+
+<h3>Fundamental principles</h3>
+<p>Three ideas carry the whole chapter:</p>
+<ol>
+<li><strong>Precomputation trades space for time.</strong> Store <span class="math">n+1</span> extra numbers and queries drop from linear to constant time. <a class="cite" href="#ref-2">[2]</a></li>
+<li><strong>Subtraction cancels a shared prefix.</strong> The sum of <span class="math">A[L..R]</span> is “everything up to <span class="math">R</span>” minus “everything before <span class="math">L</span>”. This works because addition has an inverse (subtraction). Operators without an inverse — like <code>max</code> — still have prefix scans, but cannot answer arbitrary ranges this way. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-7">[7]</a></li>
+<li><strong>Prefix sums and differences are inverse operations.</strong> Taking adjacent differences of <span class="math">P</span> gives back <span class="math">A</span>; taking prefix sums of a difference array gives back the original — the discrete analogue of integration and differentiation. <a class="cite" href="#ref-14">[14]</a></li>
+</ol>
+
+<h2 id="problem"><span class="sec">C</span>The problem statement</h2>
+
+<h3>The Static Range Sum Query problem</h3>
+<div class="tbl-wrap"><table>
+<tr><th style="width:150px">Component</th><th>Specification</th></tr>
+<tr><td><strong>Input</strong></td><td>An array <span class="math">A</span> of <span class="math">n</span> numbers that does not change, and <span class="math">q</span> queries, each a pair <span class="math">(L, R)</span> with <span class="math">0 ≤ L ≤ R &lt; n</span>.</td></tr>
+<tr><td><strong>Output</strong></td><td>For each query, the value <span class="math">A[L] + A[L+1] + … + A[R]</span>.</td></tr>
+<tr><td><strong>Typical constraints</strong></td><td>Competitive-programming versions such as CSES “Static Range Sum Queries” use <span class="math">n, q</span> up to 2·10<sup>5</sup> with values up to 10<sup>9</sup>, so totals exceed 32-bit range. <a class="cite" href="#ref-19">[19]</a></td></tr>
+<tr><td><strong>Key assumption</strong></td><td>No element is modified between queries (a <em>static</em> array). <a class="cite" href="#ref-2">[2]</a></td></tr>
+</table></div>
+
+<h3>Why the naive approach is inefficient</h3>
+<p>The obvious solution loops over positions <span class="math">L</span> to <span class="math">R</span> for each query. That costs <span class="math">Θ(R − L + 1)</span>, which is <span class="math">O(n)</span> in the worst case, so <span class="math">q</span> queries cost <span class="math">O(n·q)</span>. <a class="cite" href="#ref-2">[2]</a> With <span class="math">n = q = 2·10<sup>5</sup></span> that is up to 4·10<sup>10</sup> additions — far too slow. In Python, <code>sum(A[L:R+1])</code> looks like one operation but is not: slicing a list of <span class="math">k</span> items costs <span class="math">O(k)</span> and summing costs another <span class="math">O(k)</span>. <a class="cite" href="#ref-16">[16]</a></p>
+
+<h3>Limitations of other approaches</h3>
+<p>Precomputing <em>every</em> answer in an <span class="math">n × n</span> table gives <span class="math">O(1)</span> queries but needs <span class="math">Θ(n<sup>2</sup>)</span> memory and time — 4·10<sup>10</sup> cells for the constraint above. A segment tree answers queries in <span class="math">O(log n)</span> and also supports updates, but it is more code and slower per query than necessary when the array never changes. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>How prefix sums improve the solution</h3>
+<p>Build <span class="math">P</span> in one <span class="math">O(n)</span> pass, then answer each query with <span class="math">P[R+1] − P[L]</span> in <span class="math">O(1)</span>. Total: <span class="math">O(n + q)</span> time and <span class="math">O(n)</span> extra space. For a static array this is essentially optimal, since just reading the input already takes <span class="math">Ω(n + q)</span>. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-3">[3]</a></p>
+
+<div class="callout tip"><span class="ct">Real-world analogy: the odometer</span>
+A car’s odometer shows the total kilometres driven since the car was built — a prefix sum of every trip. To know how far you drove between Monday morning and Friday evening you do not replay the week’s trips; you subtract Monday’s odometer reading from Friday’s. Recording the reading costs nothing extra while driving (the <span class="math">O(n)</span> build), and every “how far between these two moments?” question becomes one subtraction (the <span class="math">O(1)</span> query). <em>(Illustrative analogy.)</em></div>
+
+<h2 id="whiteboard"><span class="sec">D</span>Visual whiteboard explanations</h2>
+<p>All diagrams in this chapter use one colour language. Learn it once and every picture reads the same way:</p>
+<div class="legend" style="font-size:14px;margin:8px 0 4px">
+<span><i class="lg-blue"></i>Blue — original data / the input array</span>
+<span><i class="lg-green"></i>Green — results, prefix sums, selected answers</span>
+<span><i class="lg-red"></i>Red — subtracted parts, deletions, errors</span>
+<span><i class="lg-yellow"></i>Yellow/orange — active index, current pointer</span>
+<span><i class="lg-purple"></i>Purple — relationships, carries, connections</span>
+<span><i class="lg-black"></i>Black — labels and definitions</span>
+</div>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.1 · Concept introduction</small>From an array to its running totals</div>
+  <svg id="d-concept" viewBox="0 0 860 365" role="img" aria-label="Array A and its prefix sum array P with carry arrows"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>A[i] input</span><span><i class="lg-green"></i>P[i] prefix sum</span><span><i class="lg-purple"></i>carry P[i] → P[i+1]</span><span><i class="lg-yellow"></i>element being added</span></div>
+  <figcaption>
+  <ol>
+    <li>Start the green row with the sentinel <code>P[0] = 0</code> — the sum of zero elements.</li>
+    <li>For each <code>i</code>, carry the previous total (purple arrow) and add the blue value directly above-left (<code>A[i]</code>).</li>
+    <li>The highlighted step shows <code>P[6] = P[5] + A[5] = 14 + 9 = 23</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: <code>P</code> is offset by one slot relative to <code>A</code>; <code>P[i]</code> summarises the <em>first i</em> elements, so <code>len(P) = n + 1</code> and <code>P[n]</code> is the grand total (31).</span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.2 · Memory &amp; index representation</small>What each P[k] “covers”</div>
+  <svg id="d-memory" viewBox="0 0 860 405" role="img" aria-label="Coverage of P[k] over A"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>A in contiguous memory</span><span><i class="lg-green"></i>stored value of P[k]</span><span><i class="lg-purple"></i>brace = elements summarised</span><span><i class="lg-black"></i>index labels</span></div>
+  <figcaption>
+  <ol>
+    <li>Both arrays are ordinary contiguous lists; <code>A</code> has indices 0…7 and <code>P</code> has indices 0…8.</li>
+    <li>A brace under <code>A</code> shows which elements a single green number summarises: <code>P[3]</code> covers <code>A[0..2]</code>, <code>P[6]</code> covers <code>A[0..5]</code>, <code>P[8]</code> covers everything.</li>
+    <li><code>P[0]</code> covers nothing — the empty prefix — which is why it is 0.</li>
+  </ol>
+  <span class="interp">Technical interpretation: one stored integer replaces a whole loop. Because <code>P</code> is a contiguous array, <code>P[k]</code> is read in O(1) by address arithmetic, exactly like any list access.</span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.3 · Internal working of a query</small>sum(L..R) = P[R+1] − P[L]</div>
+  <svg id="d-query" viewBox="0 0 860 370" role="img" aria-label="Range sum as difference of two prefixes"></svg>
+  <div class="legend"><span><i class="lg-green"></i>P[R+1]: prefix up to R</span><span><i class="lg-red"></i>P[L]: prefix before L (subtracted)</span><span><i class="lg-yellow"></i>the answer range L..R</span></div>
+  <figcaption>
+  <ol>
+    <li>Query <code>L = 2, R = 5</code> asks for <code>4 + 1 + 5 + 9</code>.</li>
+    <li>The long green brace <code>P[6] = 23</code> covers <code>A[0..5]</code>; the short red brace <code>P[2] = 4</code> covers <code>A[0..1]</code>.</li>
+    <li>Their overlap <code>A[0..1]</code> cancels, leaving exactly the yellow range: <code>23 − 4 = 19</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: two O(1) array reads and one subtraction, independent of the range length <code>R − L + 1</code>. <a class="cite" href="#ref-2">[2]</a></span>
+  </figcaption>
+</figure>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure D.4 · Before-and-after comparison</small>Looping per query vs two lookups</div>
+  <svg id="d-naive" viewBox="0 0 860 340" role="img" aria-label="Naive loop compared with prefix lookups"></svg>
+  <div class="legend"><span><i class="lg-yellow"></i>pointer visiting a cell</span><span><i class="lg-red"></i>repeated work</span><span><i class="lg-green"></i>stored totals reused</span></div>
+  <figcaption>
+  <ol>
+    <li><strong>Before:</strong> the naive method moves a pointer across every cell in the range — 4 additions for <code>(2,5)</code>, 8 for <code>(0,7)</code>, and the overlapping cells are re-added for every query.</li>
+    <li><strong>After:</strong> the prefix method touches exactly two green cells per query, no matter how wide the range is.</li>
+  </ol>
+  <span class="interp">Technical interpretation: naive cost Θ(R−L+1) per query, O(nq) total; prefix cost Θ(1) per query, Θ(n+q) total. <a class="cite" href="#ref-2">[2]</a></span>
+  </figcaption>
+</figure>
+
+<h2 id="interactive"><span class="sec">E</span>Interactive lab</h2>
+<p>The labs below are fully working. Change the inputs, step forwards and backwards, and watch the state panel. Labs 2–4 preview techniques explained in detail in Section F; feel free to return to them after reading it.</p>
+
+<div class="widget" id="w1">
+  <div class="wt"><small>Lab 1 · Build &amp; query</small>Prefix-sum builder and range-sum calculator</div>
+  <div class="controls">
+    <label>Array A: <input type="text" id="w1-input" value="3, 1, 4, 1, 5, 9, 2, 6"></label>
+    <button class="btn" id="w1-load">Load</button>
+    <button class="btn" id="w1-rand">Random</button>
+  </div>
+  <div class="err" id="w1-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w1-play">▶ Play</button>
+    <button class="btn" id="w1-prev">◀ Prev</button>
+    <button class="btn" id="w1-next">Next ▶</button>
+    <button class="btn" id="w1-reset">⟲ Reset</button>
+    <label class="small">Speed <input type="range" id="w1-speed" min="150" max="1500" value="700" style="width:110px"></label>
+  </div>
+  <div class="stage">
+    <div class="row"><div class="rowlabel" style="color:var(--blue)">A</div><div class="cells" id="w1-A"></div></div>
+    <div class="row"><div class="rowlabel" style="color:var(--green)">P</div><div class="cells" id="w1-P"></div></div>
+  </div>
+  <div class="status" id="w1-status"></div>
+  <hr class="sk" style="margin:1.2em 0">
+  <div class="controls">
+    <strong style="font-family:var(--hand);font-size:22px">Query:</strong>
+    <label>L <input type="range" id="w1-L" min="0" max="7" value="2"> <span id="w1-Lv" class="small"></span></label>
+    <label>R <input type="range" id="w1-R" min="0" max="7" value="5"> <span id="w1-Rv" class="small"></span></label>
+  </div>
+  <p class="small" style="margin:0">Tip: you can also click a cell in row A to set L, and shift-click (or click again) to set R. Queries only use P once it is fully built.</p>
+  <div class="status" id="w1-qstatus"></div>
+</div>
+
+<div class="widget" id="w2">
+  <div class="wt"><small>Lab 2 · Prefix sums + hash map</small>Count subarrays whose sum equals k</div>
+  <div class="controls">
+    <label>nums: <input type="text" id="w2-input" value="1, 2, 3, -2, 2, 1"></label>
+    <label>k: <input type="number" id="w2-k" value="3"></label>
+    <button class="btn" id="w2-load">Load</button>
+  </div>
+  <div class="err" id="w2-err"></div>
+  <div class="controls">
+    <button class="btn primary" id="w2-play">▶ Play</button>
+    <button class="btn" id="w2-prev">◀ Prev</button>
+    <button class="btn" id="w2-next">Next ▶</button>
+    <button class="btn" id="w2-reset">⟲ Reset</button>
+  </div>
+  <div class="stage"><div class="row"><div class="rowlabel" style="color:var(--blue)">nums</div><div class="cells" id="w2-A"></div></div></div>
+  <div style="font-family:var(--sans);font-size:14px;margin:8px 0 4px"><strong>seen</strong> (prefix sum → how many times seen):</div>
+  <div class="kv" id="w2-map"></div>
+  <div class="status" id="w2-status"></div>
+  <div style="font-family:var(--sans);font-size:14px;margin-top:8px"><strong>Subarrays found:</strong> <span id="w2-found" class="small"></span></div>
+</div>
+
+<div class="widget" id="w3">
+  <div class="wt"><small>Lab 3 · 2D prefix sums</small>Drag to select a rectangle</div>
+  <div class="controls">
+    <button class="btn" id="w3-rand">Random grid</button>
+    <button class="btn" id="w3-reset">Reset example</button>
+    <span class="small">Drag across the left grid (or click two corners). The right table is S, padded with a zero row and column.</span>
+  </div>
+  <div class="two">
+    <div><div class="small" style="margin-bottom:4px">grid (blue)</div><div class="grid2d" id="w3-grid"></div></div>
+    <div><div class="small" style="margin-bottom:4px">S table (green) — corners used by the query</div><div class="grid2d" id="w3-S"></div></div>
+  </div>
+  <div class="status" id="w3-status"></div>
+</div>
+
+<div class="widget" id="w4">
+  <div class="wt"><small>Lab 4 · Difference array</small>Many range updates, one final pass</div>
+  <div class="controls">
+    <label>n <input type="number" id="w4-n" value="6" min="1" max="12"></label>
+    <label>l <input type="number" id="w4-l" value="1" min="0"></label>
+    <label>r <input type="number" id="w4-r" value="3" min="0"></label>
+    <label>v <input type="number" id="w4-v" value="2"></label>
+    <button class="btn primary" id="w4-add">Add update</button>
+    <button class="btn" id="w4-clear">Clear</button>
+  </div>
+  <div class="err" id="w4-err"></div>
+  <div class="small" id="w4-list"></div>
+  <div class="stage">
+    <div class="row"><div class="rowlabel" style="color:var(--purple)">diff</div><div class="cells" id="w4-D"></div></div>
+    <div class="row"><div class="rowlabel" style="color:var(--green)">result</div><div class="cells" id="w4-R"></div></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="w4-step">Rebuild: next step ▶</button>
+    <button class="btn" id="w4-all">Rebuild all</button>
+  </div>
+  <div class="status" id="w4-status"></div>
+</div>
+
+<h2 id="internal"><span class="sec">F</span>Internal working</h2>
+
+<h3>F.1 Memory representation</h3>
+<p>In Python, both <code>A</code> and <code>P</code> are <code>list</code> objects: contiguous arrays of references to integer objects, so indexing <code>P[k]</code> is <span class="math">O(1)</span>. <a class="cite" href="#ref-16">[16]</a> Python integers have unlimited precision, so the running total can never overflow — a real difference from C, Java or NumPy, where a 64-bit accumulator wraps around silently. <a class="cite" href="#ref-17">[17]</a><a class="cite" href="#ref-6">[6]</a> In a low-level language you would choose a wide accumulator type (for example 64-bit) because <span class="math">n · max|A[i]|</span> can exceed the element type’s range even when every element fits. <a class="cite" href="#ref-19">[19]</a></p>
+
+<h3>F.2 Execution flow of the build</h3>
+<ol>
+<li>Allocate <code>P</code> of length <span class="math">n+1</span> filled with zeros. <code>P[0] = 0</code> is now set.</li>
+<li>For <span class="math">i = 0, 1, …, n−1</span>: read <code>P[i]</code> (the total so far), read <code>A[i]</code>, write <code>P[i+1] = P[i] + A[i]</code>.</li>
+<li>Stop. <code>P[n]</code> holds the sum of the whole array.</li>
+</ol>
+<p>Each iteration reads two values and writes one, in strictly increasing memory order — a single sequential pass that is cache-friendly. The loop has a dependency chain (step <span class="math">i+1</span> needs step <span class="math">i</span>), which is why the parallel versions in Section N need a cleverer algorithm. <a class="cite" href="#ref-12">[12]</a></p>
+
+<h3>F.3 Execution flow of a query</h3>
+<ol>
+<li>Validate <span class="math">0 ≤ L ≤ R &lt; n</span>.</li>
+<li>Read <code>P[R+1]</code> (sum of <code>A[0..R]</code>) and <code>P[L]</code> (sum of <code>A[0..L−1]</code>).</li>
+<li>Return the difference. No loop, no state change; <code>P</code> is read-only after the build.</li>
+</ol>
+
+<h3>F.4 State changes and the cost of an update</h3>
+<p>If one element changes, <code>A[i] += δ</code>, then every prefix that contains <code>A[i]</code> — that is <code>P[i+1], …, P[n]</code> — must also increase by <span class="math">δ</span>. That is <span class="math">n − i</span> writes, <span class="math">O(n)</span> in the worst case. This is precisely the weakness that motivates Fenwick trees and segment trees. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-7">[7]</a></p>
+
+<h3>F.5 Pattern: prefix sums + hash map</h3>
+<p>Many problems ask not for one range but for <em>how many</em> (or the longest/shortest) subarrays satisfy a sum condition. A subarray <span class="math">A[i..j−1]</span> has sum <span class="math">P[j] − P[i]</span>, so “sum equals <span class="math">k</span>” becomes “<span class="math">P[i] = P[j] − k</span> for some earlier <span class="math">i</span>”. Scanning left to right, we keep a dictionary <code>seen</code> counting how often each prefix value has occurred; at each new position we look up <code>running − k</code>. This reduces the <span class="math">Θ(n<sup>2</sup>)</span> pairs to one pass with expected <span class="math">O(1)</span> dictionary operations. <a class="cite" href="#ref-14">[14]</a><a class="cite" href="#ref-16">[16]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure F.1 · Step-by-step execution</small>Matching prefix values that differ by k</div>
+  <svg id="d-hash" viewBox="0 0 860 340" role="img" aria-label="Prefix sums on a number line with matched pairs"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>nums</span><span><i class="lg-green"></i>running prefix value</span><span><i class="lg-purple"></i>pair (P[i], P[j]) with P[j] − P[i] = k</span><span><i class="lg-yellow"></i>matched subarray</span></div>
+  <figcaption>
+  <ol>
+    <li>For <code>nums = [1, 2, 3, −2, 2, 1]</code>, the prefix values are <code>0, 1, 3, 6, 4, 6, 7</code>.</li>
+    <li>Every purple arc joins two prefix positions whose values differ by <code>k = 3</code>; each arc is one valid subarray.</li>
+    <li>There are 5 arcs, so the answer is 5. By prefix positions: (0,2) → <code>[1,2]</code>; (2,3) → <code>[3]</code>; (2,5) → <code>[3,−2,2]</code>; (1,4) → <code>[2,3,−2]</code>; (4,6) → <code>[2,1]</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: the hash map remembers <em>how many</em> earlier prefixes have each value, so repeated values (like 6 here) are counted correctly. Negative numbers are fine — unlike the sliding-window technique, nothing assumes monotonic sums.</span>
+  </figcaption>
+</figure>
+
+<h3>F.6 Extension: two dimensions</h3>
+<p>For a grid <code>G</code> with <span class="math">r</span> rows and <span class="math">c</span> columns, define a padded table <code>S</code> of size <span class="math">(r+1) × (c+1)</span> where <code>S[i][j]</code> is the sum of the rectangle from <code>(0,0)</code> to <code>(i−1, j−1)</code>. It is built row by row with</p>
+<div class="mathblock">S[i+1][j+1] = G[i][j] + S[i][j+1] + S[i+1][j] − S[i][j]</div>
+<p>where the last term removes the corner counted twice. Any rectangle with corners <span class="math">(r<sub>1</sub>, c<sub>1</sub>)</span> and <span class="math">(r<sub>2</sub>, c<sub>2</sub>)</span> is then answered from four table entries:</p>
+<div class="mathblock">sum = S[r<sub>2</sub>+1][c<sub>2</sub>+1] − S[r<sub>1</sub>][c<sub>2</sub>+1] − S[r<sub>2</sub>+1][c<sub>1</sub>] + S[r<sub>1</sub>][c<sub>1</sub>]</div>
+<p>Building takes <span class="math">O(rc)</span> and each query <span class="math">O(1)</span>. <a class="cite" href="#ref-4">[4]</a> In graphics and vision the same table is the summed-area table or integral image: any rectangle sum needs exactly four references, regardless of its size. <a class="cite" href="#ref-9">[9]</a><a class="cite" href="#ref-11">[11]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure F.2 · Inclusion–exclusion</small>Four corners answer any rectangle</div>
+  <svg id="d-2d" viewBox="0 0 860 380" role="img" aria-label="2D inclusion exclusion diagram"></svg>
+  <div class="legend"><span><i class="lg-yellow"></i>target rectangle</span><span><i class="lg-green"></i>+ big corner S[r2+1][c2+1]</span><span><i class="lg-red"></i>− strips above and left</span><span><i class="lg-purple"></i>+ overlap added back</span></div>
+  <figcaption>
+  <ol>
+    <li>Start from the green region: everything above-left of the target’s bottom-right corner.</li>
+    <li>Subtract the two red regions (rows above the target; columns left of it).</li>
+    <li>The purple top-left block was subtracted twice, so add it back once.</li>
+  </ol>
+  <span class="interp">Technical interpretation: on the example grid, rows 1–2 × columns 1–3 give <code>S[3][4] − S[1][4] − S[3][1] + S[1][1] = 28 − 8 − 9 + 3 = 14</code>, which matches adding the six cells directly (6+3+2+2+0+1). Drag the same rectangle in Lab 3 to confirm.</span>
+  </figcaption>
+</figure>
+
+<h3>F.7 Extension: the difference array (the inverse operation)</h3>
+<p>Prefix sums make range <em>queries</em> cheap. Their inverse makes range <em>updates</em> cheap. Define <code>D[0] = A[0]</code> and <code>D[i] = A[i] − A[i−1]</code>; then the prefix sums of <code>D</code> give back <code>A</code>. <a class="cite" href="#ref-14">[14]</a> To add <span class="math">v</span> to every element of <code>A[l..r]</code>, change only two entries: <code>D[l] += v</code> and <code>D[r+1] −= v</code>. After all updates, one prefix-sum pass reconstructs the array. Each update is <span class="math">O(1)</span>; the final rebuild is <span class="math">O(n)</span>. <a class="cite" href="#ref-4">[4]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure F.3 · Before and after</small>Three updates, two marks each</div>
+  <svg id="d-diff" viewBox="0 0 860 390" role="img" aria-label="Difference array updates and reconstruction"></svg>
+  <div class="legend"><span><i class="lg-green"></i>+v at l (range starts)</span><span><i class="lg-red"></i>−v at r+1 (range ends)</span><span><i class="lg-purple"></i>diff array</span><span><i class="lg-blue"></i>reconstructed array</span></div>
+  <figcaption>
+  <ol>
+    <li>Start with six zeros. Updates: <code>(1,3,+2)</code>, <code>(2,5,+3)</code>, <code>(0,1,−1)</code>.</li>
+    <li>Each update writes a green <code>+v</code> at its start and a red <code>−v</code> just after its end (slot 6 is a spare slot).</li>
+    <li>The final diff is <code>[−1, 2, 4, 0, −2, 0, −3]</code>; its running sum over the first six slots is <code>[−1, 1, 5, 5, 3, 3]</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: a range update becomes a “switch on at l, switch off after r” event; the prefix pass integrates the events. Cost O(u + n) for u updates, versus O(u·n) naively.</span>
+  </figcaption>
+</figure>
+
+<h3>F.8 Edge cases</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Situation</th><th>What happens with the padded design</th></tr>
+<tr><td>Empty array (<span class="math">n = 0</span>)</td><td><code>P = [0]</code>; no valid query exists, so the validator must reject every <code>(L, R)</code>.</td></tr>
+<tr><td>Range starting at 0</td><td><code>P[R+1] − P[0] = P[R+1]</code>; the sentinel removes the special case an unpadded array would need. <a class="cite" href="#ref-3">[3]</a></td></tr>
+<tr><td>Single element <code>L = R</code></td><td><code>P[L+1] − P[L] = A[L]</code>.</td></tr>
+<tr><td>Negative numbers</td><td>Work unchanged; <code>P</code> is no longer monotonic, so do not binary-search it.</td></tr>
+<tr><td><code>L &gt; R</code> or out of bounds</td><td>Python negative indices would silently wrap around and return garbage, so validate explicitly.</td></tr>
+<tr><td>Floating-point values</td><td>Large prefixes can absorb small values; differences then suffer cancellation (see Section L). <a class="cite" href="#ref-18">[18]</a></td></tr>
+</table></div>
+
+<h2 id="math"><span class="sec">G</span>Mathematical foundation</h2>
+
+<h3>G.1 Definitions</h3>
+<div class="mathblock">P[i] = <span class="up">Σ</span><sub>k=0</sub><sup>i−1</sup> A[k] &nbsp;&nbsp;(0 ≤ i ≤ n), &nbsp;&nbsp;&nbsp; with P[0] = 0 (empty sum)</div>
+<p>The range sum is <span class="math">S(L, R) = Σ<sub>k=L</sub><sup>R</sup> A[k]</span>. Using half-open intervals <span class="math">[i, j)</span>, as CMU’s notes do, the formula is the especially clean <span class="math">S[i, j) = P[j] − P[i]</span>. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>G.2 The loop invariant and its proof</h3>
+<div class="callout key"><span class="ct">Invariant</span>At the start of iteration <span class="math">i</span> of the build loop, <span class="math">P[0..i]</span> are correct: <span class="math">P[t] = Σ<sub>k&lt;t</sub> A[k]</span> for all <span class="math">t ≤ i</span>.</div>
+<p><strong>Initialisation.</strong> Before iteration 0, only <span class="math">P[0] = 0</span> is claimed, and the empty sum is 0. ✔<br>
+<strong>Maintenance.</strong> If <span class="math">P[i] = Σ<sub>k&lt;i</sub> A[k]</span>, the loop sets <span class="math">P[i+1] = P[i] + A[i] = Σ<sub>k&lt;i+1</sub> A[k]</span>. ✔<br>
+<strong>Termination.</strong> After iteration <span class="math">n−1</span>, all of <span class="math">P[0..n]</span> are correct. ∎</p>
+
+<h3>G.3 Why the query formula is correct (telescoping)</h3>
+<div class="mathblock">P[R+1] − P[L] = <span class="up">Σ</span><sub>k=0</sub><sup>R</sup> A[k] − <span class="up">Σ</span><sub>k=0</sub><sup>L−1</sup> A[k] = <span class="up">Σ</span><sub>k=L</sub><sup>R</sup> A[k]</div>
+<p>The first <span class="math">L</span> terms appear in both sums and cancel. Equivalently, <span class="math">Σ<sub>k=L</sub><sup>R</sup> (P[k+1] − P[k])</span> is a telescoping sum in which every interior term cancels. This uses two algebraic facts about <span class="math">+</span>: it is associative (so grouping does not matter) and it has an inverse (subtraction). <a class="cite" href="#ref-1">[1]</a></p>
+
+<div class="callout warn"><span class="ct">The inverse requirement matters</span>Any associative operator has a prefix scan (prefix max, prefix product, prefix XOR, …). <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-8">[8]</a> But only operators with an inverse let you <em>subtract</em> one prefix from another. XOR is its own inverse, so prefix XOR answers range XOR as <span class="math">X[R+1] ⊕ X[L]</span>. Max has no inverse, so prefix max cannot answer an arbitrary range max — that needs a sparse table or segment tree. Products work only if no element is zero (division by zero). CP-Algorithms notes that a Fenwick tree likewise needs an invertible operation for general range queries. <a class="cite" href="#ref-7">[7]</a></div>
+
+<h3>G.4 2D: inclusion–exclusion</h3>
+<p>Let <span class="math">S(i, j)</span> be the sum of the top-left <span class="math">i × j</span> block. Splitting the block at row <span class="math">i−1</span> and column <span class="math">j−1</span> and applying inclusion–exclusion gives the build recurrence <span class="math">S(i, j) = G[i−1][j−1] + S(i−1, j) + S(i, j−1) − S(i−1, j−1)</span>; applying it to the query gives the four-term formula in F.6. <a class="cite" href="#ref-4">[4]</a> In <span class="math">d</span> dimensions the same principle uses <span class="math">2<sup>d</sup></span> corner terms with alternating signs. <a class="cite" href="#ref-9">[9]</a></p>
+
+<h3>G.5 Prefix sums and differences are inverses</h3>
+<p>Define the operators <span class="math">𝒫</span> (prefix sum) and <span class="math">𝒟</span> (adjacent difference). Then <span class="math">𝒟(𝒫(A)) = A</span> and <span class="math">𝒫(𝒟(A)) = A</span>: they are the discrete counterparts of integration and differentiation. <a class="cite" href="#ref-14">[14]</a> A range update “add <span class="math">v</span> on <span class="math">[l, r]</span>” changes the <em>derivative</em> only at the two boundaries — which is exactly why the difference array touches two cells.</p>
+
+<h3>G.6 The counting identity behind subarray problems</h3>
+<p>An array of length <span class="math">n</span> has <span class="math">n(n+1)/2</span> non-empty contiguous subarrays, one for each pair <span class="math">0 ≤ i &lt; j ≤ n</span> of prefix positions. A condition on a subarray sum is therefore a condition on a <em>pair of prefix values</em>. “Sum = k” becomes “<span class="math">P[i] = P[j] − k</span>”; “sum divisible by m” becomes “<span class="math">P[i] ≡ P[j] (mod m)</span>”; “maximum sum” becomes “<span class="math">P[j] − min<sub>i&lt;j</sub> P[i]</span>”. Each converts a quadratic search over pairs into one linear scan with a dictionary or a running minimum. <a class="cite" href="#ref-4">[4]</a><a class="cite" href="#ref-13">[13]</a></p>
+
+<h2 id="complexity"><span class="sec">H</span>Operations and complexity analysis</h2>
+
+<p><strong>Assumptions:</strong> <span class="math">n</span> = array length, <span class="math">q</span> = number of queries, <span class="math">u</span> = number of updates, arithmetic on numbers is <span class="math">O(1)</span> (true for fixed-width machine integers; Python’s big integers cost time proportional to their digit length, which is negligible for normal values). Dictionary costs are expected-case for hashing. <a class="cite" href="#ref-16">[16]</a></p>
+
+<div class="tbl-wrap"><table>
+<tr><th>Operation</th><th>Best case</th><th>Average case</th><th>Worst case</th><th>Auxiliary space</th></tr>
+<tr><td>Build 1D prefix array</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n) (or O(1) if done in place)</td></tr>
+<tr><td>Range-sum query</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>O(1)</td></tr>
+<tr><td>Point update <code>A[i] += δ</code> (keep P valid)</td><td>Θ(1) (i = n−1)</td><td>Θ(n)</td><td>Θ(n) (i = 0)</td><td>O(1)</td></tr>
+<tr><td>Naive range sum (no preprocessing)</td><td>Θ(1) (L = R)</td><td>Θ(n)</td><td>Θ(n)</td><td>O(1)</td></tr>
+<tr><td>q queries, prefix method (total)</td><td>Θ(n + q)</td><td>Θ(n + q)</td><td>Θ(n + q)</td><td>Θ(n)</td></tr>
+<tr><td>Build 2D table (r × c)</td><td>Θ(rc)</td><td>Θ(rc)</td><td>Θ(rc)</td><td>Θ(rc)</td></tr>
+<tr><td>2D rectangle query</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>O(1)</td></tr>
+<tr><td>Difference-array range update</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(n) for D</td></tr>
+<tr><td>Difference-array rebuild</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td></tr>
+<tr><td>Subarray-sum-equals-k (prefix + dict)</td><td>Θ(n)</td><td>Θ(n) expected</td><td>O(n²) under pathological hash collisions</td><td>O(n)</td></tr>
+</table></div>
+
+<h3>Reasoning behind each entry</h3>
+<p><strong>Build.</strong> The loop runs exactly <span class="math">n</span> times doing constant work, independent of the values, so best, average and worst cases coincide: <span class="math">Θ(n)</span> (both <span class="math">O(n)</span> and <span class="math">Ω(n)</span>). <a class="cite" href="#ref-3">[3]</a> No algorithm can do better, because every element must be read at least once to know the total — a lower bound of <span class="math">Ω(n)</span>.</p>
+<p><strong>Query.</strong> Two reads and one subtraction regardless of <span class="math">L, R</span>: <span class="math">Θ(1)</span>. <a class="cite" href="#ref-2">[2]</a></p>
+<p><strong>Update.</strong> Changing <code>A[i]</code> invalidates <code>P[i+1..n]</code>: <span class="math">n − i</span> writes. Averaged over uniformly random <span class="math">i</span> that is about <span class="math">n/2</span>, still <span class="math">Θ(n)</span>. With roughly equal numbers of updates and queries, the average cost per operation is <span class="math">Θ(n)</span> — CMU’s notes describe this as the point where plain prefix sums stop being adequate. <a class="cite" href="#ref-2">[2]</a></p>
+<p><strong>Hash-map pattern.</strong> One pass of <span class="math">n</span> iterations, each doing one lookup and one insert. Python’s <code>dict</code> has <span class="math">O(1)</span> average and <span class="math">O(n)</span> amortised-worst-case cost per operation, so the theoretical worst case is <span class="math">O(n<sup>2</sup>)</span>; in practice, with integer keys and Python’s hashing, the expected <span class="math">Θ(n)</span> is what you observe. <a class="cite" href="#ref-16">[16]</a></p>
+
+<h3>Amortised view and time–space trade-off</h3>
+<p>If you answer <span class="math">q</span> queries, the one-time <span class="math">Θ(n)</span> build is spread across them: amortised cost per query is <span class="math">Θ(n/q + 1)</span>. Prefix sums pay off as soon as you expect more than a handful of queries over long ranges. The trade is <span class="math">n+1</span> extra numbers of memory; for the 2D case it is a full extra table the size of the grid. Summed-area tables also need more bits per entry than the original data, because the totals grow — Crow’s paper discusses this storage cost for textures. <a class="cite" href="#ref-10">[10]</a></p>
+
+<div class="widget" id="w5">
+  <div class="wt"><small>Lab 5 · Time-complexity visualisation</small>How many additions does each method perform?</div>
+  <div class="controls">
+    <label>n (array length) <input type="range" id="w5-n" min="10" max="200000" step="10" value="100000"> <b id="w5-nv"></b></label>
+    <label>q (queries) <input type="range" id="w5-q" min="1" max="200000" value="50000"> <b id="w5-qv"></b></label>
+  </div>
+  <div class="bars" id="w5-bars"></div>
+  <div class="status" id="w5-status"></div>
+  <p class="small" style="margin:.4em 0 0">Model: queries have random L ≤ R, so the naive method adds about (n+2)/3 elements per query on average (expected length of a random interval); the prefix method adds n during the build plus 1 subtraction per query. The bars use a logarithmic scale.</p>
+</div>
+
+<h3>Theory versus actual Python behaviour</h3>
+<ul>
+<li><strong>Constant factors.</strong> A Python-level <code>for</code> loop is interpreted; <code>itertools.accumulate</code> runs the same loop in C, and NumPy’s <code>cumsum</code> runs it over a typed buffer. All three are <span class="math">Θ(n)</span>, but the built-ins are usually much faster in wall-clock time. <a class="cite" href="#ref-5">[5]</a><a class="cite" href="#ref-6">[6]</a></li>
+<li><strong>Hidden linear costs.</strong> <code>sum(A[L:R+1])</code> is <span class="math">O(R−L)</span> for the slice <em>and</em> <span class="math">O(R−L)</span> for the sum — never constant. <a class="cite" href="#ref-16">[16]</a></li>
+<li><strong>Integer size.</strong> Python ints never overflow; NumPy integer arithmetic is modular and raises no error on overflow. <a class="cite" href="#ref-17">[17]</a><a class="cite" href="#ref-6">[6]</a></li>
+</ul>
+
+<h2 id="python"><span class="sec">I</span>Python implementation</h2>
+
+<h3>I.1 Implementation from scratch</h3>
+<pre><code class="language-python">class PrefixSum:
+    """Static range-sum structure. Build O(n), query O(1)."""
+
+    def __init__(self, arr):
+        self.n = len(arr)
+        self.P = [0] * (self.n + 1)          # P[0] = 0 is the sentinel
+        for i, x in enumerate(arr):
+            self.P[i + 1] = self.P[i] + x    # invariant: P[i+1] = A[0] + ... + A[i]
+
+    def range_sum(self, left, right):
+        """Sum of A[left..right], both inclusive (0-indexed)."""
+        if not (0 &lt;= left &lt;= right &lt; self.n):
+            raise IndexError(f"invalid range [{left}, {right}] for n={self.n}")
+        return self.P[right + 1] - self.P[left]
+
+
+if __name__ == "__main__":
+    A = [3, 1, 4, 1, 5, 9, 2, 6]
+    ps = PrefixSum(A)
+    print("P =", ps.P)
+    print("sum(2..5) =", ps.range_sum(2, 5))
+    print("sum(0..7) =", ps.range_sum(0, 7))
+    print("sum(4..4) =", ps.range_sum(4, 4))
+    try:
+        ps.range_sum(5, 2)
+    except IndexError as e:
+        print("IndexError:", e)
+    print("empty P =", PrefixSum([]).P)</code></pre>
+
+<h4>Line-by-line explanation</h4>
+<div class="tbl-wrap"><table>
+<tr><th>Line</th><th>Why it is there</th></tr>
+<tr><td class="mono">self.P = [0] * (self.n + 1)</td><td>Allocates <span class="math">n+1</span> slots in one step; slot 0 already holds the sentinel 0, the sum of the empty prefix.</td></tr>
+<tr><td class="mono">for i, x in enumerate(arr)</td><td>One left-to-right pass; <code>enumerate</code> gives index and value together.</td></tr>
+<tr><td class="mono">self.P[i + 1] = self.P[i] + x</td><td>The recurrence. Writing to <code>i + 1</code> (not <code>i</code>) is the off-by-one shift that makes <code>P[k]</code> mean “first k elements”.</td></tr>
+<tr><td class="mono">if not (0 &lt;= left &lt;= right &lt; self.n)</td><td>Rejects reversed and out-of-range queries. Without it, a negative index would silently read from the end of the list.</td></tr>
+<tr><td class="mono">return self.P[right + 1] - self.P[left]</td><td>The telescoping formula from G.3.</td></tr>
+</table></div>
+
+<h4>Sample output (verified by running the code)</h4>
+<pre><code>P = [0, 3, 4, 8, 9, 14, 23, 25, 31]
+sum(2..5) = 19
+sum(0..7) = 31
+sum(4..4) = 5
+IndexError: invalid range [5, 2] for n=8
+empty P = [0]</code></pre>
+
+<h4>Dry-run table — building P for A = [3, 1, 4, 1, 5, 9, 2, 6]</h4>
+<div class="tbl-wrap"><table>
+<tr><th>i</th><th>A[i]</th><th>P[i] (before)</th><th>P[i+1] = P[i] + A[i]</th><th>P after step</th></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>init</td><td class="mono">[0, 0, 0, 0, 0, 0, 0, 0, 0]</td></tr>
+<tr><td>0</td><td>3</td><td>0</td><td>3</td><td class="mono">[0, 3, …]</td></tr>
+<tr><td>1</td><td>1</td><td>3</td><td>4</td><td class="mono">[0, 3, 4, …]</td></tr>
+<tr><td>2</td><td>4</td><td>4</td><td>8</td><td class="mono">[0, 3, 4, 8, …]</td></tr>
+<tr><td>3</td><td>1</td><td>8</td><td>9</td><td class="mono">[0, 3, 4, 8, 9, …]</td></tr>
+<tr><td>4</td><td>5</td><td>9</td><td>14</td><td class="mono">[…, 9, 14, …]</td></tr>
+<tr><td>5</td><td>9</td><td>14</td><td>23</td><td class="mono">[…, 14, 23, …]</td></tr>
+<tr><td>6</td><td>2</td><td>23</td><td>25</td><td class="mono">[…, 23, 25, …]</td></tr>
+<tr><td>7</td><td>6</td><td>25</td><td>31</td><td class="mono">[0, 3, 4, 8, 9, 14, 23, 25, 31]</td></tr>
+</table></div>
+
+<h3>I.2 Built-in Python alternatives</h3>
+<pre><code class="language-python">from itertools import accumulate
+import numpy as np
+
+A = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# 1) itertools.accumulate (Python 3.8+ for initial=)
+P = list(accumulate(A, initial=0))     # [0, 3, 4, 8, 9, 14, 23, 25, 31]
+
+# 2) NumPy: inclusive cumulative sum; prepend 0 for the padded form
+P_np = np.concatenate(([0], np.cumsum(A)))
+
+# 3) Other operators come for free with accumulate
+import operator
+running_max  = list(accumulate(A, max))           # [3, 3, 4, 4, 5, 9, 9, 9]
+running_prod = list(accumulate(A, operator.mul))  # prefix products</code></pre>
+<p><code>accumulate</code> returns running totals by default, accepts any two-argument function, and with <code>initial=</code> emits one more element than the input — exactly the padded <code>P</code>. The <code>function</code> argument was added in Python 3.3 and <code>initial</code> in 3.8. <a class="cite" href="#ref-5">[5]</a> <code>numpy.cumsum</code> returns the inclusive cumulative sum along an axis; its accumulator type defaults to the input dtype (promoted to the platform integer for small integer types), and integer arithmetic is modular with no error on overflow. <a class="cite" href="#ref-6">[6]</a></p>
+
+<h3>I.3 Prefix sum + hash map: subarray sum equals k</h3>
+<pre><code class="language-python">from collections import defaultdict
+
+def subarray_sum_equals_k(nums, k):
+    count = 0
+    running = 0
+    seen = defaultdict(int)
+    seen[0] = 1                      # the empty prefix: lets subarrays start at index 0
+    for x in nums:
+        running += x
+        count += seen[running - k]   # earlier prefixes equal to running-k end a valid subarray here
+        seen[running] += 1           # record AFTER the lookup (prevents empty subarrays when k == 0)
+    return count
+
+print(subarray_sum_equals_k([1, 2, 3, -2, 2, 1], 3))   # 5</code></pre>
+
+<h4>Dry-run table — nums = [1, 2, 3, −2, 2, 1], k = 3 (verified)</h4>
+<div class="tbl-wrap"><table>
+<tr><th>i</th><th>x</th><th>running</th><th>look up running − k</th><th>matches added</th><th>count</th><th>seen after step</th></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>−2</td><td>0</td><td>0</td><td class="mono">{0:1, 1:1}</td></tr>
+<tr><td>1</td><td>2</td><td>3</td><td>0</td><td>1</td><td>1</td><td class="mono">{0:1, 1:1, 3:1}</td></tr>
+<tr><td>2</td><td>3</td><td>6</td><td>3</td><td>1</td><td>2</td><td class="mono">{…, 6:1}</td></tr>
+<tr><td>3</td><td>−2</td><td>4</td><td>1</td><td>1</td><td>3</td><td class="mono">{…, 4:1}</td></tr>
+<tr><td>4</td><td>2</td><td>6</td><td>3</td><td>1</td><td>4</td><td class="mono">{…, 6:2}</td></tr>
+<tr><td>5</td><td>1</td><td>7</td><td>4</td><td>1</td><td>5</td><td class="mono">{0:1, 1:1, 3:1, 6:2, 4:1, 7:1}</td></tr>
+</table></div>
+<p>A brute-force check over all 21 subarrays also returns 5. Time <span class="math">Θ(n)</span> expected, space <span class="math">O(n)</span> for the dictionary.</p>
+
+<h3>I.4 2D prefix sums</h3>
+<pre><code class="language-python">class PrefixSum2D:
+    def __init__(self, grid):
+        rows = len(grid)
+        cols = len(grid[0]) if grid else 0
+        self.S = [[0] * (cols + 1) for _ in range(rows + 1)]   # zero row + zero column
+        for r in range(rows):
+            for c in range(cols):
+                self.S[r + 1][c + 1] = (grid[r][c] + self.S[r][c + 1]
+                                        + self.S[r + 1][c] - self.S[r][c])
+
+    def region_sum(self, r1, c1, r2, c2):
+        """Sum of grid[r1..r2][c1..c2], all bounds inclusive."""
+        S = self.S
+        return S[r2 + 1][c2 + 1] - S[r1][c2 + 1] - S[r2 + 1][c1] + S[r1][c1]
+
+G = [[3, 0, 1, 4, 2],
+     [5, 6, 3, 2, 1],
+     [1, 2, 0, 1, 5],
+     [4, 1, 0, 1, 7]]
+print(PrefixSum2D(G).region_sum(1, 1, 2, 3))   # 14</code></pre>
+<p>Note <code>[[0] * (cols + 1) for _ in range(rows + 1)]</code>: writing <code>[[0] * (cols + 1)] * (rows + 1)</code> instead would create <em>one</em> row object referenced many times — a classic Python aliasing bug. Build <span class="math">Θ(rc)</span>, query <span class="math">Θ(1)</span>. <a class="cite" href="#ref-4">[4]</a></p>
+
+<h3>I.5 Difference array</h3>
+<pre><code class="language-python">def apply_range_updates(n, updates):
+    """updates: list of (l, r, v) meaning add v to A[l..r] inclusive. Start from zeros."""
+    diff = [0] * (n + 1)               # one spare slot so r + 1 == n is safe
+    for l, r, v in updates:
+        if not (0 &lt;= l &lt;= r &lt; n):
+            raise IndexError(f"bad update range [{l}, {r}]")
+        diff[l] += v
+        diff[r + 1] -= v
+    out, running = [], 0
+    for i in range(n):                 # prefix-sum the difference array
+        running += diff[i]
+        out.append(running)
+    return out
+
+print(apply_range_updates(6, [(1, 3, 2), (2, 5, 3), (0, 1, -1)]))  # [-1, 1, 5, 5, 3, 3]</code></pre>
+<p>Time <span class="math">Θ(u + n)</span> for <span class="math">u</span> updates; space <span class="math">Θ(n)</span>. <a class="cite" href="#ref-4">[4]</a><a class="cite" href="#ref-14">[14]</a></p>
+
+<h3>I.6 Comparison of implementations</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Implementation</th><th>Time</th><th>Extra space</th><th>Strengths</th><th>Watch out for</th></tr>
+<tr><td>Manual loop (class above)</td><td>Θ(n)</td><td>Θ(n)</td><td>Explicit, easy to extend (validation, custom operators)</td><td>Slowest constant factor in CPython</td></tr>
+<tr><td><code>accumulate(A, initial=0)</code></td><td>Θ(n)</td><td>Θ(n) once listed</td><td>Short, fast, lazy iterator, any binary function <a class="cite" href="#ref-5">[5]</a></td><td><code>initial</code> needs Python 3.8+</td></tr>
+<tr><td><code>numpy.cumsum</code></td><td>Θ(n)</td><td>Θ(n)</td><td>Vectorised; supports axes for 2D (<code>cumsum(axis=0)</code> then <code>axis=1</code>) <a class="cite" href="#ref-6">[6]</a></td><td>Silent integer overflow; inclusive form (prepend 0 yourself)</td></tr>
+<tr><td>In-place overwrite of A</td><td>Θ(n)</td><td>O(1)</td><td>No extra memory</td><td>Destroys the original data; loses the sentinel</td></tr>
+</table></div>
+
+<h2 id="applications"><span class="sec">J</span>Real-world applications</h2>
+<p>Only applications with a direct, documented use of prefix sums are listed. Where a scenario is our own illustration rather than a cited system, it is marked as such.</p>
+
+<h3>J.1 Computer vision and graphics: integral images</h3>
+<p>Viola and Jones’ real-time face detector evaluates a large number of rectangle (Haar-like) features in every image window. They introduced the <em>integral image</em> — a 2D prefix sum computed in a few operations per pixel — so that each rectangle feature can be evaluated in constant time at any scale or location; they credit Crow’s 1984 summed-area tables as the graphics precursor. <a class="cite" href="#ref-11">[11]</a><a class="cite" href="#ref-10">[10]</a> Crow’s original use was texture filtering: averaging a texture over a rectangle at a cost independent of the rectangle’s size. <a class="cite" href="#ref-10">[10]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure J.1 · Real-world application</small>Integral image: a box filter of any size in four lookups</div>
+  <svg id="d-integral" viewBox="0 0 860 340" role="img" aria-label="Integral image four-corner lookup"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>pixels</span><span><i class="lg-yellow"></i>feature rectangle</span><span><i class="lg-green"></i>+ corners</span><span><i class="lg-red"></i>− corners</span></div>
+  <figcaption>
+  <ol>
+    <li>Precompute the integral image <code>II</code> once per frame.</li>
+    <li>A rectangle’s pixel sum = <code>II(D) − II(B) − II(C) + II(A)</code> using its four corner points.</li>
+    <li>A two-rectangle Haar feature (light region minus dark region) needs just two such sums.</li>
+  </ol>
+  <span class="interp">Technical interpretation: the cost per feature no longer depends on the feature’s area, which is what made scanning many window sizes in real time feasible. <a class="cite" href="#ref-11">[11]</a></span>
+  </figcaption>
+</figure>
+
+<h3>J.2 Databases and analytics: running totals</h3>
+<p>SQL window functions compute prefix sums declaratively. PostgreSQL’s tutorial shows <code>sum(salary) OVER (ORDER BY salary)</code> producing a running total, because with <code>ORDER BY</code> the default frame runs from the start of the partition through the current row (plus peers with equal sort keys). <a class="cite" href="#ref-21">[21]</a> Backend reporting code (cumulative revenue, cumulative sign-ups, “month-to-date” dashboards) uses exactly this, and the subtraction trick turns two cumulative values into any period total.</p>
+
+<h3>J.3 Search engines: decoding gap-encoded postings lists</h3>
+<p>Inverted indexes store each term’s sorted list of document IDs. Because consecutive IDs are close together, indexes store the <em>gaps</em> between them (for example 107, 5, 43 instead of 283154, 283159, 283202), which need far fewer bits. <a class="cite" href="#ref-22">[22]</a> Recovering the actual IDs is a prefix sum over the gaps — the gap list is a difference array, and decoding is its inverse.</p>
+
+<h3>J.4 Sorting and systems: computing output positions</h3>
+<p>Counting sort counts how many items have each key and then takes cumulative sums of the counts; the cumulative sum for a key tells you where that key’s block begins in the output. MIT 6.006 implements counting sort this way, and radix sort uses it as a stable subroutine. <a class="cite" href="#ref-15">[15]</a><a class="cite" href="#ref-8">[8]</a> The same “prefix sum of sizes gives offsets” idea appears whenever variable-sized records are packed contiguously into a buffer.</p>
+
+<h3>J.5 Parallel and distributed computing: scan as a primitive</h3>
+<p>Blelloch showed that many parallel algorithms — split radix sort, quicksort, line drawing, minimum spanning tree — can be built from scan operations, and the Connection Machine supported scans directly. <a class="cite" href="#ref-1">[1]</a> On GPUs, parallel scan underlies stream compaction, radix sort and summed-area tables. <a class="cite" href="#ref-12">[12]</a> In distributed-memory programs, MPI provides <code>MPI_Scan</code> and <code>MPI_Exscan</code> so that each process can learn the total of the values held by the processes before it — e.g. to compute its write offset into a shared output file. <a class="cite" href="#ref-8">[8]</a></p>
+
+<h3>J.6 Compression and data structures for dynamic data</h3>
+<p>When counts change over time (for example cumulative frequency tables whose counts keep changing), the static array is replaced by a Fenwick tree, which keeps prefix sums queryable and updatable in <span class="math">O(log n)</span>; Fenwick introduced it for cumulative frequency tables. <a class="cite" href="#ref-8">[8]</a><a class="cite" href="#ref-7">[7]</a> Pibiri and Venturini’s study of the prefix-sum problem benchmarks such structures because they sit inside many larger systems. <a class="cite" href="#ref-23">[23]</a></p>
+
+<div class="callout note"><span class="ct">Engineering illustration (our example)</span>A web API logs one integer per minute: requests served. Product managers ask ad-hoc questions like “how many requests between 09:15 and 11:40 yesterday?”. Store the day’s 1,440 per-minute counts plus a 1,441-entry cumulative array; each question becomes one subtraction instead of a scan, and the cumulative array is computed once when the day closes (the data are static afterwards).</div>
+
+<h2 id="alternatives"><span class="sec">K</span>Comparison with alternatives</h2>
+
+<div class="tbl-wrap"><table>
+<tr><th>Approach</th><th>Preprocess</th><th>Range query</th><th>Point update</th><th>Range update</th><th>Space</th><th>Choose when…</th></tr>
+<tr><td>Naive loop</td><td>—</td><td>O(n)</td><td>O(1)</td><td>O(n)</td><td>O(1)</td><td>Very few queries, or short ranges</td></tr>
+<tr><td><strong>Prefix sum array</strong></td><td>O(n)</td><td><strong>O(1)</strong></td><td>O(n)</td><td>O(n)</td><td>O(n)</td><td>Static data, many sum queries <a class="cite" href="#ref-2">[2]</a></td></tr>
+<tr><td>Difference array</td><td>O(n)</td><td>O(n) (rebuild first)</td><td>O(1)</td><td><strong>O(1)</strong></td><td>O(n)</td><td>Many range updates, read the result at the end <a class="cite" href="#ref-4">[4]</a></td></tr>
+<tr><td>Fenwick tree (BIT)</td><td>O(n)</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)*</td><td>O(n)</td><td>Interleaved updates and prefix/range sums; invertible ops <a class="cite" href="#ref-7">[7]</a></td></tr>
+<tr><td>Segment tree</td><td>O(n)</td><td>O(log n)</td><td>O(log n)</td><td>O(log n) with lazy propagation</td><td>O(n)</td><td>Updates plus non-invertible ops (min/max), complex queries <a class="cite" href="#ref-2">[2]</a></td></tr>
+<tr><td>All-pairs table</td><td>O(n²)</td><td>O(1)</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>Almost never; only tiny n</td></tr>
+</table></div>
+<p class="small">*Range update with point query uses a BIT over the difference array; range update with range query uses two BITs. <a class="cite" href="#ref-7">[7]</a></p>
+
+<h3>Related techniques that are often confused with prefix sums</h3>
+<div class="tbl-wrap"><table>
+<tr><th>Technique</th><th>Relationship to prefix sums</th><th>Key restriction</th></tr>
+<tr><td>Sliding window</td><td>Maintains one window sum incrementally while two pointers move.</td><td>Needs a monotonic condition (typically non-negative values) to know which pointer to move. Prefix + hash map handles negatives.</td></tr>
+<tr><td>Kadane’s algorithm</td><td>Max subarray sum; equivalent to tracking <span class="math">P[j] − min P[i]</span>. <a class="cite" href="#ref-4">[4]</a></td><td>Answers one optimisation question, not arbitrary ranges.</td></tr>
+<tr><td>Sparse table</td><td>Precomputes answers on power-of-two ranges for O(1) range min/max.</td><td>Static data; O(n log n) space.</td></tr>
+</table></div>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure K.1 · Comparison with alternative approaches</small>Which range-query tool should I pick?</div>
+  <svg id="d-decision" viewBox="0 0 860 400" role="img" aria-label="Decision flowchart for range query structures"></svg>
+  <div class="legend"><span><i class="lg-black"></i>question</span><span><i class="lg-green"></i>recommended structure</span><span><i class="lg-purple"></i>decision path</span></div>
+  <figcaption>
+  <ol>
+    <li>Does the data change between queries? If not and the operator is invertible (sum, XOR), use prefix sums.</li>
+    <li>If only range updates happen and you read the result once at the end, use a difference array.</li>
+    <li>If updates and queries interleave: Fenwick tree for invertible operators, segment tree otherwise.</li>
+  </ol>
+  <span class="interp">Technical interpretation: the decision hinges on two properties — mutability of the data and invertibility of the operator.</span>
+  </figcaption>
+</figure>
+
+<h3>When to avoid prefix sums</h3>
+<ul>
+<li>The array is updated frequently between queries (rebuild or fix-up costs <span class="math">O(n)</span>). <a class="cite" href="#ref-2">[2]</a></li>
+<li>The query operator has no inverse (min, max, gcd) — subtraction of prefixes is meaningless.</li>
+<li>Only one or two queries will ever be asked: the build costs as much as the naive answer.</li>
+<li>Floating-point data with huge dynamic range, where cancellation can destroy small range sums (Section L).</li>
+</ul>
+
+<h2 id="mistakes"><span class="sec">L</span>Common mistakes and misconceptions</h2>
+
+<h3>L.1 Off-by-one: mixing inclusive and exclusive conventions</h3>
+<div class="cmp">
+<div><div class="h" style="color:var(--red)">✗ Incorrect</div>
+<pre class="wrong"><code class="language-python"># P is the padded array (len n+1)
+def range_sum(P, L, R):
+    return P[R] - P[L]      # misses A[R]!</code></pre></div>
+<div><div class="h" style="color:var(--green)">✓ Correct</div>
+<pre class="right"><code class="language-python"># P[k] = sum of first k elements
+def range_sum(P, L, R):
+    return P[R + 1] - P[L]  # inclusive L..R</code></pre></div>
+</div>
+<p>Pick one convention and write it as a comment beside the array. With the padded array, “inclusive <span class="math">[L, R]</span>” is <code>P[R+1] − P[L]</code> and “half-open <span class="math">[i, j)</span>” is <code>P[j] − P[i]</code>. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>L.2 Unpadded arrays and the L = 0 special case</h3>
+<div class="cmp">
+<div><div class="h" style="color:var(--red)">✗ Incorrect</div>
+<pre class="wrong"><code class="language-python">pre = list(accumulate(A))      # inclusive, no sentinel
+def range_sum(L, R):
+    return pre[R] - pre[L - 1]  # L = 0 reads pre[-1]: the LAST element!</code></pre></div>
+<div><div class="h" style="color:var(--green)">✓ Correct</div>
+<pre class="right"><code class="language-python">P = list(accumulate(A, initial=0))
+def range_sum(L, R):
+    return P[R + 1] - P[L]      # L = 0 just reads P[0] = 0</code></pre></div>
+</div>
+<p>Python’s negative indexing turns this bug into a wrong number instead of a crash, which makes it especially dangerous.</p>
+
+<h3>L.3 Counting the empty prefix (forgetting <code>seen[0] = 1</code>)</h3>
+<p>In the hash-map pattern, omitting the initial entry for prefix value 0 misses every valid subarray that starts at index 0. For <code>nums = [3]</code>, <code>k = 3</code> the buggy version returns 0 instead of 1. Similarly, inserting <code>running</code> into the dictionary <em>before</em> looking up <code>running − k</code> counts the empty subarray when <code>k = 0</code>.</p>
+
+<h3>L.4 Using a sliding window when values can be negative</h3>
+<p>Two-pointer windows assume that extending the window never decreases its sum. With negatives (e.g. <code>[1, −1, 1]</code>, <code>k = 1</code>) that assumption fails and windows are missed. The prefix + hash map approach does not rely on monotonicity.</p>
+
+<h3>L.5 Complexity misconceptions</h3>
+<ul>
+<li><strong>“<code>sum(A[L:R+1])</code> is O(1) because it’s one line.”</strong> It is <span class="math">O(R − L)</span>: list slicing copies <span class="math">k</span> elements. <a class="cite" href="#ref-16">[16]</a></li>
+<li><strong>“Prefix sums make range updates fast.”</strong> No — they make <em>queries</em> fast; updates become <span class="math">O(n)</span>. Difference arrays are the update-friendly dual. <a class="cite" href="#ref-2">[2]</a><a class="cite" href="#ref-4">[4]</a></li>
+<li><strong>“Rebuilding P inside the query loop is fine.”</strong> That silently reintroduces <span class="math">O(nq)</span>.</li>
+<li><strong>“The hash-map solution is O(n) worst case.”</strong> It is <span class="math">O(n)</span> expected; dictionary operations have an <span class="math">O(n)</span> worst case. <a class="cite" href="#ref-16">[16]</a></li>
+</ul>
+
+<h3>L.6 Overflow and precision</h3>
+<p>Python ints never overflow, but NumPy and fixed-width languages do. The output below was produced by running the code:</p>
+<pre><code class="language-python">import numpy as np
+np.cumsum(np.array([2**62, 2**62], dtype=np.int64))
+# array([ 4611686018427387904, -9223372036854775808])   &lt;- wrapped silently
+
+from itertools import accumulate
+P = list(accumulate([1e16, 1.0, -1e16, 1.0], initial=0.0))
+P[2] - P[1]      # 0.0, but A[1] is 1.0 (absorbed: 1e16 + 1.0 == 1e16 in float64)</code></pre>
+<p>NumPy documents that integer arithmetic is modular and raises no error on overflow. <a class="cite" href="#ref-6">[6]</a> For floats, prefer integer units (cents, not dollars) or accurate summation such as <code>math.fsum</code>, which tracks multiple partial sums to avoid loss of precision. <a class="cite" href="#ref-18">[18]</a></p>
+
+<h3>L.7 2D mistakes</h3>
+<ul>
+<li>Forgetting to add back the overlap <code>+ S[r1][c1]</code> (double subtraction).</li>
+<li>Creating rows with <code>[[0]*(c+1)]*(r+1)</code> — all rows alias the same list.</li>
+<li>Swapping row/column order in the formula when the grid is not square.</li>
+</ul>
+
+<h3>L.8 Interview mistakes</h3>
+<ul>
+<li>Jumping to code without stating the convention (inclusive/exclusive, padded or not).</li>
+<li>Not asking whether values can be negative or zero — this decides sliding window vs prefix + hash map.</li>
+<li>Not mentioning the update cost when the interviewer adds “and the array can change”: the expected answer is “then I would switch to a Fenwick or segment tree.”</li>
+</ul>
+
+<h2 id="interview"><span class="sec">M</span>Interview preparation</h2>
+
+<h3>M.1 Recognising the pattern</h3>
+<div class="tbl-wrap"><table>
+<tr><th>If the problem says…</th><th>Think…</th></tr>
+<tr><td>“sum of elements between i and j”, many queries, no updates</td><td>Plain prefix array</td></tr>
+<tr><td>“number of subarrays with sum k / divisible by k / equal 0s and 1s”</td><td>Prefix value + hash map of counts (or remainders)</td></tr>
+<tr><td>“longest subarray with sum k”</td><td>Prefix + hash map storing the <em>first</em> index of each value</td></tr>
+<tr><td>“add v to every element in [l, r]”, many times</td><td>Difference array</td></tr>
+<tr><td>“sum of a sub-rectangle”, many queries</td><td>2D prefix sums</td></tr>
+<tr><td>“left total equals right total”, “product except self”</td><td>Prefix and suffix aggregates</td></tr>
+<tr><td>“XOR of a range”</td><td>Prefix XOR</td></tr>
+</table></div>
+
+<h3>M.2 Common interview questions (conceptual)</h3>
+<ol>
+<li>Why do we pad the prefix array with a leading zero?</li>
+<li>Why can’t prefix sums answer range-minimum queries?</li>
+<li>What changes if the array is updated between queries?</li>
+<li>Why does the subarray-sum-equals-k solution start with <code>{0: 1}</code>?</li>
+</ol>
+<p class="small">Answers are developed throughout Sections F–L; Section P has a self-test with a separate answer key.</p>
+
+<h3>M.3 Coding exercises</h3>
+
+<h4>Easy</h4>
+<p><strong>E1. Running Sum of 1d Array</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/running-sum-of-1d-array/">LeetCode 1480</a></p>
+<details class="hint"><summary>Hint</summary>This is the inclusive scan; you can do it in place.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def running_sum(nums):
+    for i in range(1, len(nums)):
+        nums[i] += nums[i - 1]
+    return nums</code></pre>
+<p>Θ(n) time, O(1) extra space.</p></details>
+
+<p><strong>E2. Range Sum Query – Immutable</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/range-sum-query-immutable/">LeetCode 303</a> · also <a href="https://cses.fi/problemset/task/1646">CSES 1646</a></p>
+<details class="hint"><summary>Hint</summary>Build the padded array in the constructor.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">from itertools import accumulate
+class NumArray:
+    def __init__(self, nums):
+        self.P = list(accumulate(nums, initial=0))
+    def sumRange(self, left, right):
+        return self.P[right + 1] - self.P[left]</code></pre>
+<p>Build Θ(n), query Θ(1), space Θ(n).</p></details>
+
+<p><strong>E3. Find Pivot Index</strong> <span class="badge b-easy">Easy</span> — <a href="https://leetcode.com/problems/find-pivot-index/">LeetCode 724</a></p>
+<details class="hint"><summary>Hint</summary>Right sum = total − left − nums[i]. No array needed.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def pivot_index(nums):
+    total, left = sum(nums), 0
+    for i, x in enumerate(nums):
+        if left == total - left - x:
+            return i
+        left += x
+    return -1
+# pivot_index([1, 7, 3, 6, 5, 6]) -> 3</code></pre>
+<p>Θ(n) time, O(1) space.</p></details>
+
+<h4>Medium</h4>
+<p><strong>M1. Subarray Sum Equals K</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/subarray-sum-equals-k/">LeetCode 560</a></p>
+<details class="hint"><summary>Hint</summary>Values can be negative, so sliding window fails. Count earlier prefixes equal to <code>running − k</code>.</details>
+<details class="ans"><summary>Optimised solution</summary><p>See Section I.3 and Lab 2. Θ(n) expected time, O(n) space.</p></details>
+
+<p><strong>M2. Contiguous Array</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/contiguous-array/">LeetCode 525</a></p>
+<details class="hint"><summary>Hint</summary>Map 0 → −1. Equal counts ⇔ subarray sum 0 ⇔ two equal prefix values. Store the <em>first</em> index of each prefix value.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def find_max_length(nums):
+    first = {0: -1}          # prefix value 0 seen "before index 0"
+    best = running = 0
+    for i, x in enumerate(nums):
+        running += 1 if x == 1 else -1
+        if running in first:
+            best = max(best, i - first[running])
+        else:
+            first[running] = i
+    return best</code></pre>
+<p>Θ(n) expected time, O(n) space.</p></details>
+
+<p><strong>M3. Subarray Sums Divisible by K</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/subarray-sums-divisible-by-k/">LeetCode 974</a></p>
+<details class="hint"><summary>Hint</summary>Two prefixes with the same remainder mod k bound a divisible subarray. Python’s <code>%</code> already returns a non-negative remainder for positive k.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def subarrays_div_by_k(nums, k):
+    cnt = [0] * k
+    cnt[0] = 1
+    running = ans = 0
+    for x in nums:
+        running = (running + x) % k
+        ans += cnt[running]
+        cnt[running] += 1
+    return ans</code></pre>
+<p>Θ(n + k) time, O(k) space. (In Java/C++ you must fix negative remainders manually.)</p></details>
+
+<p><strong>M4. Range Sum Query 2D – Immutable</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/range-sum-query-2d-immutable/">LeetCode 304</a> · <a href="https://cses.fi/problemset/task/1652">CSES 1652 Forest Queries</a></p>
+<details class="hint"><summary>Hint</summary>Padded <code>S</code>, inclusion–exclusion with four corners.</details>
+<details class="ans"><summary>Optimised solution</summary><p>Section I.4’s <code>PrefixSum2D</code>. Build Θ(rc), query Θ(1).</p></details>
+
+<p><strong>M5. Corporate Flight Bookings</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/corporate-flight-bookings/">LeetCode 1109</a> (similar: <a href="https://leetcode.com/problems/car-pooling/">Car Pooling, 1094</a>)</p>
+<details class="hint"><summary>Hint</summary>Each booking is a range update; flights are 1-indexed.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">from itertools import accumulate
+def corp_flight_bookings(bookings, n):
+    diff = [0] * (n + 1)
+    for first, last, seats in bookings:      # 1-indexed, inclusive
+        diff[first - 1] += seats
+        diff[last] -= seats
+    return list(accumulate(diff[:n]))</code></pre>
+<p>Θ(b + n) time, Θ(n) space.</p></details>
+
+<p><strong>M6. Product of Array Except Self</strong> <span class="badge b-med">Medium</span> — <a href="https://leetcode.com/problems/product-of-array-except-self/">LeetCode 238</a></p>
+<details class="hint"><summary>Hint</summary>Division is banned (and breaks on zeros). Use an exclusive prefix product times an exclusive suffix product.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">def product_except_self(nums):
+    n = len(nums)
+    out = [1] * n
+    pre = 1
+    for i in range(n):             # out[i] = product of nums[:i]
+        out[i] = pre
+        pre *= nums[i]
+    suf = 1
+    for i in range(n - 1, -1, -1): # multiply by product of nums[i+1:]
+        out[i] *= suf
+        suf *= nums[i]
+    return out</code></pre>
+<p>Θ(n) time, O(1) extra space besides the output.</p></details>
+
+<h4>Hard</h4>
+<p><strong>H1. Number of Submatrices That Sum to Target</strong> <span class="badge b-hard">Hard</span> — <a href="https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/">LeetCode 1074</a></p>
+<details class="hint"><summary>Hint</summary>Fix a pair of rows (top, bottom); collapse the strip into a 1D array of column sums; then it is exactly Subarray Sum Equals K.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">from collections import defaultdict
+def num_submatrix_sum_target(matrix, target):
+    R, C = len(matrix), len(matrix[0])
+    ans = 0
+    for top in range(R):
+        col = [0] * C
+        for bottom in range(top, R):
+            for c in range(C):
+                col[c] += matrix[bottom][c]      # column sums of the strip
+            seen = defaultdict(int); seen[0] = 1
+            running = 0
+            for v in col:                        # 1D subarray-sum-equals-k
+                running += v
+                ans += seen[running - target]
+                seen[running] += 1
+    return ans</code></pre>
+<p>Θ(R²·C) expected time, O(C) space (transpose first if R &gt; C).</p></details>
+
+<p><strong>H2. Shortest Subarray with Sum at Least K</strong> <span class="badge b-hard">Hard</span> — <a href="https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/">LeetCode 862</a></p>
+<details class="hint"><summary>Hint</summary>Negatives allowed. Over prefix values, keep a deque of indices with increasing <code>P</code>: pop from the front while <code>P[j] − P[front] ≥ k</code> (record length), pop from the back while <code>P[back] ≥ P[j]</code>.</details>
+<details class="ans"><summary>Optimised solution</summary>
+<pre><code class="language-python">from collections import deque
+from itertools import accumulate
+def shortest_subarray(nums, k):
+    P = list(accumulate(nums, initial=0))
+    best = len(nums) + 1
+    dq = deque()
+    for j, pj in enumerate(P):
+        while dq and pj - P[dq[0]] &gt;= k:
+            best = min(best, j - dq.popleft())
+        while dq and P[dq[-1]] &gt;= pj:
+            dq.pop()
+        dq.append(j)
+    return best if best &lt;= len(nums) else -1</code></pre>
+<p>Θ(n) time: each index enters and leaves the deque at most once. Space Θ(n).</p></details>
+
+<h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
+<p>This section shows how the simple running total grows into more powerful structures. Skim it on a first reading; return when you meet problems with updates or parallel hardware.</p>
+
+<h3>N.1 Prefix sums under updates: the Fenwick tree</h3>
+<p>The static array fails when values change, because one update touches <span class="math">O(n)</span> prefixes. A Fenwick tree (binary indexed tree) stores, at index <span class="math">i</span>, the sum of a block that ends at <span class="math">i</span> and whose length is the lowest set bit of <span class="math">i</span>. Any prefix is the sum of <span class="math">O(log n)</span> such blocks, and any element lies in <span class="math">O(log n)</span> blocks, so both prefix queries and point updates cost <span class="math">O(log n)</span> with <span class="math">O(n)</span> memory. <a class="cite" href="#ref-7">[7]</a><a class="cite" href="#ref-8">[8]</a></p>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure N.1 · Internal structure</small>Fenwick blocks for n = 8 (1-indexed)</div>
+  <svg id="d-fenwick" viewBox="0 0 860 360" role="img" aria-label="Fenwick tree block ranges"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>array positions 1..8</span><span><i class="lg-purple"></i>block stored at tree[i] = range (i − lowbit(i), i]</span><span><i class="lg-green"></i>blocks summed for prefix(7)</span></div>
+  <figcaption>
+  <ol>
+    <li><code>tree[i]</code> covers the <code>lowbit(i) = i &amp; −i</code> positions ending at <code>i</code>: tree[1] covers 1, tree[2] covers 1–2, tree[4] covers 1–4, tree[6] covers 5–6, tree[8] covers 1–8.</li>
+    <li><code>prefix(7)</code> = tree[7] + tree[6] + tree[4] (green): repeatedly strip the lowest set bit, 7 → 6 → 4 → 0.</li>
+    <li>An update at position 5 touches tree[5], tree[6], tree[8]: repeatedly add the lowest set bit, 5 → 6 → 8.</li>
+  </ol>
+  <span class="interp">Technical interpretation: both loops run at most ⌊log₂ n⌋ + 1 times, giving O(log n) operations. <a class="cite" href="#ref-7">[7]</a></span>
+  </figcaption>
+</figure>
+
+<pre><code class="language-python">class Fenwick:
+    """1-indexed binary indexed tree for prefix sums with point updates."""
+    def __init__(self, n):
+        self.n = n
+        self.tree = [0] * (n + 1)
+
+    def add(self, i, delta):          # A[i] += delta, 1-indexed
+        while i &lt;= self.n:
+            self.tree[i] += delta
+            i += i &amp; -i               # jump to the next block that contains i
+
+    def prefix(self, i):              # A[1] + ... + A[i]
+        s = 0
+        while i &gt; 0:
+            s += self.tree[i]
+            i -= i &amp; -i               # strip the lowest set bit
+        return s
+
+    def range_sum(self, l, r):        # inclusive, 1-indexed
+        return self.prefix(r) - self.prefix(l - 1)</code></pre>
+<p>A segment tree generalises further: it supports updates with non-invertible operators such as min and max, and with lazy propagation it supports range updates with range queries. <a class="cite" href="#ref-2">[2]</a></p>
+
+<h3>N.2 Parallel prefix sums (scan)</h3>
+<p>The sequential loop has a dependency chain, so it looks impossible to parallelise; Blelloch called the operation a good example of a computation that seems inherently sequential yet has an efficient parallel algorithm. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-12">[12]</a> Two classic schemes:</p>
+<ul>
+<li><strong>Hillis–Steele</strong>: in round <span class="math">d</span>, every element adds the value <span class="math">2<sup>d</sup></span> positions to its left. After <span class="math">⌈log₂ n⌉</span> rounds the scan is done, but the total work is <span class="math">O(n log n)</span> — not work-efficient. <a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-8">[8]</a></li>
+<li><strong>Work-efficient (up-sweep / down-sweep)</strong>: build a reduction tree bottom-up, then push partial sums down. It does <span class="math">O(n)</span> work with about <span class="math">2 log₂ n</span> steps, and is the basis of the GPU implementation in GPU Gems 3. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-12">[12]</a><a class="cite" href="#ref-20">[20]</a></li>
+</ul>
+
+<figure class="fig">
+  <div class="fig-title"><small>Figure N.2 · Execution diagram</small>Hillis–Steele inclusive scan on 8 elements</div>
+  <svg id="d-scan" viewBox="0 0 860 380" role="img" aria-label="Hillis Steele scan rounds"></svg>
+  <div class="legend"><span><i class="lg-blue"></i>input</span><span><i class="lg-purple"></i>add from 2^d to the left</span><span><i class="lg-yellow"></i>values updated this round</span><span><i class="lg-green"></i>final inclusive scan</span></div>
+  <figcaption>
+  <ol>
+    <li>Round 0 (offset 1): each element adds its left neighbour.</li>
+    <li>Round 1 (offset 2) and round 2 (offset 4) double the reach each time.</li>
+    <li>After 3 = log₂ 8 rounds every position holds the inclusive prefix: <code>[3, 4, 8, 9, 14, 23, 25, 31]</code>.</li>
+  </ol>
+  <span class="interp">Technical interpretation: all additions in a round are independent, so with n processors each round takes O(1) time; total span O(log n), total work O(n log n). <a class="cite" href="#ref-12">[12]</a></span>
+  </figcaption>
+</figure>
+
+<h3>N.3 Other invertible operators</h3>
+<ul>
+<li><strong>Prefix XOR</strong>: <span class="math">X[R+1] ⊕ X[L]</span> gives range XOR, since XOR is its own inverse.</li>
+<li><strong>Prefix counts</strong>: one prefix array per category (e.g. 26 for letters) answers “how many of each letter in s[l..r]?” in <span class="math">O(1)</span> per letter. <a class="cite" href="#ref-3">[3]</a></li>
+<li><strong>Modular prefix sums</strong>: remainders mod <span class="math">m</span>, as in LeetCode 974.</li>
+<li><strong>Higher-order integral images</strong>: storing prefix sums of <span class="math">x</span> and of <span class="math">x²</span> gives the variance of any rectangle in <span class="math">O(1)</span>. <a class="cite" href="#ref-9">[9]</a></li>
+</ul>
+
+<h3>N.4 2D difference arrays and the “imos” method</h3>
+<p>Range updates on rectangles work like the 1D case with four marks: <code>+v</code> at <span class="math">(r1, c1)</span>, <code>−v</code> at <span class="math">(r1, c2+1)</span> and <span class="math">(r2+1, c1)</span>, <code>+v</code> at <span class="math">(r2+1, c2+1)</span>; a 2D prefix pass then materialises the grid. USACO’s “Painting the Barn” is the standard practice problem. <a class="cite" href="#ref-4">[4]</a></p>
+
+<h3>N.5 Prefix sums on trees and lists</h3>
+<p>The same idea applies to root-to-node paths: store the sum from the root to each node; the sum of a path between <span class="math">u</span> and <span class="math">v</span> is <span class="math">pre(u) + pre(v) − 2·pre(lca) + val(lca)</span>. Blelloch also discusses the linked-list version of all-prefix-sums (list ranking), which is the basis of many parallel tree algorithms. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-8">[8]</a></p>
+
+<h3>N.6 Engineering trade-offs at scale</h3>
+<p>Pibiri and Venturini benchmark many prefix-sum data structures and find that practical factors — branch-free versus branchy traversal, cache conflicts in the Fenwick tree layout, SIMD for updates and wide tree fan-outs — change which structure wins on modern CPUs; for example, a 64-ary segment tree was their best general-purpose choice for arbitrary 64-bit updates. <a class="cite" href="#ref-23">[23]</a></p>
+
+<h2 id="notebook"><span class="sec">O</span>Notebook-ready summary</h2>
+<div class="notebook">
+<h4>1 · Definition</h4>
+<ul><li>Prefix sum array <code>P</code> (len n+1): <code>P[0]=0</code>, <code>P[i+1]=P[i]+A[i]</code>.</li>
+<li><code>P[k]</code> = sum of the <b>first k</b> elements.</li></ul>
+<h4>2 · Core formula</h4>
+<ul><li><code>sum(A[L..R]) = P[R+1] − P[L]</code> &nbsp; (half-open: <code>P[j] − P[i]</code>)</li>
+<li>Why: shared prefix A[0..L−1] cancels (telescoping).</li></ul>
+<h4>3 · Picture to draw</h4>
+<svg id="d-mini" viewBox="0 0 760 210" style="width:100%;max-width:640px;background:transparent"></svg>
+<h4>4 · Key properties</h4>
+<ul><li>Needs an associative op <b>with an inverse</b> (+, XOR). Not max/min.</li>
+<li>Static data only — an update costs O(n).</li>
+<li>Prefix ⇄ difference are inverses (∫ and d/dx).</li></ul>
+<h4>5 · Complexity</h4>
+<table>
+<tr><th>Op</th><th>Time</th><th>Space</th></tr>
+<tr><td>Build</td><td>Θ(n)</td><td>Θ(n)</td></tr>
+<tr><td>Query</td><td>Θ(1)</td><td>O(1)</td></tr>
+<tr><td>Point update</td><td>O(n)</td><td>O(1)</td></tr>
+<tr><td>2D build / query</td><td>Θ(rc) / Θ(1)</td><td>Θ(rc)</td></tr>
+<tr><td>Diff range update / rebuild</td><td>Θ(1) / Θ(n)</td><td>Θ(n)</td></tr>
+</table>
+<h4>6 · Python syntax</h4>
+<ul><li><code>P = list(accumulate(A, initial=0))</code></li>
+<li><code>np.cumsum(A)</code> (inclusive, watch overflow)</li>
+<li>Count sum=k: <code>seen={0:1}</code>; <code>cnt += seen.get(run-k,0)</code>; then <code>seen[run]+=1</code></li></ul>
+<h4>7 · 2D formula</h4>
+<ul><li>build: <code>S[i+1][j+1] = G[i][j] + S[i][j+1] + S[i+1][j] − S[i][j]</code></li>
+<li>query: <code>S[r2+1][c2+1] − S[r1][c2+1] − S[r2+1][c1] + S[r1][c1]</code></li></ul>
+<h4>8 · Applications</h4>
+<ul><li>Integral images (Viola–Jones), summed-area tables (Crow ’84)</li>
+<li>SQL running totals, counting sort offsets, gap-decoding postings, GPU scan, MPI_Scan</li></ul>
+<h4>9 · Interview takeaways</h4>
+<ul><li>State the convention first. Pad with 0.</li>
+<li>Negatives? → prefix + hash map, not sliding window.</li>
+<li>Updates? → Fenwick / segment tree. Range adds? → difference array.</li>
+<li>Subarray condition = condition on a <b>pair of prefixes</b>.</li></ul>
+</div>
+
+<h2 id="assessment"><span class="sec">P</span>Knowledge assessment</h2>
+<p>Attempt everything before opening the answer key at the end of this section.</p>
+
+<h3>P.1 Conceptual questions</h3>
+<ol>
+<li>Why does the padded prefix array have length <span class="math">n+1</span>, and what bug does the extra slot prevent?</li>
+<li>For which of these operators can a prefix array answer arbitrary range queries by “subtracting” prefixes: addition, multiplication, XOR, maximum, gcd? Explain.</li>
+<li>An array of size <span class="math">10<sup>6</sup></span> receives <span class="math">10<sup>5</sup></span> point updates interleaved with <span class="math">10<sup>5</sup></span> range-sum queries. Estimate the cost with a plain prefix array, and name a better structure with its costs.</li>
+<li>Why does the two-pointer sliding window fail for “count subarrays with sum k” when values can be negative, and why does prefix + hash map still work?</li>
+<li>In the 2D query formula, why is <code>S[r1][c1]</code> added rather than subtracted?</li>
+</ol>
+
+<h3>P.2 Dry-run exercises</h3>
+<ol>
+<li>Build the padded <code>P</code> for <code>A = [5, −2, 7, 0, 3]</code> and compute <code>sum(A[1..3])</code> with the formula.</li>
+<li>Trace <code>subarray_sum_equals_k([3, 4, 7, 2, −3, 1, 4, 2], 7)</code>: give <code>running</code>, the looked-up key and <code>count</code> after each step.</li>
+<li>Starting from 5 zeros, apply the updates <code>(0, 2, +4)</code> and <code>(1, 4, −1)</code> with a difference array. Show the difference array and the final array.</li>
+</ol>
+
+<h3>P.3 Coding problems</h3>
+<ol>
+<li><strong>Range XOR.</strong> Given <code>arr</code> and queries <code>[l, r]</code>, return the XOR of <code>arr[l..r]</code> for each query in <span class="math">O(n + q)</span> total (cf. <a href="https://leetcode.com/problems/xor-queries-of-a-subarray/">LeetCode 1310</a>).</li>
+<li><strong>Longest subarray with sum k.</strong> Values may be negative. Return the maximum length (0 if none) in expected <span class="math">O(n)</span>.</li>
+<li><strong>Best k×k square.</strong> Given an <span class="math">r × c</span> grid of integers and <span class="math">k</span>, return the maximum sum of any <span class="math">k × k</span> sub-square in <span class="math">O(rc)</span>.</li>
+</ol>
+
+<h3>P.4 Practical engineering scenario</h3>
+<p>You run a metrics service that stores one integer per second (requests served) for each of 10,000 services, keeping one year of history. Dashboards issue thousands of “total between timestamp <span class="math">t<sub>1</sub></span> and <span class="math">t<sub>2</sub></span>” queries per second. Data for the current hour is still arriving, and occasionally a late correction changes a value from the past hour. Design the storage/query scheme, and state the time and space costs and the integer type you would use.</p>
+
+<h3>P.5 Answer key</h3>
+<details class="ans"><summary>Conceptual answers</summary>
+<ol>
+<li><code>P[k]</code> means “sum of the first k elements”, so <span class="math">k</span> ranges over 0…n: <span class="math">n+1</span> values. The slot <code>P[0] = 0</code> represents the empty prefix and makes ranges that start at index 0 use the same formula (<code>P[R+1] − P[0]</code>). Without it you need a special case, and in Python the unguarded <code>pre[L−1]</code> with <code>L = 0</code> silently reads the last element.</li>
+<li>Addition (inverse: subtraction) and XOR (self-inverse) work. Multiplication works only if no element is zero (otherwise division is undefined) and is numerically risky for floats. Maximum and gcd have no inverse — knowing max(A[0..R]) and max(A[0..L−1]) does not determine max(A[L..R]) — so use a sparse table or segment tree.</li>
+<li>Each update costs up to <span class="math">10<sup>6</sup></span> writes: roughly <span class="math">10<sup>5</sup> × 5·10<sup>5</sup> ≈ 5·10<sup>10</sup></span> operations on average — far too slow. A Fenwick tree gives <span class="math">O(log n) ≈ 20</span> steps per operation: about <span class="math">4·10<sup>6</sup></span> steps total, plus <span class="math">O(n)</span> build.</li>
+<li>The window method decides to shrink or grow based on whether the current sum is above or below k, which is only valid when adding elements can never decrease the sum. With negatives, a window that is “too big” might become valid after extending it further. The hash-map method enumerates, for each end position, all start positions implicitly via the equation <code>P[i] = P[j] − k</code>, with no monotonicity assumption.</li>
+<li>The top-left block above and to the left of the rectangle is contained in both subtracted strips (<code>S[r1][c2+1]</code> and <code>S[r2+1][c1]</code>), so it was removed twice. Adding <code>S[r1][c1]</code> once restores the correct count (inclusion–exclusion).</li>
+</ol></details>
+
+<details class="ans"><summary>Dry-run answers (verified by running code)</summary>
+<ol>
+<li><code>P = [0, 5, 3, 10, 10, 13]</code>. <code>sum(A[1..3]) = P[4] − P[1] = 10 − 5 = 5</code> (check: −2 + 7 + 0 = 5).</li>
+<li>
+<div class="tbl-wrap"><table>
+<tr><th>i</th><th>x</th><th>running</th><th>lookup running−7</th><th>found</th><th>count</th></tr>
+<tr><td>0</td><td>3</td><td>3</td><td>−4</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>4</td><td>7</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>2</td><td>7</td><td>14</td><td>7</td><td>1</td><td>2</td></tr>
+<tr><td>3</td><td>2</td><td>16</td><td>9</td><td>0</td><td>2</td></tr>
+<tr><td>4</td><td>−3</td><td>13</td><td>6</td><td>0</td><td>2</td></tr>
+<tr><td>5</td><td>1</td><td>14</td><td>7</td><td>1</td><td>3</td></tr>
+<tr><td>6</td><td>4</td><td>18</td><td>11</td><td>0</td><td>3</td></tr>
+<tr><td>7</td><td>2</td><td>20</td><td>13</td><td>1</td><td>4</td></tr>
+</table></div>
+Answer: 4 — the subarrays <code>[3,4]</code>, <code>[7]</code>, <code>[7,2,−3,1]</code>, <code>[1,4,2]</code>.</li>
+<li>diff (length 6) = <code>[4, −1, 0, −4, 0, 1]</code>; final array = <code>[4, 3, 3, −1, −1]</code>.</li>
+</ol></details>
+
+<details class="ans"><summary>Coding answers</summary>
+<pre><code class="language-python">from itertools import accumulate
+from operator import xor
+
+# 1. Range XOR
+def xor_queries(arr, queries):
+    X = list(accumulate(arr, xor, initial=0))
+    return [X[r + 1] ^ X[l] for l, r in queries]
+
+# 2. Longest subarray with sum k (negatives allowed)
+def longest_subarray_sum_k(nums, k):
+    first = {0: -1}                 # store the FIRST index of each prefix value
+    running = best = 0
+    for i, x in enumerate(nums):
+        running += x
+        if running - k in first:
+            best = max(best, i - first[running - k])
+        if running not in first:    # never overwrite: earliest index gives longest span
+            first[running] = i
+    return best
+
+# 3. Best k x k square
+def best_square(grid, k):
+    R, C = len(grid), len(grid[0])
+    S = [[0] * (C + 1) for _ in range(R + 1)]
+    for r in range(R):
+        for c in range(C):
+            S[r + 1][c + 1] = grid[r][c] + S[r][c + 1] + S[r + 1][c] - S[r][c]
+    best = None
+    for r in range(k, R + 1):
+        for c in range(k, C + 1):
+            s = S[r][c] - S[r - k][c] - S[r][c - k] + S[r - k][c - k]
+            best = s if best is None else max(best, s)
+    return best</code></pre>
+<p>Complexities: (1) Θ(n + q); (2) Θ(n) expected, O(n) space; (3) Θ(rc) time and space.</p></details>
+
+<details class="ans"><summary>Engineering scenario — model answer</summary>
+<p><strong>Split the data by mutability.</strong> Closed hours (immutable) are stored per service as a cumulative array: one int64 running total per second, so any query fully inside history is <code>C[t2+1] − C[t1]</code> in O(1). One year is about 3.15·10<sup>7</sup> seconds, i.e. ≈252 MB per service at 8 bytes each — so in practice you also keep a coarser cumulative array per minute or hour and only load per-second blocks when needed (two-level prefix sums: whole buckets from the coarse array, partial buckets from the fine one).</p>
+<p><strong>Mutable recent window.</strong> The current and previous hour (≤ 7,200 seconds) accept writes and late corrections, so keep them in a Fenwick tree: O(log 7200) ≈ 13 steps per update or query. When an hour can no longer change, freeze it: compute its cumulative array in O(3600) and append it, offset by the running total so far.</p>
+<p><strong>Query.</strong> Split <span class="math">[t<sub>1</sub>, t<sub>2</sub>]</span> into the frozen part (two lookups) plus the live part (two Fenwick prefix queries). <strong>Integer type:</strong> 64-bit signed — a year of per-second counts can exceed 2<sup>31</sup>, and NumPy-style fixed-width arithmetic would wrap silently. <a class="cite" href="#ref-6">[6]</a><a class="cite" href="#ref-7">[7]</a></p>
+</details>
+
+<h2 id="references"><span class="sec">Q</span>References and further reading</h2>
+<ol class="refs">
+<li id="ref-1">G. E. Blelloch, <a href="https://www.cs.cmu.edu/~scandal/papers/CMU-CS-90-190.html">“Prefix Sums and Their Applications,” Technical Report CMU-CS-90-190</a>, School of Computer Science, Carnegie Mellon University, 1990. <span class="why">Formal all-prefix-sums/scan definition, associative operators, parallel implementation, applications (Sections B, G, J, N).</span></li>
+<li id="ref-2">Carnegie Mellon University, 15-451/651 Algorithm Design and Analysis, <a href="https://www.cs.cmu.edu/~15451-f25/lectures/lecture06.pdf">“Range query data structures” lecture notes</a>, Fall 2025. <span class="why">Range-query problem, prefix-sum preprocessing O(n), query O(1), O(n) update weakness, motivation for segment trees (Sections C, F, H, K).</span></li>
+<li id="ref-3">D. Yao, D. Miao, <a href="https://usaco.guide/silver/prefix-sums">“Introduction to Prefix Sums,”</a> USACO Guide (Competitive Programming Initiative). <span class="why">Padded 1-indexed definition, O(1) range-sum formula, O(n) construction (Sections A–C, F, H).</span></li>
+<li id="ref-4">USACO Guide, <a href="https://usaco.guide/silver/prefix-sums-2">“More on Prefix Sums”</a> (Silver). <span class="why">2D prefix-sum recurrence and query, max subarray via prefix minimum, difference arrays (Sections F, G, I, K, N).</span></li>
+<li id="ref-5">Python Software Foundation, <a href="https://docs.python.org/3/library/itertools.html#itertools.accumulate">itertools.accumulate — Python 3 documentation</a>. <span class="why">Built-in running totals, custom functions (3.3+), <code>initial</code> parameter (3.8+) (Sections H, I).</span></li>
+<li id="ref-6">NumPy Developers, <a href="https://numpy.org/doc/stable/reference/generated/numpy.cumsum.html">numpy.cumsum — NumPy reference</a>. <span class="why">Cumulative sum along an axis, accumulator dtype rules, modular integer overflow with no error (Sections F, H, I, L).</span></li>
+<li id="ref-7">CP-Algorithms, <a href="https://cp-algorithms.com/data_structures/fenwick.html">“Fenwick Tree”</a>. <span class="why">Fenwick tree operations, O(log n) costs, invertibility requirement, range-update variants (Sections B, G, K, N).</span></li>
+<li id="ref-8">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Prefix_sum">“Prefix sum”</a> (secondary overview; consulted for history and terminology, cross-checked with [1], [12]). <span class="why">Inclusive/exclusive scans, library names, history (Ofman, Ladner–Fischer, Hillis–Steele, Fenwick), parallel algorithms, counting sort and MPI uses.</span></li>
+<li id="ref-9">Wikipedia contributors, <a href="https://en.wikipedia.org/wiki/Summed-area_table">“Summed-area table”</a> (secondary; cross-checked with [10], [11]). <span class="why">Four-reference rectangle sums, higher-order integral images, history (Sections F, G, J, N).</span></li>
+<li id="ref-10">F. C. Crow, <a href="https://doi.org/10.1145/800031.808600">“Summed-area tables for texture mapping,”</a> Proc. SIGGRAPH ’84, Computer Graphics 18(3), pp. 207–212, ACM, 1984. <span class="why">Origin of the 2D prefix sum in graphics; storage cost per entry (Sections B, H, J).</span></li>
+<li id="ref-11">P. Viola, M. J. Jones, <a href="https://www.cs.princeton.edu/courses/archive/fall07/cos429/readings/ViolaJonesIJCV2004.pdf">“Robust Real-Time Face Detection,”</a> International Journal of Computer Vision 57(2), 137–154, 2004 (course copy hosted by Princeton COS 429). <span class="why">Integral image, constant-time rectangle features, credit to Crow (Sections F, J).</span></li>
+<li id="ref-12">M. Harris, S. Sengupta, J. D. Owens, <a href="https://developer.nvidia.com/gpugems/gpugems3/part-vi-gpu-computing/chapter-39-parallel-prefix-sum-scan-cuda">“Parallel Prefix Sum (Scan) with CUDA,”</a> GPU Gems 3, ch. 39, NVIDIA / Addison-Wesley, 2007. <span class="why">Exclusive scan definition, naive vs work-efficient parallel scan, GPU applications (Sections B, F, J, N).</span></li>
+<li id="ref-13">J. Brody, <a href="https://www.cs.swarthmore.edu/~brody/cs35x/f24/notes/week9.pdf">CS35X Competitive Programming, Lecture 9: Prefix Sums</a>, Swarthmore College, 2024. <span class="why">pre[0] = 0 convention; max subarray via prefix sums (Sections B, G).</span></li>
+<li id="ref-14">PEGWiki, <a href="https://www.wcipeg.com/wiki/Difference_array">“Prefix sum array and difference array”</a>. <span class="why">Difference array definition, inverse relationship (discrete integration/differentiation), hash-map counting (Sections B, F, G, I).</span></li>
+<li id="ref-15">MIT OpenCourseWare, 6.006 Introduction to Algorithms (Spring 2020), <a href="https://live.ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/cda4cc0c0e626bfbd30bc15fb78c3994_MIT6_006S20_r05.pdf">Recitation 5: Linear Sorting</a>. <span class="why">Counting sort computing final positions via cumulative sums; radix sort (Section J).</span></li>
+<li id="ref-16">Python Wiki, <a href="https://wiki.python.org/moin/TimeComplexity">“TimeComplexity”</a>. <span class="why">CPython list get-item O(1), slice O(k), dict average O(1) / amortised worst O(n) (Sections C, F, H, L).</span></li>
+<li id="ref-17">Python Software Foundation, <a href="https://docs.python.org/3/library/stdtypes.html#numeric-types-int-float-complex">Built-in Types — Numeric Types</a>. <span class="why">Python integers have unlimited precision (Sections F, H).</span></li>
+<li id="ref-18">Python Software Foundation, <a href="https://docs.python.org/3/library/math.html#math.fsum">math.fsum</a>. <span class="why">Accurate floating-point summation (Sections F, L).</span></li>
+<li id="ref-19">CSES Problem Set, <a href="https://cses.fi/problemset/task/1646">“Static Range Sum Queries” (task 1646)</a>. <span class="why">Canonical problem statement and constraints n, q ≤ 2·10⁵, values ≤ 10⁹ (Sections C, F, M).</span></li>
+<li id="ref-20">A. Appel, <a href="https://www.cs.princeton.edu/courses/archive/fall20/cos326/lec/21-02-parallel-prefix-scan.pdf">COS 326 “Parallel Prefix Scan” lecture</a>, Princeton University, 2020. <span class="why">Two-pass (reduce tree, then down pass) parallel scan (Section N).</span></li>
+<li id="ref-21">PostgreSQL Global Development Group, <a href="https://www.postgresql.org/docs/current/tutorial-window.html">“Window Functions” tutorial</a>, PostgreSQL documentation. <span class="why">Running totals via <code>sum(...) OVER (ORDER BY ...)</code> and default frame (Section J).</span></li>
+<li id="ref-22">C. D. Manning, P. Raghavan, H. Schütze, <a href="https://nlp.stanford.edu/IR-book/html/htmledition/postings-file-compression-1.html">Introduction to Information Retrieval, §5.3 “Postings file compression”</a>, Cambridge University Press (Stanford online edition). <span class="why">Gap encoding of docIDs in inverted indexes (Section J).</span></li>
+<li id="ref-23">G. E. Pibiri, R. Venturini, <a href="https://iris.unive.it/retrieve/d7015966-8b2f-42db-951a-fbeb8e0a20b6/SPE2021.pdf">“Practical Trade-Offs for the Prefix-Sum Problem,”</a> Software: Practice and Experience, 2021. <span class="why">Empirical comparison of prefix-sum data structures (Sections J, N).</span></li>
+</ol>
+<h4>Practice problem sources</h4>
+<p class="small">LeetCode problems 238, 303, 304, 525, 560, 724, 862, 974, 1074, 1094, 1109, 1310, 1480 and CSES tasks 1646, 1652 are linked at their point of use in Sections M and P. Problem statements are owned by their respective sites.</p>
+
+</main>
+</div>
+
+<script>
+/* ================= Sketch renderer (hand-drawn SVG from exact data) ================= */
+const NS='http://www.w3.org/2000/svg';
+const COL={blue:['#2563eb','#dbeafe'],green:['#16a34a','#dcfce7'],red:['#dc2626','#fee2e2'],yellow:['#d97706','#fef3c7'],purple:['#7c3aed','#ede9fe'],black:['#1f2937','#ffffff'],gray:['#94a3b8','#f8fafc']};
+class Sketch{
+  constructor(svg,seed){this.svg=svg;let s=seed||11;this.r=()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296;};}
+  j(a){return (this.r()-.5)*2*a;}
+  el(tag,attrs,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!==undefined)e.textContent=txt;this.svg.appendChild(e);return e;}
+  rect(x,y,w,h,o={}){
+    const c=COL[o.c||'blue'];const a=o.rough??1.6;
+    if(o.fill!==false){const p=[[x+this.j(a),y+this.j(a)],[x+w+this.j(a),y+this.j(a)],[x+w+this.j(a),y+h+this.j(a)],[x+this.j(a),y+h+this.j(a)]];
+      this.el('path',{d:'M'+p.map(q=>q.join(',')).join('L')+'Z',fill:o.fillc||c[1],stroke:'none',opacity:o.op??1});}
+    const passes=o.passes??2;
+    for(let k=0;k<passes;k++){
+      const pts=[[x+this.j(a),y+this.j(a)],[x+w+this.j(a),y+this.j(a)],[x+w+this.j(a),y+h+this.j(a)],[x+this.j(a),y+h+this.j(a)]];
+      let d='M'+pts[0].join(',');
+      for(let i=1;i<=4;i++){const p0=pts[i-1],p1=pts[i%4];const mx=(p0[0]+p1[0])/2+this.j(a*.8),my=(p0[1]+p1[1])/2+this.j(a*.8);d+=` Q${mx},${my} ${p1[0]+(i===4?this.j(a):0)},${p1[1]+(i===4?this.j(a):0)}`;}
+      this.el('path',{d,fill:'none',stroke:o.stroke||c[0],'stroke-width':(o.sw||2.2)-(k*.6),'stroke-linecap':'round','stroke-linejoin':'round',opacity:k?0.7:1,'stroke-dasharray':o.dash||''});
+    }
+  }
+  line(x1,y1,x2,y2,o={}){
+    const c=COL[o.c||'black'][0];const a=o.rough??1.2;
+    for(let k=0;k<(o.passes??2);k++){
+      const mx=(x1+x2)/2+this.j(a*2),my=(y1+y2)/2+this.j(a*2);
+      this.el('path',{d:`M${x1+this.j(a)},${y1+this.j(a)} Q${mx},${my} ${x2+this.j(a*.5)},${y2+this.j(a*.5)}`,fill:'none',stroke:o.stroke||c,'stroke-width':(o.sw||2)-(k*.5),'stroke-linecap':'round',opacity:k?0.6:1,'stroke-dasharray':o.dash||''});
+    }
+    if(o.arrow)this.head(x2,y2,Math.atan2(y2-y1,x2-x1),o.stroke||c,o.sw||2);
+  }
+  curve(x1,y1,cx,cy,x2,y2,o={}){
+    const c=COL[o.c||'purple'][0];const a=o.rough??1.2;
+    for(let k=0;k<(o.passes??2);k++){
+      this.el('path',{d:`M${x1+this.j(a)},${y1+this.j(a)} Q${cx+this.j(a*2)},${cy+this.j(a*2)} ${x2},${y2}`,fill:'none',stroke:c,'stroke-width':(o.sw||2)-(k*.5),'stroke-linecap':'round',opacity:k?0.6:1,'stroke-dasharray':o.dash||''});
+    }
+    if(o.arrow)this.head(x2,y2,Math.atan2(y2-cy,x2-cx),c,o.sw||2);
+  }
+  head(x,y,ang,stroke,sw){const L=11;for(const s of[-1,1]){const t=ang+Math.PI+s*0.45;this.el('path',{d:`M${x},${y} L${x+L*Math.cos(t)+this.j(.8)},${y+L*Math.sin(t)+this.j(.8)}`,stroke,'stroke-width':sw,'stroke-linecap':'round',fill:'none'});}}
+  circle(cx,cy,rx,ry,o={}){
+    const c=COL[o.c||'green'][0];ry=ry||rx;
+    for(let k=0;k<(o.passes??2);k++){
+      let d='';const st=this.r()*6.28;const N=26;
+      for(let i=0;i<=N+2;i++){const t=st+i/N*6.4;const rr=1+this.j(.06);const px=cx+rx*rr*Math.cos(t),py=cy+ry*rr*Math.sin(t);d+=(i?'L':'M')+px.toFixed(1)+','+py.toFixed(1);}
+      this.el('path',{d,fill:k===0&&o.fill?o.fill:'none',stroke:c,'stroke-width':(o.sw||2.2)-(k*.6),'stroke-linejoin':'round',opacity:k?0.65:1});
+    }
+  }
+  text(x,y,s,o={}){
+    const c=o.color||COL[o.c||'black'][0];
+    return this.el('text',{x,y,fill:c,'font-family':o.mono?"JetBrains Mono, monospace":(o.sans?"Inter, sans-serif":"Caveat, cursive"),'font-size':o.size||22,'font-weight':o.weight||(o.mono?600:700),'text-anchor':o.anchor||'middle','dominant-baseline':o.base||'middle','font-style':o.italic?'italic':'normal'},s);
+  }
+  brace(x1,x2,y,dir,o={}){ // horizontal curly brace; dir=+1 opens downward (tip down), -1 tip up
+    const c=COL[o.c||'purple'][0];const h=(o.h||14)*dir;const m=(x1+x2)/2;
+    const d=`M${x1},${y} Q${x1},${y+h*0.5} ${x1+12},${y+h*0.5} L${m-10},${y+h*0.5} Q${m},${y+h*0.5} ${m},${y+h} Q${m},${y+h*0.5} ${m+10},${y+h*0.5} L${x2-12},${y+h*0.5} Q${x2},${y+h*0.5} ${x2},${y}`;
+    for(let k=0;k<2;k++)this.el('path',{d,fill:'none',stroke:c,'stroke-width':(o.sw||2.2)-k*.7,'stroke-linecap':'round',opacity:k?.6:1,transform:k?`translate(${this.j(1)},${this.j(1)})`:''});
+    return [m,y+h];
+  }
+  cell(x,y,w,h,val,c,o={}){this.rect(x,y,w,h,{c,...o});this.text(x+w/2,y+h/2+1,String(val),{size:o.size||26,color:o.tc||'#1f2937'});}
+}
+
+/* ================= Static diagrams ================= */
+const A0=[3,1,4,1,5,9,2,6];
+const P0=[0,3,4,8,9,14,23,25,31];
+function svgById(id){const s=document.getElementById(id);if(s)s.innerHTML='';return s;}
+
+function drawConcept(){
+  const s=svgById('d-concept');if(!s)return;const k=new Sketch(s,3);
+  const W=82,cw=58,x0=100,yA=60,yP=210;
+  k.text(52,yA+cw/2,'A',{size:34,c:'blue'});k.text(52,yP+cw/2,'P',{size:34,c:'green'});
+  A0.forEach((v,i)=>{const x=x0+W/2+i*W+(W-cw)/2;k.cell(x,yA,cw,cw,v,i===5?'yellow':'blue');k.text(x+cw/2,yA-16,'A['+i+']',{size:13,mono:true,color:'#6b7280'});});
+  P0.forEach((v,i)=>{const x=x0+i*W+(W-cw)/2;k.cell(x,yP,cw,cw,v,'green',{sw:i===6?3.2:2.2});k.text(x+cw/2,yP+cw+18,'P['+i+']',{size:13,mono:true,color:'#6b7280'});});
+  for(let i=0;i<8;i++){
+    const px=x0+i*W+(W-cw)/2+cw, nx=x0+(i+1)*W+(W-cw)/2;
+    k.line(px+3,yP+cw/2,nx-4,yP+cw/2,{c:'purple',arrow:true,sw:2});
+    const ax=x0+W/2+i*W+W/2, nx2=x0+(i+1)*W+W/2;
+    k.line(ax,yA+cw+4,nx2-6,yP-8,{c:i===5?'yellow':'blue',arrow:true,sw:i===5?2.6:1.4,dash:i===5?'':'5 5'});
+  }
+  k.circle(x0+6*W+W/2,yP+cw/2,40,38,{c:'green'});
+  k.text(640,312,'P[6] = P[5] + A[5] = 14 + 9 = 23',{size:24,c:'green',anchor:'middle'});
+  k.text(120,175,'sentinel: P[0] = 0',{size:21,c:'green',anchor:'start'});
+  k.line(140,188,125,yP-4,{c:'green',arrow:true,sw:1.6});
+  k.text(430,345,'rule: P[i+1] = P[i] + A[i]   (purple = carry, dashed = value added)',{size:19,c:'black'});
+}
+
+function drawMemory(){
+  const s=svgById('d-memory');if(!s)return;const k=new Sketch(s,5);
+  const W=82,cw=56,x0=100,yA=30,yP=300;
+  k.text(52,yA+cw/2,'A',{size:34,c:'blue'});k.text(52,yP+cw/2,'P',{size:34,c:'green'});
+  A0.forEach((v,i)=>{const x=x0+W/2+i*W+(W-cw)/2;k.cell(x,yA,cw,cw,v,'blue');k.text(x+cw/2,yA+cw+14,String(i),{size:12,mono:true,color:'#6b7280'});});
+  P0.forEach((v,i)=>{const x=x0+i*W+(W-cw)/2;const hl=[0,3,6,8].includes(i);k.cell(x,yP,cw,cw,v,'green',{sw:hl?3:2});k.text(x+cw/2,yP+cw+14,String(i),{size:12,mono:true,color:'#6b7280'});});
+  const left=x0+W/2+(W-cw)/2, rightOf=i=>x0+W/2+i*W+(W-cw)/2+cw;
+  const specs=[[3,140,'P[3] covers A[0..2] = 8'],[6,190,'P[6] covers A[0..5] = 23'],[8,240,'P[8] covers A[0..7] = 31']];
+  specs.forEach(([kk,y,lab])=>{const [mx,my]=k.brace(left,rightOf(kk-1),y-24,1,{c:'purple',h:16});
+    const px=x0+kk*W+W/2;k.line(mx,my+2,px,yP-6,{c:'purple',arrow:true,sw:1.5,dash:'4 5'});k.text(mx+10,my+12,lab,{size:19,anchor:'start',c:'purple'});});
+  k.text(x0+W/2,yP-20,'P[0]: empty prefix = 0',{size:19,c:'green'});
+  k.text(430,392,'one stored number replaces a whole loop over the prefix',{size:20});
+}
+
+function drawQuery(){
+  const s=svgById('d-query');if(!s)return;const k=new Sketch(s,9);
+  const W=86,cw=60,x0=110,y=150;
+  k.text(60,y+cw/2,'A',{size:34,c:'blue'});
+  A0.forEach((v,i)=>{const x=x0+i*W;k.cell(x,y,cw,cw,v,(i>=2&&i<=5)?'yellow':'blue');k.text(x+cw/2,y+cw+16,String(i),{size:12,mono:true,color:'#6b7280'});});
+  k.brace(x0,x0+5*W+cw,y-14,-1,{c:'green',h:26});
+  k.text(x0+(5*W+cw)/2,y-62,'P[R+1] = P[6] = 23   (A[0..5])',{size:24,c:'green'});
+  k.brace(x0,x0+1*W+cw,y+cw+30,1,{c:'red',h:24});
+  k.text(x0+(W+cw)/2,y+cw+84,'P[L] = P[2] = 4',{size:24,c:'red'});
+  k.text(x0+(W+cw)/2,y+cw+108,'(A[0..1], cancels)',{size:19,c:'red'});
+  k.rect(x0+2*W-8,y-8,3*W+cw+16,cw+16,{c:'yellow',fill:false,sw:2.6,dash:'7 6'});
+  k.text(x0+2*W+(3*W+cw)/2,y+cw+52,'L = 2 … R = 5',{size:22,c:'yellow'});
+  k.circle(680,325,135,26,{c:'green'});
+  k.text(680,326,'sum = 23 − 4 = 19',{size:28,c:'green'});
+  k.text(410,330,'4 + 1 + 5 + 9 = 19 ✓',{size:22});
+}
+
+function drawNaive(){
+  const s=svgById('d-naive');if(!s)return;const k=new Sketch(s,13);
+  const W=62,cw=46,x0=130;
+  k.text(20,34,'BEFORE: naive loop per query',{size:24,anchor:'start',c:'red'});
+  const qs=[[2,5],[0,7],[1,6]];
+  qs.forEach(([L,R],qi)=>{const y=60+qi*52;k.text(70,y+cw/2,`(${L},${R})`,{size:18,mono:true,color:'#374151'});
+    A0.forEach((v,i)=>{const inr=i>=L&&i<=R;k.cell(x0+i*W,y,cw,cw,v,inr?'yellow':'gray',{size:22,sw:inr?2.2:1.4});});
+    k.text(x0+8*W+10,y+cw/2,`${R-L+1} cells visited`,{size:20,anchor:'start',c:'red'});});
+  k.text(x0+8*W+10,60+3*52-6,'cells 2..5 re-added 3×!',{size:20,anchor:'start',c:'red'});
+  k.line(10,222,850,222,{c:'gray',dash:'6 7',sw:1.4});
+  k.text(20,244,'AFTER: two lookups per query',{size:24,anchor:'start',c:'green'});
+  const y=282;
+  P0.forEach((v,i)=>{const hl=i===2||i===6;k.cell(x0+i*W,y,cw,cw,v,hl?(i===6?'green':'red'):'gray',{size:22,sw:hl?3:1.4});k.text(x0+i*W+cw/2,y-8,'P'+i,{size:12,mono:true,color:'#6b7280'});});
+  k.text(x0+9*W+4,y+cw/2,'P[6] − P[2] = 19',{size:22,anchor:'start',c:'green'});
+}
+
+function drawHash(){
+  const s=svgById('d-hash');if(!s)return;const k=new Sketch(s,17);
+  const nums=[1,2,3,-2,2,1],P=[0,1,3,6,4,6,7];const X=j=>110+j*112,Y=v=>292-v*30;
+  k.text(40,34,'nums',{size:22,c:'blue'});
+  nums.forEach((v,i)=>{const x=(X(i)+X(i+1))/2-21;k.cell(x,14,42,40,v,'blue',{size:22});});
+  k.line(70,292,830,292,{c:'gray',sw:1.3});k.text(40,292,'value',{size:16,c:'gray'});
+  for(let v=0;v<=7;v++){k.text(80,Y(v),String(v),{size:13,mono:true,color:'#94a3b8'});}
+  const pairs=[[0,2],[2,3],[2,5],[1,4],[4,6]];
+  pairs.forEach(([i,j],t)=>{const cx=(X(i)+X(j))/2,cy=Math.min(Y(P[i]),Y(P[j]))-30-(t%2)*28;k.curve(X(i),Y(P[i])-10,cx,cy,X(j),Y(P[j])-10,{c:'purple',arrow:true,sw:1.8});});
+  P.forEach((v,j)=>{k.circle(X(j),Y(v),15,15,{c:'green',fill:'#dcfce7'});k.text(X(j),Y(v)+1,String(v),{size:18,mono:true,color:'#166534'});k.text(X(j),318,'P'+j,{size:13,mono:true,color:'#6b7280'});});
+  k.text(660,238,'each arc: P[j] − P[i] = 3',{size:22,c:'purple'});
+  k.text(660,264,'5 arcs ⇒ 5 subarrays',{size:22,c:'green'});
+}
+
+function drawGridSmall(k,x,y,rows,cols,cs,fillFn){for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const col=fillFn(r,c);k.rect(x+c*cs,y+r*cs,cs-3,cs-3,{c:col||'gray',rough:.8,passes:1,sw:1.4});}}
+const G0=[[3,0,1,4,2],[5,6,3,2,1],[1,2,0,1,5],[4,1,0,1,7]];
+function draw2D(){
+  const s=svgById('d-2d');if(!s)return;const k=new Sketch(s,21);
+  const cs=48,x0=30,y0=60;
+  k.text(x0+120,30,'grid G, target rows 1–2, cols 1–3',{size:20});
+  G0.forEach((row,r)=>row.forEach((v,c)=>{const inT=r>=1&&r<=2&&c>=1&&c<=3;k.cell(x0+c*cs,y0+r*cs,cs-4,cs-4,v,inT?'yellow':'blue',{size:22,sw:inT?2.4:1.6});}));
+  k.text(x0+130,y0+4*cs+26,'sum of yellow = 14',{size:22,c:'yellow'});
+  const panels=[['+','green',(r,c)=>r<=2&&c<=3?'green':null,'S[3][4] = 28'],['−','red',(r,c)=>r<1&&c<=3?'red':null,'S[1][4] = 8'],['−','red',(r,c)=>r<=2&&c<1?'red':null,'S[3][1] = 9'],['+','purple',(r,c)=>r<1&&c<1?'purple':null,'S[1][1] = 3']];
+  panels.forEach(([sg,col,fn,lab],i)=>{const px=310+i*136,py=90;k.text(px-16,py+40,sg,{size:40,c:col});
+    drawGridSmall(k,px,py,4,5,21,(r,c)=>fn(r,c)||((r>=1&&r<=2&&c>=1&&c<=3)?null:null));
+    k.rect(px+21-2,py+21-2,3*21+1,2*21+1,{c:'yellow',fill:false,dash:'4 4',sw:1.6,passes:1});
+    k.text(px+52,py+112,lab,{size:19,c:col});});
+  k.text(560,260,'28 − 8 − 9 + 3 = 14',{size:32,c:'green'});
+  k.circle(560,260,150,30,{c:'green'});
+  k.text(560,320,'the purple block was subtracted twice → add it back once',{size:20,c:'purple'});
+}
+
+function drawDiff(){
+  const s=svgById('d-diff');if(!s)return;const k=new Sketch(s,27);
+  const W=58,cw=46,x0=150;
+  const rowY=i=>24+i*58;
+  for(let i=0;i<7;i++)k.text(x0+i*W+cw/2,12,String(i),{size:12,mono:true,color:'#6b7280'});
+  const ups=[[1,3,2],[2,5,3],[0,1,-1]];
+  let diff=[0,0,0,0,0,0,0];
+  k.text(140,rowY(0)+cw/2,'start',{size:20,anchor:'end'});
+  diff.forEach((v,i)=>k.cell(x0+i*W,rowY(0),cw,cw,v,i===6?'gray':'purple',{size:20,sw:1.6}));
+  ups.forEach(([l,r,v],u)=>{const y=rowY(u+1);diff[l]+=v;diff[r+1]-=v;
+    k.text(140,y+cw/2,`(${l},${r},${v>0?'+':''}${v})`,{size:19,anchor:'end',mono:true,color:'#374151'});
+    diff.forEach((dv,i)=>{const c=i===l?'green':(i===r+1?'red':(i===6?'gray':'purple'));k.cell(x0+i*W,y,cw,cw,dv,c,{size:20,sw:(i===l||i===r+1)?2.6:1.4});});
+    k.line(x0+l*W+cw/2,y+cw+5,x0+r*W+cw/2,y+cw+5,{c:'yellow',sw:2.2,passes:1});
+    k.text(x0+7*W+10,y+cw/2,`${v>0?'+':''}${v} on A[${l}..${r}]: 2 writes`,{size:19,anchor:'start',c:'black'});});
+  const res=[-1,1,5,5,3,3];const yR=rowY(4)+12;
+  k.text(140,yR+cw/2,'prefix sum',{size:20,anchor:'end',c:'blue'});
+  res.forEach((v,i)=>{k.cell(x0+i*W,yR,cw,cw,v,'blue',{size:22});k.line(x0+i*W+cw/2,rowY(3)+cw+10,x0+i*W+cw/2,yR-4,{c:'blue',arrow:true,sw:1.3,dash:'3 4',passes:1});});
+  k.text(x0+7*W+10,yR+cw/2,'= A [−1, 1, 5, 5, 3, 3]',{size:21,anchor:'start',c:'blue'});
+}
+
+function drawIntegral(){
+  const s=svgById('d-integral');if(!s)return;const k=new Sketch(s,31);
+  const cs=34,x0=40,y0=30,R=8,C=11;
+  const shade=['#eff6ff','#dbeafe','#bfdbfe','#93c5fd'];
+  for(let r=0;r<R;r++)for(let c=0;c<C;c++){const v=Math.floor(k.r()*4);k.rect(x0+c*cs,y0+r*cs,cs-2,cs-2,{c:'blue',fillc:shade[v],rough:.6,passes:1,sw:1});}
+  const r1=2,c1=3,r2=5,c2=7;
+  k.rect(x0+c1*cs-2,y0+r1*cs-2,(c2-c1+1)*cs+2,(r2-r1+1)*cs+2,{c:'yellow',fillc:'#fde68a',op:.55,sw:3});
+  const pts=[['A',c1,r1,'green'],['B',c2+1,r1,'red'],['C',c1,r2+1,'red'],['D',c2+1,r2+1,'green']];
+  pts.forEach(([n,c,r,col])=>{const x=x0+c*cs-1,y=y0+r*cs-1;k.circle(x,y,9,9,{c:col,fill:col==='green'?'#dcfce7':'#fee2e2'});k.text(x+(c>c1?16:-16),y+(r>r1?16:-16),n,{size:24,c:col});});
+  k.text(640,60,'rectangle sum =',{size:24});
+  k.text(640,96,'II(D) − II(B) − II(C) + II(A)',{size:26,c:'green'});
+  k.text(640,134,'4 lookups, any size',{size:22,c:'purple'});
+  // Haar feature sketch
+  const hx=560,hy=180;k.rect(hx,hy,80,100,{c:'black',fillc:'#ffffff',sw:2});k.rect(hx+80,hy,80,100,{c:'black',fillc:'#cbd5e1',sw:2});
+  k.text(hx+40,hy+50,'light',{size:20});k.text(hx+120,hy+50,'dark',{size:20});
+  k.text(hx+80,hy+128,'Haar-like feature = sum(light) − sum(dark)',{size:19,c:'purple'});
+  k.text(hx+80,hy+150,'= 2 rectangle sums = 8 lookups',{size:19,c:'purple'});
+}
+
+function drawDecision(){
+  const s=svgById('d-decision');if(!s)return;const k=new Sketch(s,37);
+  const box=(x,y,w,h,t,c,sz)=>{k.rect(x,y,w,h,{c,fillc:c==='green'?'#dcfce7':'#ffffff',sw:2.2});t.split('\n').forEach((ln,i,arr)=>k.text(x+w/2,y+h/2+(i-(arr.length-1)/2)*22,ln,{size:sz||20,c:c==='green'?'green':'black'}));};
+  box(300,14,260,56,'Does the data change\nbetween queries?','black');
+  box(40,130,240,56,'Is the operator invertible?\n(sum, XOR, count)','black');
+  box(580,130,250,56,'Only range updates, result\nread once at the end?','black');
+  box(10,270,150,56,'PREFIX SUM\nO(n) / O(1)','green',19);
+  box(180,270,160,56,'SPARSE TABLE\n(min/max, static)','green',19);
+  box(720,270,130,56,'DIFFERENCE\nARRAY','green',19);
+  box(440,250,250,56,'Operator invertible?','black');
+  box(380,340,150,52,'FENWICK TREE\nO(log n)','green',18);
+  box(600,340,160,52,'SEGMENT TREE\nO(log n)','green',18);
+  const L=(a,b,c,d,lab,lx,ly)=>{k.line(a,b,c,d,{c:'purple',arrow:true,sw:2});if(lab)k.text(lx,ly,lab,{size:20,c:'purple'});};
+  L(330,72,170,126,'no',235,92);L(530,72,700,126,'yes',632,92);
+  L(120,188,85,266,'yes',88,226);L(200,188,255,266,'no',246,226);
+  L(780,188,785,266,'yes',802,226);L(640,188,580,246,'no',598,212);
+  L(510,308,460,336,'yes',470,316);L(620,308,675,336,'no',665,316);
+}
+
+function drawFenwick(){
+  const s=svgById('d-fenwick');if(!s)return;const k=new Sketch(s,41);
+  const W=86,x0=90,cw=70;
+  for(let i=1;i<=8;i++){k.cell(x0+(i-1)*W,24,cw,44,i,'blue',{size:22});}
+  k.text(46,46,'pos',{size:20,c:'blue'});
+  const lowbit=i=>i&-i;const level=i=>Math.log2(lowbit(i));
+  const green=[7,6,4];
+  for(let i=1;i<=8;i++){const lb=lowbit(i),lv=level(i);const y=100+lv*62;const xs=x0+(i-lb)*W,xe=x0+(i-1)*W+cw;
+    const g=green.includes(i);k.rect(xs,y,xe-xs,40,{c:g?'green':'purple',sw:g?2.8:2});
+    if(lb===1){k.text((xs+xe)/2,y+12,`tree[${i}]`,{size:16,c:g?'green':'purple'});k.text((xs+xe)/2,y+30,`(${i-lb}, ${i}]`,{size:16,c:g?'green':'purple'});}else k.text((xs+xe)/2,y+21,`tree[${i}] = (${i-lb}, ${i}]`,{size:20,c:g?'green':'purple'});}
+  for(let lv=0;lv<4;lv++)k.text(46,121+lv*62,'len '+(1<<lv),{size:17,c:'gray'});
+  k.text(430,345,'prefix(7) = tree[7] + tree[6] + tree[4]   (7 → 6 → 4 → 0)',{size:21,c:'green'});
+}
+
+function drawScan(){
+  const s=svgById('d-scan');if(!s)return;const k=new Sketch(s,43);
+  const W=80,cw=54,x0=120;
+  let cur=A0.slice();const rows=[cur.slice()];
+  for(let d=0;d<3;d++){const off=1<<d;const nx=cur.map((v,i)=>i>=off?v+cur[i-off]:v);rows.push(nx);cur=nx;}
+  rows.forEach((row,ri)=>{const y=20+ri*92;k.text(70,y+cw/2,ri===0?'input':'d = '+(ri-1),{size:21,c:ri===0?'blue':'black'});
+    row.forEach((v,i)=>{let c='blue';if(ri>0){const off=1<<(ri-1);c=i>=off?'yellow':'gray';}if(ri===3)c='green';k.cell(x0+i*W,y,cw,cw,v,c,{size:22});});
+    if(ri>0){const off=1<<(ri-1);for(let i=off;i<8;i++){k.line(x0+(i-off)*W+cw/2,y-34,x0+i*W+cw/2-4,y-4,{c:'purple',arrow:true,sw:1.3,passes:1});}}
+    if(ri>0)k.text(x0+8*W+2,y+cw/2,'offset '+(1<<(ri-1)),{size:19,anchor:'start',c:'purple'});});
+}
+
+function drawMini(){
+  const s=svgById('d-mini');if(!s)return;const k=new Sketch(s,47);
+  const W=66,cw=48,x0=70,y=78;
+  k.text(30,y+cw/2,'A',{size:30,c:'blue'});
+  A0.forEach((v,i)=>k.cell(x0+i*W,y,cw,cw,v,(i>=2&&i<=5)?'yellow':'blue',{size:22}));
+  k.brace(x0,x0+5*W+cw,y-8,-1,{c:'green',h:20});k.text(x0+(5*W+cw)/2,y-46,'P[R+1]',{size:24,c:'green'});
+  k.brace(x0,x0+W+cw,y+cw+8,1,{c:'red',h:20});k.text(x0+(W+cw)/2,y+cw+48,'P[L]',{size:24,c:'red'});
+  k.text(x0+3.6*W+30,y+cw+44,'answer = P[R+1] − P[L]',{size:26,c:'black',anchor:'start'});
+}
+
+function drawAll(){try{drawConcept();drawMemory();drawQuery();drawNaive();drawHash();draw2D();drawDiff();drawIntegral();drawDecision();drawFenwick();drawScan();drawMini();}catch(e){console.error(e);}}
+
+/* ================= Helpers ================= */
+const $=id=>document.getElementById(id);
+function parseNums(str,min,max,maxLen){
+  const parts=str.split(/[\s,]+/).filter(Boolean);
+  if(!parts.length)throw new Error('Enter at least one integer.');
+  if(parts.length>maxLen)throw new Error(`Use at most ${maxLen} numbers.`);
+  return parts.map(p=>{if(!/^-?\d+$/.test(p))throw new Error(`“${p}” is not an integer.`);const v=parseInt(p,10);if(v<min||v>max)throw new Error(`Values must be between ${min} and ${max}.`);return v;});
+}
+function mkCell(val,cls,idx){const col=document.createElement('div');col.className='cellcol';const c=document.createElement('div');c.className='cell '+(cls||'');c.textContent=val;col.appendChild(c);if(idx!==undefined){const i=document.createElement('div');i.className='idx';i.textContent=idx;col.appendChild(i);}return col;}
+
+/* ================= Lab 1: build & query ================= */
+(function(){
+  let A=[3,1,4,1,5,9,2,6],P=[],step=0,timer=null,L=2,R=5,clickTurn=0;
+  function computeP(){P=[0];A.forEach(x=>P.push(P[P.length-1]+x));}
+  function setRanges(){const n=A.length;['w1-L','w1-R'].forEach(id=>{$(id).max=n-1;});L=Math.min(L,n-1);R=Math.min(Math.max(R,L),n-1);$('w1-L').value=L;$('w1-R').value=R;}
+  function render(){
+    const n=A.length,full=step===n;
+    const Arow=$('w1-A');Arow.innerHTML='';
+    A.forEach((v,i)=>{let cls='click';if(!full&&step>0&&i===step-1)cls+=' active';if(full&&i>=L&&i<=R)cls+=' sel';const c=mkCell(v,cls,i);c.firstChild.onclick=(e)=>{if(e.shiftKey||clickTurn===1){if(i<L){R=L;L=i;}else R=i;clickTurn=0;}else{L=i;R=i;clickTurn=1;}$('w1-L').value=L;$('w1-R').value=R;render();};Arow.appendChild(c);});
+    const Prow=$('w1-P');Prow.innerHTML='';
+    P.forEach((v,i)=>{let cls='p',txt=v;if(i>step){cls='empty';txt='?';}else if(!full&&i===step&&step>0)cls+=' active';
+      if(full&&i===R+1)cls='plus';if(full&&i===L)cls='minus';Prow.appendChild(mkCell(txt,cls,i));});
+    // build status
+    let st;
+    if(step===0)st=`<b>Step 0 / ${n}.</b> P[0] = 0 is the sentinel (sum of zero elements). Press Play or Next.`;
+    else{const i=step-1;st=`<b>Step ${step} / ${n}.</b> P[${i+1}] = P[${i}] + A[${i}] = ${P[i]} + ${A[i]} = <b>${P[i+1]}</b>. Invariant: P[${i+1}] is the sum of the first ${i+1} element${i?'s':''}.`;if(full)st+=' <br>✅ Build complete — Θ(n) additions done once.';}
+    $('w1-status').innerHTML=st;
+    $('w1-Lv').textContent='= '+L;$('w1-Rv').textContent='= '+R;
+    const naive=R-L;
+    if(!full){$('w1-qstatus').innerHTML=`Query <b>[${L}, ${R}]</b> needs P[${R+1}] and P[${L}] — finish building P first (press ▶ Play or Next).`;}
+    else{const ans=P[R+1]-P[L];const terms=A.slice(L,R+1).join(' + ').replace(/\+ -/g,'− ');
+      $('w1-qstatus').innerHTML=`sum(A[${L}..${R}]) = P[${R+1}] − P[${L}] = <span style="color:var(--green);font-weight:700">${P[R+1]}</span> − <span style="color:var(--red);font-weight:700">${P[L]}</span> = <b>${ans}</b> &nbsp;<span class="small">(check: ${terms} = ${A.slice(L,R+1).reduce((a,b)=>a+b,0)})</span><br><span class="small">Naive loop: ${R-L+1} reads + ${naive} additions. Prefix method: 2 reads + 1 subtraction, for any range.</span>`;}
+    $('w1-prev').disabled=step===0;$('w1-next').disabled=step===n;
+    $('w1-play').textContent=timer?'⏸ Pause':'▶ Play';
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  function play(){if(timer){stop();render();return;}if(step===A.length)step=0;timer=setInterval(()=>{if(step<A.length){step++;render();}if(step>=A.length){stop();render();}},+$('w1-speed').value);render();}
+  function load(arr){stop();A=arr;computeP();step=0;setRanges();$('w1-err').textContent='';render();}
+  $('w1-load').onclick=()=>{try{load(parseNums($('w1-input').value,-999,999,12));}catch(e){$('w1-err').textContent=e.message;}};
+  $('w1-rand').onclick=()=>{const n=6+Math.floor(Math.random()*5);const arr=Array.from({length:n},()=>Math.floor(Math.random()*19)-5);$('w1-input').value=arr.join(', ');load(arr);};
+  $('w1-play').onclick=play;
+  $('w1-next').onclick=()=>{stop();if(step<A.length)step++;render();};
+  $('w1-prev').onclick=()=>{stop();if(step>0)step--;render();};
+  $('w1-reset').onclick=()=>{stop();step=0;render();};
+  $('w1-speed').oninput=()=>{if(timer){stop();play();}};
+  $('w1-L').oninput=()=>{L=+$('w1-L').value;if(L>R){R=L;$('w1-R').value=R;}render();};
+  $('w1-R').oninput=()=>{R=+$('w1-R').value;if(R<L){L=R;$('w1-L').value=L;}render();};
+  computeP();setRanges();render();
+})();
+
+/* ================= Lab 2: subarray sum equals k ================= */
+(function(){
+  let nums=[],k=3,snaps=[],step=0,timer=null;
+  function compute(){
+    snaps=[];const seen=new Map([[0,[0]]]);let running=0,count=0;const found=[];
+    snaps.push({running:0,key:null,add:0,count:0,seen:new Map([[0,1]]),found:[],newF:[],i:-1});
+    nums.forEach((x,i)=>{running+=x;const key=running-k;const pos=seen.get(key)||[];const newF=pos.map(p=>[p,i]);count+=pos.length;found.push(...newF);
+      if(!seen.has(running))seen.set(running,[]);seen.get(running).push(i+1);
+      const cm=new Map();seen.forEach((v,kk)=>cm.set(kk,v.length));
+      snaps.push({running,key,add:pos.length,count,seen:cm,found:found.slice(),newF,i});});
+  }
+  function render(){
+    const s=snaps[step];const n=nums.length;
+    const row=$('w2-A');row.innerHTML='';
+    const hl=new Set();s.newF.forEach(([a,b])=>{for(let t=a;t<=b;t++)hl.add(t);});
+    nums.forEach((v,i)=>{let cls='';if(i===s.i)cls='active';else if(hl.has(i))cls='plus';else if(i<s.i)cls='';row.appendChild(mkCell(v,cls,i));});
+    const map=$('w2-map');map.innerHTML='';
+    s.seen.forEach((cnt,key)=>{const sp=document.createElement('span');sp.textContent=`${key} → ${cnt}`;if(s.key!==null&&key===s.key)sp.className=s.add?'hit':'lookup';map.appendChild(sp);});
+    let st;
+    if(step===0)st=`<b>Start.</b> running = 0, count = 0, seen = {0: 1} — the empty prefix, so subarrays that start at index 0 can be found.`;
+    else{st=`<b>Step ${step} / ${n}.</b> x = ${nums[s.i]} → running = <b>${s.running}</b>. Look up running − k = ${s.running} − ${k} = <b>${s.key}</b>: `+(s.add?`<span style="color:var(--green);font-weight:700">seen ${s.add} time${s.add>1?'s':''}</span>, so ${s.add} subarray${s.add>1?'s end':' ends'} here (green). count = <b>${s.count}</b>.`:`not seen, count stays <b>${s.count}</b>.`)+` Then record seen[${s.running}] += 1.`;
+      if(step===n)st+=` <br>✅ Done: <b>${s.count}</b> subarray${s.count===1?'':'s'} sum to ${k}.`;}
+    $('w2-status').innerHTML=st;
+    $('w2-found').innerHTML=s.found.length?s.found.map(([a,b])=>`[${nums.slice(a,b+1).join(', ')}] (idx ${a}..${b})`).join(' · '):'none yet';
+    $('w2-prev').disabled=step===0;$('w2-next').disabled=step===n;$('w2-play').textContent=timer?'⏸ Pause':'▶ Play';
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  function load(){stop();try{nums=parseNums($('w2-input').value,-99,99,12);const kv=$('w2-k').value.trim();if(!/^-?\d+$/.test(kv))throw new Error('k must be an integer.');k=parseInt(kv,10);$('w2-err').textContent='';compute();step=0;render();}catch(e){$('w2-err').textContent=e.message;}}
+  $('w2-load').onclick=load;
+  $('w2-play').onclick=()=>{if(timer){stop();render();return;}if(step===nums.length)step=0;timer=setInterval(()=>{if(step<nums.length){step++;render();}if(step>=nums.length){stop();render();}},900);render();};
+  $('w2-next').onclick=()=>{stop();if(step<nums.length)step++;render();};
+  $('w2-prev').onclick=()=>{stop();if(step>0)step--;render();};
+  $('w2-reset').onclick=()=>{stop();step=0;render();};
+  load();
+})();
+
+/* ================= Lab 3: 2D prefix sums ================= */
+(function(){
+  let G=G0.map(r=>r.slice()),S=[],a=[1,1],b=[2,3],drag=false;
+  function build(){const R=G.length,C=G[0].length;S=Array.from({length:R+1},()=>Array(C+1).fill(0));for(let r=0;r<R;r++)for(let c=0;c<C;c++)S[r+1][c+1]=G[r][c]+S[r][c+1]+S[r+1][c]-S[r][c];}
+  function rect(){return[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[0],b[0]),Math.max(a[1],b[1])];}
+  function render(){
+    const R=G.length,C=G[0].length;const [r1,c1,r2,c2]=rect();
+    const g=$('w3-grid');g.innerHTML='';g.style.gridTemplateColumns=`repeat(${C},44px)`;
+    for(let r=0;r<R;r++)for(let c=0;c<C;c++){const d=document.createElement('div');d.className='g'+(r>=r1&&r<=r2&&c>=c1&&c<=c2?' in':'');d.textContent=G[r][c];d.dataset.r=r;d.dataset.c=c;
+      d.addEventListener('pointerdown',e=>{e.preventDefault();try{e.target.releasePointerCapture(e.pointerId);}catch(_){}drag=true;a=[r,c];b=[r,c];render();});
+      d.addEventListener('pointerenter',()=>{if(drag){b=[r,c];render();}});
+      g.appendChild(d);}
+    const sg=$('w3-S');sg.innerHTML='';sg.style.gridTemplateColumns=`repeat(${C+1},44px)`;
+    const corners={[`${r2+1},${c2+1}`]:['corner-plus','+','var(--green)'],[`${r1},${c2+1}`]:['corner-minus','−','var(--red)'],[`${r2+1},${c1}`]:['corner-minus','−','var(--red)'],[`${r1},${c1}`]:['corner-plus','+','var(--purple)']};
+    for(let r=0;r<=R;r++)for(let c=0;c<=C;c++){const d=document.createElement('div');d.className='g '+((r===0||c===0)?'sp0':'sp');d.textContent=S[r][c];const key=`${r},${c}`;
+      if(corners[key]){d.classList.add(corners[key][0]);const t=document.createElement('span');t.className='tag';t.style.background=corners[key][2];t.textContent=corners[key][1];d.appendChild(t);}
+      sg.appendChild(d);}
+    const ans=S[r2+1][c2+1]-S[r1][c2+1]-S[r2+1][c1]+S[r1][c1];let direct=0;for(let r=r1;r<=r2;r++)for(let c=c1;c<=c2;c++)direct+=G[r][c];
+    $('w3-status').innerHTML=`Rectangle rows ${r1}..${r2}, cols ${c1}..${c2}:<br>S[${r2+1}][${c2+1}] − S[${r1}][${c2+1}] − S[${r2+1}][${c1}] + S[${r1}][${c1}] = <span style="color:var(--green);font-weight:700">${S[r2+1][c2+1]}</span> − <span style="color:var(--red);font-weight:700">${S[r1][c2+1]}</span> − <span style="color:var(--red);font-weight:700">${S[r2+1][c1]}</span> + <span style="color:var(--purple);font-weight:700">${S[r1][c1]}</span> = <b>${ans}</b> <span class="small">(direct sum of ${(r2-r1+1)*(c2-c1+1)} cells = ${direct} ${ans===direct?'✓':'✗'})</span>`;
+  }
+  document.addEventListener('pointerup',()=>{drag=false;});
+  $('w3-rand').onclick=()=>{const R=4+Math.floor(Math.random()*2),C=5+Math.floor(Math.random()*2);G=Array.from({length:R},()=>Array.from({length:C},()=>Math.floor(Math.random()*10)));a=[1,1];b=[2,2];build();render();};
+  $('w3-reset').onclick=()=>{G=G0.map(r=>r.slice());a=[1,1];b=[2,3];build();render();};
+  build();render();
+})();
+
+/* ================= Lab 4: difference array ================= */
+(function(){
+  let n=6,ups=[[1,3,2],[2,5,3],[0,1,-1]],diff=[],rb=0;
+  function compute(){diff=Array(n+1).fill(0);ups.forEach(([l,r,v])=>{diff[l]+=v;diff[r+1]-=v;});}
+  function render(lastUp){
+    $('w4-list').textContent=ups.length?'Updates: '+ups.map(([l,r,v])=>`(${l},${r},${v>0?'+':''}${v})`).join('  '):'No updates yet.';
+    const D=$('w4-D');D.innerHTML='';
+    diff.forEach((v,i)=>{let cls='link';if(lastUp){if(i===lastUp[0])cls='plus';else if(i===lastUp[1]+1)cls='minus';}if(i===n)cls+=' empty';if(rb>0&&i===rb-1)cls='active';D.appendChild(mkCell(v,cls,i===n?'spare':i));});
+    const Rr=$('w4-R');Rr.innerHTML='';let run=0;
+    for(let i=0;i<n;i++){run+=diff[i];const known=i<rb;Rr.appendChild(mkCell(known?run:'?',known?(i===rb-1?'active':'p'):'empty',i));}
+    let st;
+    if(lastUp)st=`Update (${lastUp[0]}, ${lastUp[1]}, ${lastUp[2]}): diff[${lastUp[0]}] += ${lastUp[2]} (green), diff[${lastUp[1]+1}] −= ${lastUp[2]} (red). Only 2 writes, whatever the range length.`;
+    else if(rb===0)st=`Difference array ready (${ups.length} update${ups.length===1?'':'s'}, ${2*ups.length} writes). Press “Rebuild” to prefix-sum it.`;
+    else{let r2=0;for(let i=0;i<rb;i++)r2+=diff[i];st=`Rebuild step ${rb}/${n}: running += diff[${rb-1}] (${diff[rb-1]}) → A[${rb-1}] = <b>${r2}</b>.`+(rb===n?' ✅ Array reconstructed in one Θ(n) pass.':'');}
+    $('w4-status').innerHTML=st;$('w4-step').disabled=rb>=n;
+  }
+  function readInt(id){const v=$(id).value.trim();if(!/^-?\d+$/.test(v))throw new Error(`${id.slice(3)} must be an integer.`);return parseInt(v,10);}
+  $('w4-add').onclick=()=>{try{const nn=readInt('w4-n');if(nn<1||nn>12)throw new Error('n must be between 1 and 12.');if(nn!==n){n=nn;ups=ups.filter(([l,r])=>r<n);}
+      const l=readInt('w4-l'),r=readInt('w4-r'),v=readInt('w4-v');if(l<0||r>=n||l>r)throw new Error(`Need 0 ≤ l ≤ r < n (n = ${n}).`);if(Math.abs(v)>99)throw new Error('Keep |v| ≤ 99.');
+      ups.push([l,r,v]);$('w4-err').textContent='';rb=0;compute();render([l,r,v]);}catch(e){$('w4-err').textContent=e.message;}};
+  $('w4-clear').onclick=()=>{try{const nn=readInt('w4-n');if(nn<1||nn>12)throw new Error('n must be between 1 and 12.');n=nn;}catch(e){$('w4-err').textContent=e.message;return;}ups=[];rb=0;$('w4-err').textContent='';compute();render();};
+  $('w4-step').onclick=()=>{if(rb<n)rb++;render();};
+  $('w4-all').onclick=()=>{rb=n;render();};
+  compute();render();
+})();
+
+/* ================= Lab 5: complexity bars ================= */
+(function(){
+  function fmt(x){if(x>=1e9)return(x/1e9).toFixed(2)+' billion';if(x>=1e6)return(x/1e6).toFixed(2)+' million';if(x>=1e3)return(x/1e3).toFixed(1)+' thousand';return Math.round(x).toString();}
+  function render(){
+    const n=+$('w5-n').value,q=+$('w5-q').value;$('w5-nv').textContent=n.toLocaleString();$('w5-qv').textContent=q.toLocaleString();
+    const naive=q*(n+2)/3,pref=n+q;const mx=Math.log10(Math.max(naive,pref,10))+.3;
+    const w=x=>Math.max(4,Math.log10(Math.max(x,1))/mx*100);
+    $('w5-bars').innerHTML=`<div>Naive (loop per query)<div class="bar" style="width:${w(naive)}%;border-color:var(--red);background:var(--red-l)">${fmt(naive)}</div></div>
+      <div>Prefix sums (build + 1 subtraction per query)<div class="bar" style="width:${w(pref)}%;border-color:var(--green);background:var(--green-l)">${fmt(pref)}</div></div>`;
+    $('w5-status').innerHTML=`Naive ≈ q·(n+2)/3 = <b>${fmt(naive)}</b> additions; prefix ≈ n + q = <b>${fmt(pref)}</b>. Ratio ≈ <b>${(naive/pref).toFixed(1)}×</b>. `+(naive<pref?'With so few queries, the build does not pay off yet.':'At ~10⁸ simple operations per second, the naive method would take about '+(naive/1e8).toFixed(naive>1e9?0:2)+' s vs '+(pref/1e8).toFixed(4)+' s.');
+  }
+  $('w5-n').oninput=render;$('w5-q').oninput=render;render();
+})();
+
+/* ================= Page chrome ================= */
+document.querySelectorAll('pre').forEach(pre=>{const b=document.createElement('button');b.className='copy';b.textContent='Copy';b.onclick=()=>{const t=pre.querySelector('code').innerText;navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1200);}).catch(()=>{b.textContent='Select & copy';});};pre.appendChild(b);});
+(function(){const links=[...document.querySelectorAll('#toc a')];const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map.get(e.target.id);if(a)a.classList.add('active');}});},{rootMargin:'-10% 0px -80% 0px'});
+  map.forEach((a,id)=>{const el=document.getElementById(id);if(el)obs.observe(el);});})();
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(drawAll);}else drawAll();
+drawAll();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>try{if(window.hljs){document.querySelectorAll('pre code.language-python').forEach(el=>hljs.highlightElement(el));}}catch(e){}</script>
+</body>
+</html>

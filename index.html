@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSA Learning Studio</title>
+<meta name="description" content="Illustrated, interactive textbook chapters on data structures and algorithms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2563eb; --blue-l:#dbeafe;
+  --green:#16a34a; --green-l:#dcfce7;
+  --red:#dc2626; --red-l:#fee2e2;
+  --yellow:#f59e0b; --yellow-l:#fef3c7;
+  --purple:#7c3aed; --purple-l:#ede9fe;
+  --ink:#1f2937; --muted:#6b7280; --paper:#fbfaf6; --line:#e7e5e4;
+  --hand:'Caveat',cursive; --serif:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.68}
+main{max-width:960px;margin:0 auto;padding:28px 24px 120px}
+header.hero{border-bottom:2px dashed #d6d3d1;padding:30px 0 28px;margin-bottom:28px}
+.kicker{font-family:var(--sans);font-weight:700;color:var(--purple);letter-spacing:.14em;text-transform:uppercase;font-size:12.5px}
+h1{font-family:var(--sans);font-weight:800;font-size:clamp(34px,5vw,52px);line-height:1.08;margin:.25em 0 .2em;letter-spacing:-.02em}
+h1 .hand{font-family:var(--hand);color:var(--green);font-weight:700;font-size:1.05em}
+.sub{font-size:20px;color:#44403c;margin:0}
+h2{font-family:var(--sans);font-weight:800;font-size:26px;margin:1.6em 0 .6em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+a.card{display:block;text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:18px 22px 16px 20px;padding:18px 20px 16px;box-shadow:4px 5px 0 #e7e5e4;transition:transform .12s,box-shadow .12s}
+a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 7px 0 var(--purple-l);border-color:var(--purple)}
+.card .num{display:inline-block;font-family:var(--hand);color:#fff;background:var(--purple);border-radius:10px 14px 9px 13px;padding:0 12px;font-size:24px;transform:rotate(-2deg)}
+.card h3{font-family:var(--sans);font-weight:800;font-size:22px;margin:.5em 0 .1em}
+.card .tag{font-family:var(--hand);color:var(--green);font-size:22px;font-weight:700;line-height:1.1}
+.card p{font-size:16px;color:#44403c;margin:.5em 0}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;font-family:var(--sans);font-size:12px}
+.pill{border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px;background:#fff}
+.soon{border:2px dashed #cbd5e1;border-radius:18px;padding:18px 20px;color:var(--muted);font-family:var(--sans);font-size:14px}
+.soon b{display:block;font-family:var(--hand);font-size:24px;color:#94a3b8;margin-bottom:4px}
+footer{margin-top:60px;font-family:var(--sans);font-size:13px;color:var(--muted);border-top:2px dashed #d6d3d1;padding-top:16px}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <div class="kicker">DSA Learning Studio</div>
+  <h1>Data Structures &amp; Algorithms <span class="hand">— drawn on the whiteboard</span></h1>
+  <p class="sub">Illustrated, interactive textbook chapters: hand-drawn diagrams built from real data, working labs you can step through, Python implementations, and cited sources.</p>
+</header>
+
+<h2>Chapters</h2>
+<div class="grid">
+  <a class="card" href="/chapters/prefix-sum/">
+    <span class="num">01</span>
+    <h3>Prefix Sum</h3>
+    <div class="tag">add once, answer forever</div>
+    <p>Cumulative sums, O(1) range queries, the hash-map counting trick, 2D summed-area tables and difference arrays.</p>
+    <div class="meta"><span class="pill">Beginner → Intermediate</span><span class="pill">~75 min</span><span class="pill">5 interactive labs</span></div>
+  </a>
+  <div class="soon"><b>More chapters coming</b>Each new topic gets its own folder under <code>chapters/</code> and a card here.</div>
+</div>
+
+<footer>DSA Learning Studio · Diljot Singh</footer>
+</main>
+</body>
+</html>
