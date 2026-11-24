@@ -7,6 +7,17 @@ import site from "@/content/site.json";
 import s from "./CookieBanner.module.css";
 
 const KEY = "dsa-studio-cookie-choice";
+export const COOKIE_CHOICE_MADE = "dsa:cookie-choice-made";
+
+/** True once the visitor has answered the banner for the current privacy notice. */
+export function cookieChoiceMade(): boolean {
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(KEY) || "null") as { version?: string } | null;
+    return saved?.version === site.privacyNoticeVersion;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * The site only uses storage that is strictly necessary (progress on this device, staying
@@ -17,12 +28,7 @@ export default function CookieBanner() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(window.localStorage.getItem(KEY) || "null") as { version?: string } | null;
-      if (!saved || saved.version !== site.privacyNoticeVersion) setOpen(true);
-    } catch {
-      setOpen(true);
-    }
+    if (!cookieChoiceMade()) setOpen(true);
     const reopen = () => setOpen(true);
     window.addEventListener(OPEN_COOKIE_BANNER, reopen);
     return () => window.removeEventListener(OPEN_COOKIE_BANNER, reopen);
@@ -37,6 +43,7 @@ export default function CookieBanner() {
       /* storage blocked: the banner simply shows again next visit */
     }
     setOpen(false);
+    window.dispatchEvent(new Event(COOKIE_CHOICE_MADE));
   };
 
   return (
