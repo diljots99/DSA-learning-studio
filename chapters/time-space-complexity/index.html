@@ -168,6 +168,47 @@ svg .rough{filter:url(#rough)}
 .opts .btn.ok{background:var(--green-l);border-color:var(--green)}
 .opts .btn.no{background:var(--red-l);border-color:var(--red)}
 .qfb{font-family:var(--sans);font-size:14px;min-height:1em}
+/* one-page cheat sheet (same as Prefix Sum chapter) */
+.sheet{background:#fff;border:2px solid var(--ink);border-radius:20px 24px 18px 22px;box-shadow:4px 5px 0 #e7e5e4;padding:18px 20px 22px;margin:1.4em 0 2em}
+.sheet-title{text-align:center;margin:0 0 6px}
+.sheet-title span{display:inline-block;font-family:var(--hand);font-weight:700;font-size:52px;line-height:1.1;color:#1e3a8a;background:var(--purple-l);border-radius:22px 30px 18px 26px;padding:0 28px;transform:rotate(-1deg)}
+.sheet-sub{text-align:center;font-family:var(--hand);font-size:22px;font-weight:700;margin:0 auto 14px;background:#fef9c3;border-radius:12px;padding:0 14px;width:fit-content;max-width:100%}
+.sheet-cols{display:grid;grid-template-columns:1fr 1fr;gap:6px 28px}
+.sheet-col{min-width:0}
+.sheet-col.wide{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 22px;border-top:2px dashed #e7e5e4;padding-top:14px}
+.sheet-col.wide.two{gap:28px}
+.wide-head{grid-column:1/-1;margin-bottom:-8px}
+@media(max-width:640px){.sheet-cols,.sheet-col.wide,.sheet-col.wide.two{grid-template-columns:1fr}.sheet-title span{font-size:40px}}
+.sb{margin:0 0 20px}
+.mk{display:inline-block;font-family:var(--hand);font-weight:700;font-size:30px;line-height:1.15;padding:0 12px;border-radius:12px 16px 10px 14px;margin-bottom:6px;color:var(--ink)}
+.mk.sm{font-size:21px;padding:0 9px}
+.mk-red{background:#fbcfe8}.mk-blue{background:#bae6fd}.mk-purple{background:#ddd6fe}.mk-green{background:#bbf7d0}.mk-yellow{background:#fde68a}
+.hw{font-family:var(--hand);font-size:22px;line-height:1.3;margin:4px 0}
+.hw b{color:var(--purple)}
+.small-hw{font-size:19px;color:#44403c}
+.sheet code{font-family:var(--mono);font-size:13px;background:#f1efe9}
+.box{font-family:var(--hand);font-size:22px;font-weight:700;line-height:1.35;border:2px solid;border-radius:14px 18px 12px 16px;padding:8px 14px;margin:6px 0}
+.box b{color:var(--purple)}
+.box.b-blue{border-color:#93c5fd;background:#f0f7ff}
+.box.b-purple{border-color:#a78bfa;background:#f5f3ff;text-align:center}
+.box.b-dash{border:2px dashed #94a3b8;background:#fff;font-weight:500}
+.sheet-tbl{font-family:var(--hand);font-size:19px;margin:4px 0;line-height:1.2}
+.sheet-tbl th{font-family:var(--hand);font-size:20px;padding:5px 8px}
+.sheet-tbl td{padding:4px 8px;vertical-align:middle}
+.pl{display:inline-block;font-weight:700;border-radius:9px;padding:0 8px;white-space:nowrap}
+.pl-g{background:var(--green-l);color:#166534}.pl-b{background:#bae6fd;color:#1e3a8a}.pl-y{background:#fde68a;color:#92400e}.pl-p{background:#ddd6fe;color:#5b21b6}.pl-r{background:#fecdd3;color:#9f1239}.pl-o{background:#fed7aa;color:#9a3412}
+.ticks{list-style:none;padding:0;margin:4px 0;font-family:var(--hand);font-size:21px;line-height:1.3}
+.ticks li{position:relative;padding-left:30px;margin:5px 0}
+.ticks li::before{content:'✔';position:absolute;left:4px;color:var(--green);font-weight:700}
+.ticks b{color:var(--purple)}
+.ex{border:2px solid #e7e5e4;border-radius:14px 18px 12px 16px;padding:8px 10px 10px;min-width:0}
+pre.sk{background:#f5f3ff;color:var(--ink);font-size:13px;line-height:1.45;padding:8px 10px;border-radius:10px;margin:6px 0;overflow-x:auto}
+pre.sk .k{color:#7c3aed;font-weight:600}pre.sk .f{color:#2563eb}pre.sk .cm{color:#6b7280}
+.steps-tag{font-family:var(--hand);font-size:19px;font-weight:700;background:#fef9c3;border-radius:10px;padding:0 8px;width:fit-content}
+.steps-tag b{color:var(--purple)}
+.ex .mcells{margin:22px 0 4px}
+.ex .mc{min-width:28px;height:28px;font-size:11px}
+#d-sheet-growth{width:100%;height:auto;display:block}
 .notebook .b{color:var(--blue)}.notebook .g{color:var(--green)}.notebook .r{color:var(--red)}.notebook .o{color:#d97706}.notebook .p{color:var(--purple)}
 </style>
 </head>
@@ -1486,7 +1527,86 @@ O(log min(m, n)) time, O(1) space — the search runs only over the shorter arra
 
 <!-- ================= O ================= -->
 <h2 id="notebook"><span class="sec">O</span>Notebook-ready summary</h2>
-<p class="small">Copy this page into your notebook. Colours match the rest of the chapter.</p>
+<p>First, the whole idea on one page — copy this sheet into your notebook. The detailed revision notes follow it.</p>
+
+<div class="sheet">
+  <div class="sheet-title"><span>Time &amp; Space Complexity</span></div>
+  <div class="sheet-sub">How the running time and memory of an algorithm grow with input size (n)</div>
+  <div class="sheet-cols">
+    <div class="sheet-col">
+      <div class="sb"><span class="mk mk-purple">What is Time Complexity?</span>
+        <p class="hw">A way to measure how the <b>number of steps</b> an algorithm takes grows as the input size <b>n</b> grows. We count steps, not seconds.</p></div>
+      <div class="sb"><span class="mk mk-green">What is Space Complexity?</span>
+        <p class="hw">How the <b>extra memory</b> it needs grows with n: variables, copies, and the <b>call stack</b> for recursion.</p></div>
+      <div class="sb"><span class="mk mk-blue">Big-O Notation</span>
+        <div class="box b-blue" style="font-weight:500">An <b>upper bound</b> on growth (usually the worst case). Drop constant factors and lower-order terms.</div>
+        <p class="hw"><span class="mk mk-purple" style="font-size:22px;margin:0">Example:</span> &nbsp;3n + 5 → <b>O(n)</b></p>
+        <p class="hw small-hw">O = ceiling · Ω = floor · Θ = both (tight)</p></div>
+      <div class="sb"><span class="mk mk-red">Why it matters?</span>
+        <ul class="ticks"><li>Compare different solutions.</li><li>Predict how code scales on big inputs.</li><li>Choose the most efficient approach.</li></ul></div>
+    </div>
+
+    <div class="sheet-col">
+      <div class="sb"><span class="mk mk-green">Common Time Complexities</span>
+        <table class="sheet-tbl cx">
+          <tr><th>Big-O</th><th>Name</th><th>Typical example</th></tr>
+          <tr><td><span class="pl pl-g">O(1)</span></td><td>Constant</td><td>array index, hash lookup</td></tr>
+          <tr><td><span class="pl pl-b">O(log n)</span></td><td>Logarithmic</td><td>binary search</td></tr>
+          <tr><td><span class="pl pl-y">O(n)</span></td><td>Linear</td><td>one loop over n items</td></tr>
+          <tr><td><span class="pl pl-p">O(n log n)</span></td><td>Linearithmic</td><td>merge sort, heap sort</td></tr>
+          <tr><td><span class="pl pl-r">O(n²)</span></td><td>Quadratic</td><td>nested loops (n × n)</td></tr>
+          <tr><td><span class="pl pl-r">O(n³)</span></td><td>Cubic</td><td>three nested loops</td></tr>
+          <tr><td><span class="pl pl-o">O(2ⁿ)</span></td><td>Exponential</td><td>all subsets</td></tr>
+          <tr><td><span class="pl pl-p">O(n!)</span></td><td>Factorial</td><td>all orderings</td></tr>
+        </table></div>
+      <div class="sb"><span class="mk mk-purple">Growth Comparison</span>
+        <svg id="d-sheet-growth" viewBox="0 0 430 290" role="img" aria-label="Steps for each complexity class as n goes from 1 to 20, capped at 1000"></svg></div>
+      <div class="sb"><span class="mk mk-yellow">Order: Fast → Slow</span>
+        <div class="box b-purple">O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n)<br>&lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)</div></div>
+    </div>
+
+    <div class="sheet-col wide">
+      <div class="wide-head"><span class="mk mk-red">Examples</span></div>
+      <div class="ex"><span class="mk mk-green sm">O(1) · Constant</span>
+<pre class="sk"><span class="k">def</span> <span class="f">get_first</span>(arr):
+    <span class="k">return</span> arr[0]</pre>
+        <div class="steps-tag">Steps: 1 → <b>O(1)</b></div>
+        <div class="mcells"><div class="mc act">10<span class="ptr">arr[0]</span></div><div class="mc">20</div><div class="mc">30</div></div></div>
+      <div class="ex"><span class="mk mk-yellow sm">O(n) · Linear</span>
+<pre class="sk"><span class="k">def</span> <span class="f">sum_array</span>(arr):
+    total = 0
+    <span class="k">for</span> x <span class="k">in</span> arr:
+        total += x
+    <span class="k">return</span> total</pre>
+        <div class="steps-tag">Steps: ≈ n → <b>O(n)</b></div>
+        <div class="mcells"><div class="mc done">10</div><div class="mc done">20</div><div class="mc done">30</div><div class="mc free">…</div><div class="mc done">n</div></div></div>
+      <div class="ex"><span class="mk mk-red sm">O(n²) · Quadratic</span>
+<pre class="sk"><span class="k">def</span> <span class="f">print_pairs</span>(arr):
+    <span class="k">for</span> a <span class="k">in</span> arr:
+        <span class="k">for</span> b <span class="k">in</span> arr:
+            <span class="f">print</span>(a, b)</pre>
+        <div class="steps-tag">Steps: n × n → <b>O(n²)</b></div>
+        <div class="lgrid" style="grid-template-columns:repeat(4,1fr);max-width:96px"><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div><div class="gc v"></div></div></div>
+      <div class="ex"><span class="mk mk-blue sm">O(log n) · Logarithmic</span>
+<pre class="sk"><span class="k">def</span> <span class="f">binary_search</span>(arr, x):
+    lo, hi = 0, <span class="f">len</span>(arr) - 1
+    <span class="k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // 2
+        ...  <span class="cm"># keep one half</span></pre>
+        <div class="steps-tag">Steps: ≈ log₂ n → <b>O(log n)</b></div>
+        <div class="mcells"><div class="mc">10<span class="ptr lo">lo</span></div><div class="mc">20</div><div class="mc act">30<span class="ptr">mid</span></div><div class="mc">40</div><div class="mc">50<span class="ptr hi">hi</span></div></div></div>
+    </div>
+
+    <div class="sheet-col wide two">
+      <div class="sb"><span class="mk mk-green">Space: quick rules</span>
+        <ul class="ticks"><li>A few variables → <b>O(1)</b> extra space.</li><li>A new list / dict of n items → <b>O(n)</b>.</li><li>Recursion depth d → <b>O(d)</b> stack space.</li><li>Slicing <code>arr[a:b]</code> makes a copy.</li></ul></div>
+      <div class="sb"><div class="box b-dash"><span class="mk mk-yellow" style="margin-bottom:4px">★ Key Takeaways</span>
+        <ul class="ticks" style="margin:0"><li>Complexity = how cost <b>grows</b> with n.</li><li>Keep the dominant term: 3n² + 5n → <b>O(n²)</b>.</li><li>Lower growth = more efficient for large n.</li><li>Always state <b>time and space</b>.</li></ul></div></div>
+    </div>
+  </div>
+</div>
+
+<h3>Detailed revision notes</h3>
 <div class="notebook">
 <h4>1 · Definitions</h4>
 <span class="p">Time complexity</span> T(n) = # primitive steps on input of size n (usually worst case).<br>
@@ -2137,9 +2257,32 @@ function lnFact(n) { if (n < 2) return 0; if (n < 30) { let s = 0; for (let k = 
   });
 })();
 
+/* ================= Cheat sheet: growth comparison chart (exact values, capped at 1000) ================= */
+(function () {
+  const s = document.getElementById('d-sheet-growth'); if (!s) return;
+  const L = 48, R = 330, T = 12, B = 250, YMAX = 1000, NMAX = 20;
+  const X = n => L + n / NMAX * (R - L), Y = v => B - Math.min(v, YMAX) / YMAX * (B - T);
+  const ifact = m => { let p = 1; for (let k = 2; k <= m; k++) p *= k; return p; };
+  const fact = n => { const a = Math.floor(n), t = n - a; return Math.exp((1 - t) * Math.log(ifact(a)) + t * Math.log(ifact(a + 1))); }; // log-interpolated between integers
+  const F = [['O(n!)', '#7c3aed', fact], ['O(2ⁿ)', '#dc2626', n => 2 ** n], ['O(n³)', '#ec4899', n => n ** 3], ['O(n²)', '#f59e0b', n => n * n],
+             ['O(n log n)', '#2563eb', n => n > 1 ? n * Math.log2(n) : 0], ['O(n)', '#16a34a', n => n], ['O(log n)', '#06b6d4', n => n > 1 ? Math.log2(n) : 0], ['O(1)', '#9ca3af', n => 1]];
+  let h = '';
+  for (let v = 0; v <= YMAX; v += 250) h += `<path d="M${L},${Y(v)} L${R},${Y(v)}" stroke="#efece4"/><text class="lbl" x="${L - 6}" y="${Y(v) + 4}" text-anchor="end" style="font-size:11px">${v}</text>`;
+  for (let n = 0; n <= NMAX; n += 5) h += `<text class="lbl" x="${X(n)}" y="${B + 16}" text-anchor="middle" style="font-size:11px">${n}</text>`;
+  h += `<g class="rough"><path d="M${L},${B} L${R + 6},${B}" stroke="#1f2937" stroke-width="2" marker-end="url(#ah-k)"/><path d="M${L},${B} L${L},${T - 4}" stroke="#1f2937" stroke-width="2" marker-end="url(#ah-k)"/></g>`;
+  h += `<text class="hand sm" x="${(L + R) / 2}" y="${B + 36}" text-anchor="middle">input size n</text><text class="hand sm" x="12" y="${(T + B) / 2}" transform="rotate(-90 12 ${(T + B) / 2})" text-anchor="middle">steps</text>`;
+  F.forEach(([lab, col, f], i) => {
+    let d = '';
+    for (let k = 0; k <= 200; k++) { const n = k / 10; const v = f(n); d += (k ? 'L' : 'M') + X(n).toFixed(1) + ',' + Y(v).toFixed(1); if (v >= YMAX) break; }
+    h += `<path d="${d}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linecap="round"/>`;
+    h += `<path d="M342,${20 + i * 26} L360,${20 + i * 26}" stroke="${col}" stroke-width="3" stroke-linecap="round"/><text class="hand sm" x="364" y="${25 + i * 26}" fill="${col}" style="font-size:16px">${lab}</text>`;
+  });
+  s.innerHTML = h;
+})();
+
 /* ================= Page chrome: copy buttons and TOC highlighting ================= */
 document.querySelectorAll('main pre').forEach(pre => {
-  if (pre.closest('.qcard') || pre.closest('.cmp')) return;
+  if (pre.closest('.qcard') || pre.closest('.cmp') || pre.closest('.sheet')) return;
   const b = document.createElement('button'); b.className = 'copy'; b.type = 'button'; b.textContent = 'Copy';
   b.addEventListener('click', async () => { try { await navigator.clipboard.writeText(pre.querySelector('code').innerText); b.textContent = 'Copied'; } catch (e) { b.textContent = 'Select & copy'; } setTimeout(() => b.textContent = 'Copy', 1500); });
   pre.appendChild(b);
