@@ -10,6 +10,8 @@ Illustrated, interactive textbook chapters on Data Structures and Algorithms: wh
 | 02 | Arrays & Hashing | [`chapters/arrays-hashing/`](chapters/arrays-hashing/index.html) |
 | 03 | Prefix Sum | [`chapters/prefix-sum/`](chapters/prefix-sum/index.html) |
 | 04 | Two Pointers | [`chapters/two-pointers/`](chapters/two-pointers/index.html) |
+| 05 | Sliding Window | [`chapters/sliding-window/`](chapters/sliding-window/index.html) |
+| 06 | Binary Search | [`chapters/binary-search/`](chapters/binary-search/index.html) |
 
 ## Structure
 
