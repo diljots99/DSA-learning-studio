@@ -168,6 +168,17 @@ svg .rough{filter:url(#rough)}
 .opts .btn.ok{background:var(--green-l);border-color:var(--green)}
 .opts .btn.no{background:var(--red-l);border-color:var(--red)}
 .qfb{font-family:var(--sans);font-size:14px;min-height:1em}
+/* asymptotic notation table */
+table.asym td{vertical-align:middle}
+table.asym td.mono{font-size:12.5px;min-width:175px}
+table.asym td:nth-child(4){min-width:175px}
+table.asym td:nth-child(6){white-space:nowrap}
+.sym{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;font-family:var(--sans);font-size:22px;font-weight:700;border:2px solid;border-radius:10px 12px 9px 11px}
+.sym-o{color:var(--red);border-color:var(--red);background:var(--red-l)}
+.sym-w{color:var(--green);border-color:var(--green);background:var(--green-l)}
+.sym-t{color:var(--purple);border-color:var(--purple);background:var(--purple-l)}
+.sym-lo{color:#b45309;border-color:var(--yellow);background:var(--yellow-l);font-style:italic}
+.sym-lw{color:var(--blue);border-color:var(--blue);background:var(--blue-l);font-style:italic}
 /* one-page cheat sheet (same as Prefix Sum chapter) */
 .sheet{background:#fff;border:2px solid var(--ink);border-radius:20px 24px 18px 22px;box-shadow:4px 5px 0 #e7e5e4;padding:18px 20px 22px;margin:1.4em 0 2em}
 .sheet-title{text-align:center;margin:0 0 6px}
@@ -666,6 +677,21 @@ Time complexity answers: <em>"If I give this program twice as much data, how muc
 <div class="callout def"><span class="ct">Big-Theta — a tight bound</span>
 <span class="math">f(n) = Θ(g(n))</span> ⟺ <span class="math">f(n) = O(g(n))</span> and <span class="math">f(n) = Ω(g(n))</span>; equivalently there exist <span class="math">c₁, c₂ &gt; 0</span> and <span class="math">n₀</span> with <span class="math">c₁·g(n) ≤ f(n) ≤ c₂·g(n)</span> for all <span class="math">n ≥ n₀</span>.</div>
 <p>MIT's Mathematics for Computer Science text stresses that Big-O gives an upper bound on growth and is the most frequently used asymptotic notation <a class="cite" href="#ref-14">[14]</a>. The "=" sign is a long-standing abuse of notation: <span class="math">O(g)</span> is really a <em>set</em> of functions, and MIT's 6.006 recitation notes call <span class="math">f(x) = Θ(x²)</span> "really misleading" for that reason <a class="cite" href="#ref-3">[3]</a>.</p>
+
+
+<h3>Asymptotic notation at a glance</h3>
+<p>The table puts all five notations side by side. Read “<span class="math">f</span>” as the running time (or memory) of your algorithm and “<span class="math">g</span>” as the simple comparison function such as <span class="math">n</span>, <span class="math">n log n</span> or <span class="math">n²</span>. <a class="cite" href="#ref-1">[1]</a><a class="cite" href="#ref-4">[4]</a><a class="cite" href="#ref-16">[16]</a></p>
+<div class="tbl-wrap"><table class="asym">
+<tr><th>Notation</th><th>Name</th><th>Bound type</th><th>What it says</th><th>Formal definition</th><th>Like comparing numbers</th><th>Example</th></tr>
+<tr><td><span class="sym sym-o">O</span></td><td><b>Big-O</b></td><td>Upper bound</td><td><b>Ceiling:</b> f grows <em>no faster</em> than g, up to a constant factor.</td><td class="mono">0 ≤ f(n) ≤ c·g(n)<br>for all n ≥ n₀</td><td class="mono">f ≤ g</td><td>3n + 5 = O(n), and also O(n²)</td></tr>
+<tr><td><span class="sym sym-w">Ω</span></td><td><b>Big-Omega</b></td><td>Lower bound</td><td><b>Floor:</b> f grows <em>at least as fast</em> as g, up to a constant factor.</td><td class="mono">0 ≤ c·g(n) ≤ f(n)<br>for all n ≥ n₀</td><td class="mono">f ≥ g</td><td>n² = Ω(n), and also Ω(n²)</td></tr>
+<tr><td><span class="sym sym-t">Θ</span></td><td><b>Big-Theta</b></td><td>Tight bound</td><td><b>Exact growth rate:</b> f is bounded above <em>and</em> below by g.</td><td class="mono">0 ≤ c₁·g(n) ≤ f(n) ≤ c₂·g(n)<br>for all n ≥ n₀</td><td class="mono">f = g</td><td>3n² + 5n + 2 = Θ(n²)</td></tr>
+<tr><td><span class="sym sym-lo">o</span></td><td><b>Little-o</b></td><td>Strict upper bound</td><td>f grows <em>strictly slower</em> than g; f/g → 0.</td><td class="mono">for <b>every</b> c &gt; 0 some n₀ gives<br>0 ≤ f(n) &lt; c·g(n) for all n ≥ n₀</td><td class="mono">f &lt; g</td><td>n = o(n²), but n² ≠ o(n²)</td></tr>
+<tr><td><span class="sym sym-lw">ω</span></td><td><b>Little-omega</b></td><td>Strict lower bound</td><td>f grows <em>strictly faster</em> than g; f/g → ∞.</td><td class="mono">for <b>every</b> c &gt; 0 some n₀ gives<br>0 ≤ c·g(n) &lt; f(n) for all n ≥ n₀</td><td class="mono">f &gt; g</td><td>n² = ω(n), but n² ≠ ω(n²)</td></tr>
+</table></div>
+<p>Big-O and Big-Omega ask for <em>some</em> constant c; little-o and little-omega must hold for <em>every</em> c, which is what makes them strict. The limit test gives the same answers: if f(n)/g(n) tends to 0 then f = o(g), to a positive constant then f = Θ(g), and to ∞ then f = ω(g). <a class="cite" href="#ref-16">[16]</a><a class="cite" href="#ref-1">[1]</a></p>
+<div class="callout warn"><span class="ct">“Big-O = worst case” is only shorthand</span>
+Many tables describe O as the worst case and Ω as the best case. That is a useful habit, not the definition: O, Ω and Θ bound <em>a function</em>, and best, worst and average case decide <em>which function</em> you are bounding. Insertion sort’s worst case is Θ(n²) and its best case is Θ(n), so Θ is used for both. Section L lists this as a common misconception. <a class="cite" href="#ref-1">[1]</a></div>
 
 <figure class="fig">
   <div class="fig-title"><small>Figure G.1 · Mathematical definition</small>The Θ "sandwich": f(n) = n² + 3n + 12 is Θ(n²)</div>
