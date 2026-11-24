@@ -279,6 +279,7 @@ hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='h
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1248,6 +1249,139 @@ def bs(a, x, lo=0, hi=None):
 
 <div class="callout tip"><span class="ct">Interview script that works</span>
 (1) Say what is monotone. (2) Say what <code>lo</code> and <code>hi</code> mean and which template you use. (3) Write the loop. (4) Walk one 2-element example by hand to prove there is no infinite loop. (5) State <span class="math">O(log n)</span> or <span class="math">O(C log R)</span>.</div>
+
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>For each problem, state the search space and the monotone yes/no question before writing the loop. There are <strong>38</strong> problems, grouped by level and topic: 8 easy, 15 medium and 15 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button><button class="pp-chip" data-k="level" data-v="Intermediate" aria-pressed="false">Intermediate</button><button class="pp-chip" data-k="level" data-v="Advanced" aria-pressed="false">Advanced</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="diff" data-v="Hard" aria-pressed="false">Hard</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">8 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Binary Search</h4><p class="pp-tsub">Halve a sorted search space; lower and upper bounds; rotated arrays.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/binary-search/"><input type="checkbox" aria-label="Mark “Binary Search” as solved"><a href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener">Binary Search</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/search-insert-position/"><input type="checkbox" aria-label="Mark “Search Insert Position” as solved"><a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener">Search Insert Position</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/first-bad-version/"><input type="checkbox" aria-label="Mark “First Bad Version” as solved"><a href="https://leetcode.com/problems/first-bad-version/" target="_blank" rel="noopener">First Bad Version</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/sqrtx/"><input type="checkbox" aria-label="Mark “Sqrt(x)” as solved"><a href="https://leetcode.com/problems/sqrtx/" target="_blank" rel="noopener">Sqrt(x)</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1"><input type="checkbox" aria-label="Mark “Floor in a Sorted Array” as solved"><a href="https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1" target="_blank" rel="noopener">Floor in a Sorted Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/ceil-in-a-sorted-array/1"><input type="checkbox" aria-label="Mark “Ceil in a Sorted Array” as solved"><a href="https://www.geeksforgeeks.org/problems/ceil-in-a-sorted-array/1" target="_blank" rel="noopener">Ceil in a Sorted Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/implement-lower-bound/1"><input type="checkbox" aria-label="Mark “Implement Lower Bound” as solved"><a href="https://www.geeksforgeeks.org/problems/implement-lower-bound/1" target="_blank" rel="noopener">Implement Lower Bound</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/implement-upper-bound/1"><input type="checkbox" aria-label="Mark “Implement Upper Bound” as solved"><a href="https://www.geeksforgeeks.org/problems/implement-upper-bound/1" target="_blank" rel="noopener">Implement Upper Bound</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Intermediate">
+<h3><span class="pp-lv Intermediate">Intermediate</span><span class="small">15 problems</span></h3>
+<p class="pp-lvsub">The pattern combined with one more idea, or applied to a less obvious setup.</p>
+<div class="pp-topic"><h4>Binary Search</h4><p class="pp-tsub">Halve a sorted search space; lower and upper bounds; rotated arrays.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/search-in-rotated-sorted-array/"><input type="checkbox" aria-label="Mark “Search in Rotated Sorted Array” as solved"><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener">Search in Rotated Sorted Array</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"><input type="checkbox" aria-label="Mark “Find Minimum in Rotated Sorted Array” as solved"><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener">Find Minimum in Rotated Sorted Array</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-peak-element/"><input type="checkbox" aria-label="Mark “Find Peak Element” as solved"><a href="https://leetcode.com/problems/find-peak-element/" target="_blank" rel="noopener">Find Peak Element</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/search-a-2d-matrix/"><input type="checkbox" aria-label="Mark “Search a 2D Matrix” as solved"><a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener">Search a 2D Matrix</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"><input type="checkbox" aria-label="Mark “Find First and Last Position of Element” as solved"><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener">Find First and Last Position of Element</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Binary Search on Answers</h4><p class="pp-tsub">Search over the answer itself using a monotone yes/no check.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days"><input type="checkbox" aria-label="Mark “Capacity To Ship Packages Within D Days” as solved"><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days" target="_blank" rel="noopener">Capacity To Ship Packages Within D Days</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets"><input type="checkbox" aria-label="Mark “Minimum Number of Days to Make M Bouquets” as solved"><a href="https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets" target="_blank" rel="noopener">Minimum Number of Days to Make M Bouquets</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/minimum-time-to-complete-trips"><input type="checkbox" aria-label="Mark “Minimum Time to Complete Trips” as solved"><a href="https://leetcode.com/problems/minimum-time-to-complete-trips" target="_blank" rel="noopener">Minimum Time to Complete Trips</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold"><input type="checkbox" aria-label="Mark “Find the Smallest Divisor Given a Threshold” as solved"><a href="https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold" target="_blank" rel="noopener">Find the Smallest Divisor Given a Threshold</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/maximum-candies-allocated-to-k-children"><input type="checkbox" aria-label="Mark “Maximum Candies Allocated to K Children” as solved"><a href="https://leetcode.com/problems/maximum-candies-allocated-to-k-children" target="_blank" rel="noopener">Maximum Candies Allocated to K Children</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/koko-eating-bananas"><input type="checkbox" aria-label="Mark “Koko Eating Bananas” as solved"><a href="https://leetcode.com/problems/koko-eating-bananas" target="_blank" rel="noopener">Koko Eating Bananas</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/minimum-speed-to-arrive-on-time"><input type="checkbox" aria-label="Mark “Minimum Speed to Arrive on Time” as solved"><a href="https://leetcode.com/problems/minimum-speed-to-arrive-on-time" target="_blank" rel="noopener">Minimum Speed to Arrive on Time</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array"><input type="checkbox" aria-label="Mark “Maximum Value at a Given Index in a Bounded Array” as solved"><a href="https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array" target="_blank" rel="noopener">Maximum Value at a Given Index in a Bounded Array</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/maximum-font-to-fit-a-sentence-in-a-screen"><input type="checkbox" aria-label="Mark “Maximum Font to Fit a Sentence in a Screen” as solved"><a href="https://leetcode.com/problems/maximum-font-to-fit-a-sentence-in-a-screen" target="_blank" rel="noopener">Maximum Font to Fit a Sentence in a Screen</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://www.interviewbit.com/problems/woodcutting-made-easy"><input type="checkbox" aria-label="Mark “Wood Cutting Made Easy” as solved"><a href="https://www.interviewbit.com/problems/woodcutting-made-easy" target="_blank" rel="noopener">Wood Cutting Made Easy</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">InterviewBit</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Advanced">
+<h3><span class="pp-lv Advanced">Advanced</span><span class="small">15 problems</span></h3>
+<p class="pp-lvsub">Harder variants that need the full toolkit and careful invariants.</p>
+<div class="pp-topic"><h4>Binary Search</h4><p class="pp-tsub">Halve a sorted search space; lower and upper bounds; rotated arrays.</p><ol class="pp-list">
+<li data-diff="Hard" data-id="https://leetcode.com/problems/find-in-mountain-array"><input type="checkbox" aria-label="Mark “Find in Mountain Array” as solved"><a href="https://leetcode.com/problems/find-in-mountain-array" target="_blank" rel="noopener">Find in Mountain Array</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/median-of-two-sorted-arrays"><input type="checkbox" aria-label="Mark “Median of Two Sorted Arrays” as solved"><a href="https://leetcode.com/problems/median-of-two-sorted-arrays" target="_blank" rel="noopener">Median of Two Sorted Arrays</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Binary Search on Answers</h4><p class="pp-tsub">Search over the answer itself using a monotone yes/no check.</p><ol class="pp-list">
+<li data-diff="Hard" data-id="https://www.geeksforgeeks.org/problems/aggressive-cows/0"><input type="checkbox" aria-label="Mark “Aggressive Cows” as solved"><a href="https://www.geeksforgeeks.org/problems/aggressive-cows/0" target="_blank" rel="noopener">Aggressive Cows</a><span class="pp-d Hard">HARD</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/split-array-largest-sum"><input type="checkbox" aria-label="Mark “Split Array Largest Sum” as solved"><a href="https://leetcode.com/problems/split-array-largest-sum" target="_blank" rel="noopener">Split Array Largest Sum</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/maximize-the-minimum-powered-city"><input type="checkbox" aria-label="Mark “Maximize the Minimum Powered City” as solved"><a href="https://leetcode.com/problems/maximize-the-minimum-powered-city" target="_blank" rel="noopener">Maximize the Minimum Powered City</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1"><input type="checkbox" aria-label="Mark “Allocate Minimum Number of Pages” as solved"><a href="https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1" target="_blank" rel="noopener">Allocate Minimum Number of Pages</a><span class="pp-d Hard">HARD</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Hard" data-id="https://www.geeksforgeeks.org/problems/the-painters-partition-problem1535/1"><input type="checkbox" aria-label="Mark “The Painter's Partition Problem-II” as solved"><a href="https://www.geeksforgeeks.org/problems/the-painters-partition-problem1535/1" target="_blank" rel="noopener">The Painter's Partition Problem-II</a><span class="pp-d Hard">HARD</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/minimum-cost-to-make-array-equal"><input type="checkbox" aria-label="Mark “Minimum Cost to Make Array Equal” as solved"><a href="https://leetcode.com/problems/minimum-cost-to-make-array-equal" target="_blank" rel="noopener">Minimum Cost to Make Array Equal</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://www.interviewbit.com/problems/red-zone"><input type="checkbox" aria-label="Mark “Red Zone” as solved"><a href="https://www.interviewbit.com/problems/red-zone" target="_blank" rel="noopener">Red Zone</a><span class="pp-d Hard">HARD</span><span class="pp-p">InterviewBit</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/maximum-running-time-of-n-computers"><input type="checkbox" aria-label="Mark “Maximum Running Time of N Computers” as solved"><a href="https://leetcode.com/problems/maximum-running-time-of-n-computers" target="_blank" rel="noopener">Maximum Running Time of N Computers</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/maximum-average-subarray-ii"><input type="checkbox" aria-label="Mark “Maximum Average Subarray II” as solved"><a href="https://leetcode.com/problems/maximum-average-subarray-ii" target="_blank" rel="noopener">Maximum Average Subarray II</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k"><input type="checkbox" aria-label="Mark “Shortest Subarray with Sum at Least K” as solved"><a href="https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k" target="_blank" rel="noopener">Shortest Subarray with Sum at Least K</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/minimize-max-distance-to-gas-station"><input type="checkbox" aria-label="Mark “Minimize Max Distance to Gas Station” as solved"><a href="https://leetcode.com/problems/minimize-max-distance-to-gas-station" target="_blank" rel="noopener">Minimize Max Distance to Gas Station</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign"><input type="checkbox" aria-label="Mark “Maximum Number of Tasks You Can Assign” as solved"><a href="https://leetcode.com/problems/maximum-number-of-tasks-you-can-assign" target="_blank" rel="noopener">Maximum Number of Tasks You Can Assign</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/minimum-time-for-k-virus-variants-to-spread"><input type="checkbox" aria-label="Mark “Minimum Time For K Virus Variants to Spread” as solved"><a href="https://leetcode.com/problems/minimum-time-for-k-virus-variants-to-spread" target="_blank" rel="noopener">Minimum Time For K Virus Variants to Spread</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
 
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 

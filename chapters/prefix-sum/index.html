@@ -208,6 +208,7 @@ hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='h
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1095,6 +1096,102 @@ def shortest_subarray(nums, k):
         dq.append(j)
     return best if best &lt;= len(nums) else -1</code></pre>
 <p>Θ(n) time: each index enters and leaves the deque at most once. Space Θ(n).</p></details>
+
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>Each problem is solved by building a running-total array (or a difference array) and answering questions from it. There are <strong>11</strong> problems, grouped by level and topic: 5 easy, 6 medium and 0 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button><button class="pp-chip" data-k="level" data-v="Intermediate" aria-pressed="false">Intermediate</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">5 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Prefix Sum</h4><p class="pp-tsub">Precompute running totals once, then answer range questions in O(1).</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/running-sum-of-1d-array/"><input type="checkbox" aria-label="Mark “Running Sum of 1d Array” as solved"><a href="https://leetcode.com/problems/running-sum-of-1d-array/" target="_blank" rel="noopener">Running Sum of 1d Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/range-sum-query-immutable/"><input type="checkbox" aria-label="Mark “Range Sum Query - Immutable” as solved"><a href="https://leetcode.com/problems/range-sum-query-immutable/" target="_blank" rel="noopener">Range Sum Query - Immutable</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/equilibrium-point-1587115620/1"><input type="checkbox" aria-label="Mark “Equilibrium Point” as solved"><a href="https://www.geeksforgeeks.org/problems/equilibrium-point-1587115620/1" target="_blank" rel="noopener">Equilibrium Point</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/find-the-highest-altitude"><input type="checkbox" aria-label="Mark “Find the Highest Altitude” as solved"><a href="https://leetcode.com/problems/find-the-highest-altitude" target="_blank" rel="noopener">Find the Highest Altitude</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://codeforces.com/contest/327/problem/A"><input type="checkbox" aria-label="Mark “Flipping Game” as solved"><a href="https://codeforces.com/contest/327/problem/A" target="_blank" rel="noopener">Flipping Game</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">Codeforces</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Intermediate">
+<h3><span class="pp-lv Intermediate">Intermediate</span><span class="small">6 problems</span></h3>
+<p class="pp-lvsub">The pattern combined with one more idea, or applied to a less obvious setup.</p>
+<div class="pp-topic"><h4>Prefix Sum &amp; Intervals</h4><p class="pp-tsub">Difference arrays, 2D prefix sums and interval-based range updates.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day"><input type="checkbox" aria-label="Mark “Can You Eat Your Favorite Candy on Your Favorite Day?” as solved"><a href="https://leetcode.com/problems/can-you-eat-your-favorite-candy-on-your-favorite-day" target="_blank" rel="noopener">Can You Eat Your Favorite Candy on Your Favorite Day?</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/points-that-intersect-with-cars"><input type="checkbox" aria-label="Mark “Points That Intersect With Cars” as solved"><a href="https://leetcode.com/problems/points-that-intersect-with-cars" target="_blank" rel="noopener">Points That Intersect With Cars</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/corporate-flight-bookings"><input type="checkbox" aria-label="Mark “Corporate Flight Bookings” as solved"><a href="https://leetcode.com/problems/corporate-flight-bookings" target="_blank" rel="noopener">Corporate Flight Bookings</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/car-pooling"><input type="checkbox" aria-label="Mark “Car Pooling” as solved"><a href="https://leetcode.com/problems/car-pooling" target="_blank" rel="noopener">Car Pooling</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/range-sum-query-2d-immutable"><input type="checkbox" aria-label="Mark “Range Sum Query 2D - Immutable” as solved"><a href="https://leetcode.com/problems/range-sum-query-2d-immutable" target="_blank" rel="noopener">Range Sum Query 2D - Immutable</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/matrix-block-sum/"><input type="checkbox" aria-label="Mark “Matrix Block Sum” as solved"><a href="https://leetcode.com/problems/matrix-block-sum/" target="_blank" rel="noopener">Matrix Block Sum</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
 
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 <p>This section shows how the simple running total grows into more powerful structures. Skim it on a first reading; return when you meet problems with updates or parallel hardware.</p>

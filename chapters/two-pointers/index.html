@@ -210,6 +210,7 @@ svg .rough{filter:url(#rough)}
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1204,6 +1205,100 @@ The value coming from <code>gt</code> lies in the unknown zone, so it has not be
 <p>Correctness: the water above bar <code>lo</code> is <code>min(maxLeft, maxRight) − height[lo]</code>. Claim: whenever we process <code>lo</code>, <code>left_max ≤ maxRight</code>, so the minimum is <code>left_max</code>. Why: <code>left_max</code> is the height of some bar <code>p ≤ lo</code>. When <code>lo</code> stood at <code>p</code>, we chose to process the left side, so <code>height[p] &lt; height[hi′]</code> for the <code>hi′</code> of that moment. Since <code>hi</code> only moves left, <code>hi′</code> is still on the right of the current <code>lo</code>, which gives <code>maxRight ≥ height[p] = left_max</code>. The right side is symmetric. <span class="math">O(n)</span> time and <span class="math">O(1)</span> space, versus <span class="math">O(n)</span> space for the two-prefix-array method. Verified against the definition on 3,000 random inputs in the module.</p></details>
 
 <!-- ================= N ================= -->
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>Before coding, decide which family the problem belongs to: converging, reader/writer, two sequences or partition. There are <strong>9</strong> problems, grouped by level and topic: 5 easy, 4 medium and 0 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button><button class="pp-chip" data-k="level" data-v="Intermediate" aria-pressed="false">Intermediate</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">5 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Two Pointers</h4><p class="pp-tsub">Two indices moving in one direction each to replace a nested loop.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/"><input type="checkbox" aria-label="Mark “Two Sum II - Input Array Is Sorted” as solved"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener">Two Sum II - Input Array Is Sorted</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/valid-palindrome/"><input type="checkbox" aria-label="Mark “Valid Palindrome” as solved"><a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener">Valid Palindrome</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/squares-of-a-sorted-array/"><input type="checkbox" aria-label="Mark “Squares of a Sorted Array” as solved"><a href="https://leetcode.com/problems/squares-of-a-sorted-array/" target="_blank" rel="noopener">Squares of a Sorted Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/merge-sorted-array/"><input type="checkbox" aria-label="Mark “Merge Sorted Array” as solved"><a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="noopener">Merge Sorted Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/reverse-string/"><input type="checkbox" aria-label="Mark “Reverse String” as solved"><a href="https://leetcode.com/problems/reverse-string/" target="_blank" rel="noopener">Reverse String</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Intermediate">
+<h3><span class="pp-lv Intermediate">Intermediate</span><span class="small">4 problems</span></h3>
+<p class="pp-lvsub">The pattern combined with one more idea, or applied to a less obvious setup.</p>
+<div class="pp-topic"><h4>Two Pointers</h4><p class="pp-tsub">Two indices moving in one direction each to replace a nested loop.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/partition-labels/"><input type="checkbox" aria-label="Mark “Partition Labels” as solved"><a href="https://leetcode.com/problems/partition-labels/" target="_blank" rel="noopener">Partition Labels</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/string-compression"><input type="checkbox" aria-label="Mark “String Compression” as solved"><a href="https://leetcode.com/problems/string-compression" target="_blank" rel="noopener">String Compression</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/3sum"><input type="checkbox" aria-label="Mark “3 Sum” as solved"><a href="https://leetcode.com/problems/3sum" target="_blank" rel="noopener">3 Sum</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/3sum-closest/description/"><input type="checkbox" aria-label="Mark “3 Sum Closest” as solved"><a href="https://leetcode.com/problems/3sum-closest/description/" target="_blank" rel="noopener">3 Sum Closest</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
+
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 
 <h3>N.1 From 2-sum to k-sum</h3>

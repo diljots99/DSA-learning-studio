@@ -256,6 +256,7 @@ pre.sk .k{color:#7c3aed;font-weight:600}pre.sk .f{color:#2563eb}pre.sk .cm{color
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1537,6 +1538,135 @@ O(log min(m, n)) time, O(1) space — the search runs only over the shorter arra
 </div>
 
 <!-- ================= N ================= -->
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>Solve each one, then write down its time and space complexity before you submit. The beginner sets are about counting loop iterations; the pattern-printing set makes Θ(n²) visible. There are <strong>38</strong> problems, grouped by level and topic: 30 easy, 8 medium and 0 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Beginner" aria-pressed="false">Beginner</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Beginner">
+<h3><span class="pp-lv Beginner">Beginner</span><span class="small">30 problems</span></h3>
+<p class="pp-lvsub">No algorithm knowledge needed — loops, conditions and indexing.</p>
+<div class="pp-topic"><h4>Warm-Up: From Statement to Code</h4><p class="pp-tsub">Turn a one-line statement into input, one computation and output.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.codechef.com/problems/FLOW001"><input type="checkbox" aria-label="Mark “Add Two Numbers” as solved"><a href="https://www.codechef.com/problems/FLOW001" target="_blank" rel="noopener">Add Two Numbers</a><span class="pp-d Easy">EASY</span><span class="pp-p">CodeChef</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/simple-interest3457/1"><input type="checkbox" aria-label="Mark “Simple Interest” as solved"><a href="https://www.geeksforgeeks.org/problems/simple-interest3457/1" target="_blank" rel="noopener">Simple Interest</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/odd-or-even3618/1"><input type="checkbox" aria-label="Mark “Odd or Even” as solved"><a href="https://www.geeksforgeeks.org/problems/odd-or-even3618/1" target="_blank" rel="noopener">Odd or Even</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/greatest-of-three-numbers2520/1"><input type="checkbox" aria-label="Mark “Largest of Three Numbers” as solved"><a href="https://www.geeksforgeeks.org/problems/greatest-of-three-numbers2520/1" target="_blank" rel="noopener">Largest of Three Numbers</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.codechef.com/problems/HS08TEST"><input type="checkbox" aria-label="Mark “ATM Withdrawal” as solved"><a href="https://www.codechef.com/problems/HS08TEST" target="_blank" rel="noopener">ATM Withdrawal</a><span class="pp-d Easy">EASY</span><span class="pp-p">CodeChef</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/4/A"><input type="checkbox" aria-label="Mark “Watermelon” as solved"><a href="https://codeforces.com/problemset/problem/4/A" target="_blank" rel="noopener">Watermelon</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/50/A"><input type="checkbox" aria-label="Mark “Domino Piling” as solved"><a href="https://codeforces.com/problemset/problem/50/A" target="_blank" rel="noopener">Domino Piling</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Loops in Action</h4><p class="pp-tsub">Single loops over 1…n or over digits: count the iterations and you have the complexity.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/print-1-to-n-without-using-loops3621/1"><input type="checkbox" aria-label="Mark “Print Numbers from 1 to N (Use loops)” as solved"><a href="https://www.geeksforgeeks.org/problems/print-1-to-n-without-using-loops3621/1" target="_blank" rel="noopener">Print Numbers from 1 to N (Use loops)</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/reverse-coding2452/1"><input type="checkbox" aria-label="Mark “Sum of Natural Numbers” as solved"><a href="https://www.geeksforgeeks.org/problems/reverse-coding2452/1" target="_blank" rel="noopener">Sum of Natural Numbers</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/multiplication-table/1"><input type="checkbox" aria-label="Mark “Print Multiplication Table of N” as solved"><a href="https://www.geeksforgeeks.org/problems/multiplication-table/1" target="_blank" rel="noopener">Print Multiplication Table of N</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/factorial5739/1"><input type="checkbox" aria-label="Mark “Factorial of a Number” as solved"><a href="https://www.geeksforgeeks.org/problems/factorial5739/1" target="_blank" rel="noopener">Factorial of a Number</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/java/calculating-the-power-of-a-number-in-java-without-using-math-pow-method/"><input type="checkbox" aria-label="Mark “Power of a Number (aᵇ) without pow()” as solved"><a href="https://www.geeksforgeeks.org/java/calculating-the-power-of-a-number-in-java-without-using-math-pow-method/" target="_blank" rel="noopener">Power of a Number (aᵇ) without pow()</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/count-total-digits-in-a-number/1"><input type="checkbox" aria-label="Mark “Count Digits in a Number” as solved"><a href="https://www.geeksforgeeks.org/problems/count-total-digits-in-a-number/1" target="_blank" rel="noopener">Count Digits in a Number</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.codechef.com/problems/FLOW006"><input type="checkbox" aria-label="Mark “Sum of Digits of a Number” as solved"><a href="https://www.codechef.com/problems/FLOW006" target="_blank" rel="noopener">Sum of Digits of a Number</a><span class="pp-d Easy">EASY</span><span class="pp-p">CodeChef</span></li>
+<li data-diff="Easy" data-id="https://www.codechef.com/problems/FLOW007"><input type="checkbox" aria-label="Mark “Reverse a Number” as solved"><a href="https://www.codechef.com/problems/FLOW007" target="_blank" rel="noopener">Reverse a Number</a><span class="pp-d Easy">EASY</span><span class="pp-p">CodeChef</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/977/A"><input type="checkbox" aria-label="Mark “Wrong Subtraction” as solved"><a href="https://codeforces.com/problemset/problem/977/A" target="_blank" rel="noopener">Wrong Subtraction</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/palindrome0746/1"><input type="checkbox" aria-label="Mark “Check if a Number is a Palindrome” as solved"><a href="https://www.geeksforgeeks.org/problems/palindrome0746/1" target="_blank" rel="noopener">Check if a Number is a Palindrome</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/prime-number2314/1"><input type="checkbox" aria-label="Mark “Check if a Number is Prime” as solved"><a href="https://www.geeksforgeeks.org/problems/prime-number2314/1" target="_blank" rel="noopener">Check if a Number is Prime</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/all-divisors-of-a-number/1"><input type="checkbox" aria-label="Mark “All Divisors of a Number” as solved"><a href="https://www.geeksforgeeks.org/problems/all-divisors-of-a-number/1" target="_blank" rel="noopener">All Divisors of a Number</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/gcd-of-two-numbers3459/1"><input type="checkbox" aria-label="Mark “GCD of Two Numbers (iterative)” as solved"><a href="https://www.geeksforgeeks.org/problems/gcd-of-two-numbers3459/1" target="_blank" rel="noopener">GCD of Two Numbers (iterative)</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://codeforces.com/problemset/problem/705/A"><input type="checkbox" aria-label="Mark “Hulk (Alternating Phrases)” as solved"><a href="https://codeforces.com/problemset/problem/705/A" target="_blank" rel="noopener">Hulk (Alternating Phrases)</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">Codeforces</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Pattern Printing</h4><p class="pp-tsub">Nested loops you can see: row × column work is a picture of Θ(n²).</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/solid-rectangle/1"><input type="checkbox" aria-label="Mark “Solid Rectangle” as solved"><a href="https://www.geeksforgeeks.org/problems/solid-rectangle/1" target="_blank" rel="noopener">Solid Rectangle</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/right-angle-triangle-1605685807/1"><input type="checkbox" aria-label="Mark “Right Angle Triangle Pattern” as solved"><a href="https://www.geeksforgeeks.org/problems/right-angle-triangle-1605685807/1" target="_blank" rel="noopener">Right Angle Triangle Pattern</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/inverted-right-angletriangle-1605691171--104349/1"><input type="checkbox" aria-label="Mark “Inverted Right Angle Triangle Pattern” as solved"><a href="https://www.geeksforgeeks.org/problems/inverted-right-angletriangle-1605691171--104349/1" target="_blank" rel="noopener">Inverted Right Angle Triangle Pattern</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/right-angled-number-triangle/1"><input type="checkbox" aria-label="Mark “Right-Angled Number Triangle Pattern” as solved"><a href="https://www.geeksforgeeks.org/problems/right-angled-number-triangle/1" target="_blank" rel="noopener">Right-Angled Number Triangle Pattern</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/floyds-triangle1222/1"><input type="checkbox" aria-label="Mark “Floyd's Triangle” as solved"><a href="https://www.geeksforgeeks.org/problems/floyds-triangle1222/1" target="_blank" rel="noopener">Floyd's Triangle</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/pyramid-patterns/1"><input type="checkbox" aria-label="Mark “Pyramid Pattern” as solved"><a href="https://www.geeksforgeeks.org/problems/pyramid-patterns/1" target="_blank" rel="noopener">Pyramid Pattern</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/inverted-triangle-of-stars0110/1"><input type="checkbox" aria-label="Mark “Inverted Triangle of Stars” as solved"><a href="https://www.geeksforgeeks.org/problems/inverted-triangle-of-stars0110/1" target="_blank" rel="noopener">Inverted Triangle of Stars</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/hollow-rectangle-or-square/1"><input type="checkbox" aria-label="Mark “Print Hollow Rectangle” as solved"><a href="https://www.geeksforgeeks.org/problems/hollow-rectangle-or-square/1" target="_blank" rel="noopener">Print Hollow Rectangle</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/pattern/1"><input type="checkbox" aria-label="Mark “Diamond Shape Pattern” as solved"><a href="https://www.geeksforgeeks.org/problems/pattern/1" target="_blank" rel="noopener">Diamond Shape Pattern</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">8 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Warm-up</h4><p class="pp-tsub">Short array and string tasks to practise reading constraints and counting work.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/fizz-buzz"><input type="checkbox" aria-label="Mark “Fizz Buzz” as solved"><a href="https://leetcode.com/problems/fizz-buzz" target="_blank" rel="noopener">Fizz Buzz</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/richest-customer-wealth"><input type="checkbox" aria-label="Mark “Richest Customer Wealth” as solved"><a href="https://leetcode.com/problems/richest-customer-wealth" target="_blank" rel="noopener">Richest Customer Wealth</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/kids-with-the-greatest-number-of-candies"><input type="checkbox" aria-label="Mark “Kids With the Greatest Number of Candies” as solved"><a href="https://leetcode.com/problems/kids-with-the-greatest-number-of-candies" target="_blank" rel="noopener">Kids With the Greatest Number of Candies</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/number-of-steps-to-reduce-a-number-to-zero"><input type="checkbox" aria-label="Mark “Number of Steps to Reduce a Number to Zero” as solved"><a href="https://leetcode.com/problems/number-of-steps-to-reduce-a-number-to-zero" target="_blank" rel="noopener">Number of Steps to Reduce a Number to Zero</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/valid-anagram"><input type="checkbox" aria-label="Mark “Valid Anagram” as solved"><a href="https://leetcode.com/problems/valid-anagram" target="_blank" rel="noopener">Valid Anagram</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/first-unique-character-in-a-string"><input type="checkbox" aria-label="Mark “First Unique Character in a String” as solved"><a href="https://leetcode.com/problems/first-unique-character-in-a-string" target="_blank" rel="noopener">First Unique Character in a String</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/first-letter-to-appear-twice"><input type="checkbox" aria-label="Mark “First Letter to Appear Twice” as solved"><a href="https://leetcode.com/problems/first-letter-to-appear-twice" target="_blank" rel="noopener">First Letter to Appear Twice</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Sorting</h4><p class="pp-tsub">Implement a classic sort and measure its comparisons against the theory.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/bubble-sort/1"><input type="checkbox" aria-label="Mark “Bubble Sort” as solved"><a href="https://www.geeksforgeeks.org/problems/bubble-sort/1" target="_blank" rel="noopener">Bubble Sort</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
+
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 <h3>N.1 The potential method</h3>
 <p>The most general amortization technique assigns a potential Φ to the data structure's state and defines amortized cost = actual cost + Φ(after) − Φ(before); summing telescopes to actual total + Φ(final) − Φ(initial), so any Φ that starts at 0 and stays non-negative yields valid bounds <a class="cite" href="#ref-7">[7]</a><a class="cite" href="#ref-18">[18]</a>. For a doubling table, Φ = 2·size − capacity works: cheap inserts raise Φ by 2, and a resize's Θ(n) copying is paid for by the drop in Φ.</p>

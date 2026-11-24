@@ -241,6 +241,7 @@ hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='h
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1083,6 +1084,151 @@ def top_k_frequent(nums, k):
 <p>Each swap places one value permanently, so there are at most n swaps: O(n) time, O(1) extra space. This “index as hash” trick is the bridge between arrays and hashing.</p></details>
 
 <p>More practice: <a href="https://leetcode.com/problems/valid-sudoku/">Valid Sudoku (36)</a> <span class="badge b-med">MEDIUM</span> — canonical keys for rows, columns and boxes; <a href="https://leetcode.com/problems/subarray-sum-equals-k/">Subarray Sum Equals K (560)</a> <span class="badge b-med">MEDIUM</span> — prefix sum + hash map.</p>
+
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>Start with plain array and string traversal, then switch to sets and dictionaries. For every hashing problem, also say what the brute-force version would cost. There are <strong>48</strong> problems, grouped by level and topic: 45 easy, 3 medium and 0 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Beginner" aria-pressed="false">Beginner</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button><button class="pp-chip" data-k="level" data-v="Intermediate" aria-pressed="false">Intermediate</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Beginner">
+<h3><span class="pp-lv Beginner">Beginner</span><span class="small">37 problems</span></h3>
+<p class="pp-lvsub">No algorithm knowledge needed — loops, conditions and indexing.</p>
+<div class="pp-topic"><h4>Array Operations</h4><p class="pp-tsub">Traverse, count, reverse and rotate with simple loops and index arithmetic.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/array-traversal/1"><input type="checkbox" aria-label="Mark “Array or List Traversal” as solved"><a href="https://www.geeksforgeeks.org/problems/array-traversal/1" target="_blank" rel="noopener">Array or List Traversal</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/search-an-element-in-an-array-1587115621/1"><input type="checkbox" aria-label="Mark “Array Search” as solved"><a href="https://www.geeksforgeeks.org/problems/search-an-element-in-an-array-1587115621/1" target="_blank" rel="noopener">Array Search</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/mean0021/1"><input type="checkbox" aria-label="Mark “Mean or Average of Array” as solved"><a href="https://www.geeksforgeeks.org/problems/mean0021/1" target="_blank" rel="noopener">Mean or Average of Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/find-minimum-and-maximum-element-in-an-array4428/1"><input type="checkbox" aria-label="Mark “Maximum and Minimum in an Array” as solved"><a href="https://www.geeksforgeeks.org/problems/find-minimum-and-maximum-element-in-an-array4428/1" target="_blank" rel="noopener">Maximum and Minimum in an Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/count-odd-even/1"><input type="checkbox" aria-label="Mark “Count Odd and Even” as solved"><a href="https://www.geeksforgeeks.org/problems/count-odd-even/1" target="_blank" rel="noopener">Count Odd and Even</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/number-of-occurrence2259/1"><input type="checkbox" aria-label="Mark “Count Occurrences in Sorted” as solved"><a href="https://www.geeksforgeeks.org/problems/number-of-occurrence2259/1" target="_blank" rel="noopener">Count Occurrences in Sorted</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/second-largest3735/1"><input type="checkbox" aria-label="Mark “Second Largest Element (no sorting)” as solved"><a href="https://www.geeksforgeeks.org/problems/second-largest3735/1" target="_blank" rel="noopener">Second Largest Element (no sorting)</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/even-odd-sum5450/1"><input type="checkbox" aria-label="Mark “Even Odd Sum” as solved"><a href="https://www.geeksforgeeks.org/problems/even-odd-sum5450/1" target="_blank" rel="noopener">Even Odd Sum</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/compute-alternating-sum/description/"><input type="checkbox" aria-label="Mark “Compute Alternating Sum” as solved"><a href="https://leetcode.com/problems/compute-alternating-sum/description/" target="_blank" rel="noopener">Compute Alternating Sum</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/reverse-an-array/1"><input type="checkbox" aria-label="Mark “Reverse an Array (in place)” as solved"><a href="https://www.geeksforgeeks.org/problems/reverse-an-array/1" target="_blank" rel="noopener">Reverse an Array (in place)</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/cyclically-rotate-an-array-by-one2614/1"><input type="checkbox" aria-label="Mark “Cyclically Rotate an Array by One” as solved"><a href="https://www.geeksforgeeks.org/problems/cyclically-rotate-an-array-by-one2614/1" target="_blank" rel="noopener">Cyclically Rotate an Array by One</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/move-all-zeroes-to-end-of-array0751/1"><input type="checkbox" aria-label="Mark “Move All Zeros to the End” as solved"><a href="https://www.geeksforgeeks.org/problems/move-all-zeroes-to-end-of-array0751/1" target="_blank" rel="noopener">Move All Zeros to the End</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/count-elements-with-strictly-smaller-and-greater-elements"><input type="checkbox" aria-label="Mark “Count Elements With Strictly Smaller and Greater Elements” as solved"><a href="https://leetcode.com/problems/count-elements-with-strictly-smaller-and-greater-elements" target="_blank" rel="noopener">Count Elements With Strictly Smaller and Greater Elements</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/find-all-duplicates-in-an-array"><input type="checkbox" aria-label="Mark “Find All Duplicates in an Array” as solved"><a href="https://leetcode.com/problems/find-all-duplicates-in-an-array" target="_blank" rel="noopener">Find All Duplicates in an Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/most-frequent-element-in-an-array/1"><input type="checkbox" aria-label="Mark “Most Frequent in Array” as solved"><a href="https://www.geeksforgeeks.org/problems/most-frequent-element-in-an-array/1" target="_blank" rel="noopener">Most Frequent in Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/158/A"><input type="checkbox" aria-label="Mark “Next Round” as solved"><a href="https://codeforces.com/problemset/problem/158/A" target="_blank" rel="noopener">Next Round</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/search-a-2d-matrix/description/"><input type="checkbox" aria-label="Mark “Search a 2D Matrix” as solved"><a href="https://leetcode.com/problems/search-a-2d-matrix/description/" target="_blank" rel="noopener">Search a 2D Matrix</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/sum-of-elements-in-a-matrix2000/1"><input type="checkbox" aria-label="Mark “Sum of Matrix” as solved"><a href="https://www.geeksforgeeks.org/problems/sum-of-elements-in-a-matrix2000/1" target="_blank" rel="noopener">Sum of Matrix</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/263/A"><input type="checkbox" aria-label="Mark “Beautiful Matrix” as solved"><a href="https://codeforces.com/problemset/problem/263/A" target="_blank" rel="noopener">Beautiful Matrix</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/69/A"><input type="checkbox" aria-label="Mark “Young Physicist” as solved"><a href="https://codeforces.com/problemset/problem/69/A" target="_blank" rel="noopener">Young Physicist</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/231/A"><input type="checkbox" aria-label="Mark “Team” as solved"><a href="https://codeforces.com/problemset/problem/231/A" target="_blank" rel="noopener">Team</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+</ol></div>
+<div class="pp-topic"><h4>String Operations</h4><p class="pp-tsub">Strings as arrays of characters: scan, transform and compare.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/length-of-string/1"><input type="checkbox" aria-label="Mark “Length of a String (without in-built method)” as solved"><a href="https://www.geeksforgeeks.org/problems/length-of-string/1" target="_blank" rel="noopener">Length of a String (without in-built method)</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/consonants-and-vowels-check-java/1"><input type="checkbox" aria-label="Mark “Check Consonants and Vowels” as solved"><a href="https://www.geeksforgeeks.org/problems/consonants-and-vowels-check-java/1" target="_blank" rel="noopener">Check Consonants and Vowels</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/reverse-a-string/1"><input type="checkbox" aria-label="Mark “Reverse a String” as solved"><a href="https://www.geeksforgeeks.org/problems/reverse-a-string/1" target="_blank" rel="noopener">Reverse a String</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/palindrome-string0817/1"><input type="checkbox" aria-label="Mark “Check if a String is a Palindrome” as solved"><a href="https://www.geeksforgeeks.org/problems/palindrome-string0817/1" target="_blank" rel="noopener">Check if a String is a Palindrome</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/lower-case-to-upper-case3410/1"><input type="checkbox" aria-label="Mark “Lowercase to Uppercase Manually” as solved"><a href="https://www.geeksforgeeks.org/problems/lower-case-to-upper-case3410/1" target="_blank" rel="noopener">Lowercase to Uppercase Manually</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/toggle-case/1"><input type="checkbox" aria-label="Mark “Toggle Case of Each Character” as solved"><a href="https://www.geeksforgeeks.org/problems/toggle-case/1" target="_blank" rel="noopener">Toggle Case of Each Character</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/remove-vowels-from-string1446/1"><input type="checkbox" aria-label="Mark “Remove Vowels” as solved"><a href="https://www.geeksforgeeks.org/problems/remove-vowels-from-string1446/1" target="_blank" rel="noopener">Remove Vowels</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/count-number-of-words1500/1"><input type="checkbox" aria-label="Mark “Count Words in String” as solved"><a href="https://www.geeksforgeeks.org/problems/count-number-of-words1500/1" target="_blank" rel="noopener">Count Words in String</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.hackerrank.com/challenges/caesar-cipher-1/problem"><input type="checkbox" aria-label="Mark “Caesar Cipher” as solved"><a href="https://www.hackerrank.com/challenges/caesar-cipher-1/problem" target="_blank" rel="noopener">Caesar Cipher</a><span class="pp-d Easy">EASY</span><span class="pp-p">HackerRank</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/71/A"><input type="checkbox" aria-label="Mark “Way Too Long Words” as solved"><a href="https://codeforces.com/problemset/problem/71/A" target="_blank" rel="noopener">Way Too Long Words</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/112/A"><input type="checkbox" aria-label="Mark “Petya and Strings” as solved"><a href="https://codeforces.com/problemset/problem/112/A" target="_blank" rel="noopener">Petya and Strings</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/96/A"><input type="checkbox" aria-label="Mark “Football” as solved"><a href="https://codeforces.com/problemset/problem/96/A" target="_blank" rel="noopener">Football</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/236/A"><input type="checkbox" aria-label="Mark “Boy or Girl” as solved"><a href="https://codeforces.com/problemset/problem/236/A" target="_blank" rel="noopener">Boy or Girl</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/118/A"><input type="checkbox" aria-label="Mark “String Task” as solved"><a href="https://codeforces.com/problemset/problem/118/A" target="_blank" rel="noopener">String Task</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/282/A"><input type="checkbox" aria-label="Mark “Bit++” as solved"><a href="https://codeforces.com/problemset/problem/282/A" target="_blank" rel="noopener">Bit++</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+<li data-diff="Easy" data-id="https://codeforces.com/problemset/problem/339/A"><input type="checkbox" aria-label="Mark “Helpful Maths” as solved"><a href="https://codeforces.com/problemset/problem/339/A" target="_blank" rel="noopener">Helpful Maths</a><span class="pp-d Easy">EASY</span><span class="pp-p">Codeforces</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">10 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Arrays</h4><p class="pp-tsub">In-place edits and O(1) extra space on contiguous arrays.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/largest-element-in-array4009/1"><input type="checkbox" aria-label="Mark “Largest &amp; Smallest Element in Array” as solved"><a href="https://www.geeksforgeeks.org/problems/largest-element-in-array4009/1" target="_blank" rel="noopener">Largest &amp; Smallest Element in Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/move-zeroes/"><input type="checkbox" aria-label="Mark “Move Zeroes” as solved"><a href="https://leetcode.com/problems/move-zeroes/" target="_blank" rel="noopener">Move Zeroes</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/remove-duplicates-from-sorted-array/"><input type="checkbox" aria-label="Mark “Remove Duplicates from Sorted Array” as solved"><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener">Remove Duplicates from Sorted Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/rotate-array/"><input type="checkbox" aria-label="Mark “Rotate Array” as solved"><a href="https://leetcode.com/problems/rotate-array/" target="_blank" rel="noopener">Rotate Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/"><input type="checkbox" aria-label="Mark “Check if Array Is Sorted and Rotated” as solved"><a href="https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/" target="_blank" rel="noopener">Check if Array Is Sorted and Rotated</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Strings</h4><p class="pp-tsub">Character counting and comparison.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/valid-anagram/"><input type="checkbox" aria-label="Mark “Valid Anagram” as solved"><a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener">Valid Anagram</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+<div class="pp-topic"><h4>Hashing</h4><p class="pp-tsub">Sets and dictionaries for O(1)-average membership, counting and grouping.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://leetcode.com/problems/two-sum/"><input type="checkbox" aria-label="Mark “Two Sum” as solved"><a href="https://leetcode.com/problems/two-sum/" target="_blank" rel="noopener">Two Sum</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/count-elements-with-maximum-frequency"><input type="checkbox" aria-label="Mark “Count Elements With Maximum Frequency” as solved"><a href="https://leetcode.com/problems/count-elements-with-maximum-frequency" target="_blank" rel="noopener">Count Elements With Maximum Frequency</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/group-anagrams/"><input type="checkbox" aria-label="Mark “Group Anagrams” as solved"><a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener">Group Anagrams</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-players-with-zero-or-one-losses"><input type="checkbox" aria-label="Mark “Find Players With Zero or One Losses” as solved"><a href="https://leetcode.com/problems/find-players-with-zero-or-one-losses" target="_blank" rel="noopener">Find Players With Zero or One Losses</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Intermediate">
+<h3><span class="pp-lv Intermediate">Intermediate</span><span class="small">1 problem</span></h3>
+<p class="pp-lvsub">The pattern combined with one more idea, or applied to a less obvious setup.</p>
+<div class="pp-topic"><h4>Array/String Operations</h4><p class="pp-tsub">Medium-level array and string reasoning without a named pattern.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/wiggle-subsequence"><input type="checkbox" aria-label="Mark “Wiggle Subsequence” as solved"><a href="https://leetcode.com/problems/wiggle-subsequence" target="_blank" rel="noopener">Wiggle Subsequence</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
 
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 

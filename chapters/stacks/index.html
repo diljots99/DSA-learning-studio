@@ -262,6 +262,7 @@ hr.sk{border:0;height:12px;background:url("data:image/svg+xml;utf8,<svg xmlns='h
 <a href="#alternatives">K · Comparison with alternatives</a>
 <a href="#mistakes">L · Mistakes &amp; misconceptions</a>
 <a href="#interview">M · Interview preparation</a>
+<a href="#practice">★ · Practice problems</a>
 <a href="#advanced">N · Advanced concepts</a>
 <a href="#notebook">O · Notebook-ready summary</a>
 <a href="#assessment">P · Knowledge assessment</a>
@@ -1413,6 +1414,120 @@ assert calculate("-(2+3)") == -5</code></pre>
 <p>Θ(n) time, O(depth) space. Unary minus works because a leading “−” sets <code>sign = −1</code> before a number or parenthesis.</p></details>
 
 <p class="small">More practice: <a href="https://leetcode.com/problems/simplify-path/">71 Simplify Path</a>, <a href="https://leetcode.com/problems/decode-string/">394 Decode String</a>, <a href="https://leetcode.com/problems/online-stock-span/">901 Online Stock Span</a>, <a href="https://leetcode.com/problems/trapping-rain-water/">42 Trapping Rain Water</a>, <a href="https://leetcode.com/problems/longest-valid-parentheses/">32 Longest Valid Parentheses</a>, <a href="https://leetcode.com/problems/maximal-rectangle/">85 Maximal Rectangle</a>.</p>
+
+
+<!-- ================= Practice problems ================= -->
+<h2 id="practice"><span class="sec">★</span>Practice problems</h2>
+<p>Ask what the stack holds and when an item is popped. Many of these are monotonic-stack problems. There are <strong>23</strong> problems, grouped by level and topic: 5 easy, 15 medium and 3 hard. Each link opens the problem on the platform where you can submit and test your solution. Tick a problem when you have solved it; your progress is saved in this browser only.</p>
+<style>
+.pp{font-family:var(--sans);margin:1em 0 2em}
+.pp-bar{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0 8px;border-bottom:1.5px dashed #d6d3d1;margin-bottom:8px}
+.pp-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+.pp-row b{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:78px}
+.pp-chip{font-family:var(--sans);font-size:12.5px;font-weight:600;border:1.5px solid #cbd5e1;background:#fff;color:var(--ink);border-radius:999px;padding:3px 11px;cursor:pointer}
+.pp-chip[aria-pressed=true]{background:var(--purple);border-color:var(--purple);color:#fff}
+.pp-prog{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:6px}
+.pp-track{flex:1;max-width:320px;height:10px;background:#efece4;border-radius:999px;overflow:hidden}
+.pp-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.pp-level{margin:1.4em 0 .4em}
+.pp-level>h3{display:flex;align-items:center;gap:10px;margin:0 0 .2em}
+.pp-lv{font-family:var(--hand);font-size:24px;font-weight:700;border-radius:10px 14px 9px 13px;padding:0 12px;color:var(--ink)}
+.pp-lv.Beginner{background:#bae6fd}.pp-lv.Basic{background:#bbf7d0}.pp-lv.Intermediate{background:#fde68a}.pp-lv.Advanced{background:#fbcfe8}
+.pp-lvsub{font-size:13px;color:var(--muted);margin:0 0 .4em}
+.pp-topic{background:#fff;border:1.5px solid var(--line);border-radius:14px 16px 13px 15px;padding:10px 14px 6px;margin:10px 0}
+.pp-topic h4{margin:0;font-size:15.5px}
+.pp-topic .pp-tsub{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.pp-list{list-style:none;padding:0;margin:0;counter-reset:pp}
+.pp-list li{counter-increment:pp;display:flex;align-items:center;gap:10px;padding:7px 2px;border-top:1px solid #f1efe9;font-size:14.5px}
+.pp-list li::before{content:counter(pp);font-family:var(--mono);font-size:11px;color:#a8a29e;min-width:18px;text-align:right}
+.pp-list li input{width:17px;height:17px;accent-color:var(--green);flex:none;cursor:pointer}
+.pp-list li a{flex:1;min-width:0;color:var(--ink);text-decoration:none;font-weight:600}
+.pp-list li a:hover{color:var(--blue);text-decoration:underline}
+.pp-list li.done a{color:var(--muted);text-decoration:line-through}
+.pp-d{font-size:10.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:2px 8px;color:#fff;flex:none}
+.pp-d.Easy{background:var(--green)}.pp-d.Medium{background:var(--yellow)}.pp-d.Hard{background:var(--red)}
+.pp-p{font-size:11.5px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px;flex:none;min-width:92px;text-align:center}
+.pp-empty{font-size:14px;color:var(--muted);padding:10px 0;display:none}
+@media(max-width:600px){.pp-p{display:none}.pp-row b{min-width:0;width:100%}}
+</style>
+<div class="pp" id="pp">
+<div class="pp-bar">
+<div class="pp-row"><b>Level</b><button class="pp-chip" data-k="level" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="level" data-v="Basic" aria-pressed="false">Basic</button><button class="pp-chip" data-k="level" data-v="Intermediate" aria-pressed="false">Intermediate</button><button class="pp-chip" data-k="level" data-v="Advanced" aria-pressed="false">Advanced</button></div>
+<div class="pp-row"><b>Difficulty</b><button class="pp-chip" data-k="diff" data-v="all" aria-pressed="true">All</button><button class="pp-chip" data-k="diff" data-v="Easy" aria-pressed="false">Easy</button><button class="pp-chip" data-k="diff" data-v="Medium" aria-pressed="false">Medium</button><button class="pp-chip" data-k="diff" data-v="Hard" aria-pressed="false">Hard</button><button class="pp-chip" data-k="hide" aria-pressed="false">Hide solved</button></div>
+<div class="pp-prog"><span><b class="pp-done">0</b> / <span class="pp-total">0</span> solved</span><div class="pp-track"><div class="pp-fill"></div></div></div>
+</div>
+<section class="pp-level" data-level="Basic">
+<h3><span class="pp-lv Basic">Basic</span><span class="small">6 problems</span></h3>
+<p class="pp-lvsub">Direct applications of this chapter’s core idea.</p>
+<div class="pp-topic"><h4>Stack</h4><p class="pp-tsub">Last-in, first-out: matching, evaluation and monotonic stacks.</p><ol class="pp-list">
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/implement-stack-using-array/1"><input type="checkbox" aria-label="Mark “Implement Stack using Array” as solved"><a href="https://www.geeksforgeeks.org/problems/implement-stack-using-array/1" target="_blank" rel="noopener">Implement Stack using Array</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1"><input type="checkbox" aria-label="Mark “Implement Stack using Linked List” as solved"><a href="https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1" target="_blank" rel="noopener">Implement Stack using Linked List</a><span class="pp-d Easy">EASY</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/valid-parentheses/"><input type="checkbox" aria-label="Mark “Valid Parentheses” as solved"><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener">Valid Parentheses</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/implement-stack-using-queues/"><input type="checkbox" aria-label="Mark “Implement Stack using Queues” as solved"><a href="https://leetcode.com/problems/implement-stack-using-queues/" target="_blank" rel="noopener">Implement Stack using Queues</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Easy" data-id="https://leetcode.com/problems/next-greater-element-i/description/"><input type="checkbox" aria-label="Mark “Next Greater Element I” as solved"><a href="https://leetcode.com/problems/next-greater-element-i/description/" target="_blank" rel="noopener">Next Greater Element I</a><span class="pp-d Easy">EASY</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/min-stack/"><input type="checkbox" aria-label="Mark “Min Stack” as solved"><a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener">Min Stack</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Intermediate">
+<h3><span class="pp-lv Intermediate">Intermediate</span><span class="small">13 problems</span></h3>
+<p class="pp-lvsub">The pattern combined with one more idea, or applied to a less obvious setup.</p>
+<div class="pp-topic"><h4>Stack</h4><p class="pp-tsub">Last-in, first-out: matching, evaluation and monotonic stacks.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1"><input type="checkbox" aria-label="Mark “Next Greater Element to the Right” as solved"><a href="https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1" target="_blank" rel="noopener">Next Greater Element to the Right</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/previous-greater-element/1"><input type="checkbox" aria-label="Mark “Next Greater Element to the Left” as solved"><a href="https://www.geeksforgeeks.org/problems/previous-greater-element/1" target="_blank" rel="noopener">Next Greater Element to the Left</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/immediate-smaller-element1142/1"><input type="checkbox" aria-label="Mark “Next Smaller Element to the Right” as solved"><a href="https://www.geeksforgeeks.org/problems/immediate-smaller-element1142/1" target="_blank" rel="noopener">Next Smaller Element to the Right</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/previous-smaller-element/1"><input type="checkbox" aria-label="Mark “Next Smaller Element to the Left” as solved"><a href="https://www.geeksforgeeks.org/problems/previous-smaller-element/1" target="_blank" rel="noopener">Next Smaller Element to the Left</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/daily-temperatures/"><input type="checkbox" aria-label="Mark “Daily Temperatures” as solved"><a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener">Daily Temperatures</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://www.geeksforgeeks.org/problems/stock-span-problem-1587115621/1"><input type="checkbox" aria-label="Mark “Stock Span Problem” as solved"><a href="https://www.geeksforgeeks.org/problems/stock-span-problem-1587115621/1" target="_blank" rel="noopener">Stock Span Problem</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">GeeksforGeeks</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/next-greater-element-ii/"><input type="checkbox" aria-label="Mark “Next Greater Element II” as solved"><a href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank" rel="noopener">Next Greater Element II</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/evaluate-reverse-polish-notation/"><input type="checkbox" aria-label="Mark “Evaluate Reverse Polish Notation” as solved"><a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank" rel="noopener">Evaluate Reverse Polish Notation</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/asteroid-collision/description/"><input type="checkbox" aria-label="Mark “Asteroid Collision” as solved"><a href="https://leetcode.com/problems/asteroid-collision/description/" target="_blank" rel="noopener">Asteroid Collision</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/decode-string/"><input type="checkbox" aria-label="Mark “Decode String” as solved"><a href="https://leetcode.com/problems/decode-string/" target="_blank" rel="noopener">Decode String</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/remove-k-digits/"><input type="checkbox" aria-label="Mark “Remove K Digits” as solved"><a href="https://leetcode.com/problems/remove-k-digits/" target="_blank" rel="noopener">Remove K Digits</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/find-the-most-competitive-subsequence/"><input type="checkbox" aria-label="Mark “Find the Most Competitive Subsequence” as solved"><a href="https://leetcode.com/problems/find-the-most-competitive-subsequence/" target="_blank" rel="noopener">Find the Most Competitive Subsequence</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Medium" data-id="https://leetcode.com/problems/smallest-subsequence-of-distinct-characters"><input type="checkbox" aria-label="Mark “Smallest Subsequence of Distinct Characters” as solved"><a href="https://leetcode.com/problems/smallest-subsequence-of-distinct-characters" target="_blank" rel="noopener">Smallest Subsequence of Distinct Characters</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<section class="pp-level" data-level="Advanced">
+<h3><span class="pp-lv Advanced">Advanced</span><span class="small">4 problems</span></h3>
+<p class="pp-lvsub">Harder variants that need the full toolkit and careful invariants.</p>
+<div class="pp-topic"><h4>Stack</h4><p class="pp-tsub">Last-in, first-out: matching, evaluation and monotonic stacks.</p><ol class="pp-list">
+<li data-diff="Medium" data-id="https://leetcode.com/problems/sum-of-subarray-minimums/"><input type="checkbox" aria-label="Mark “Sum of Subarray Minimums” as solved"><a href="https://leetcode.com/problems/sum-of-subarray-minimums/" target="_blank" rel="noopener">Sum of Subarray Minimums</a><span class="pp-d Medium">MEDIUM</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/largest-rectangle-in-histogram/"><input type="checkbox" aria-label="Mark “Largest Rectangle in Histogram” as solved"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener">Largest Rectangle in Histogram</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/maximum-frequency-stack/"><input type="checkbox" aria-label="Mark “Maximum Frequency Stack” as solved"><a href="https://leetcode.com/problems/maximum-frequency-stack/" target="_blank" rel="noopener">Maximum Frequency Stack</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+<li data-diff="Hard" data-id="https://leetcode.com/problems/robot-collisions"><input type="checkbox" aria-label="Mark “Robot Collisions” as solved"><a href="https://leetcode.com/problems/robot-collisions" target="_blank" rel="noopener">Robot Collisions</a><span class="pp-d Hard">HARD</span><span class="pp-p">LeetCode</span></li>
+</ol></div>
+</section>
+<p class="pp-empty">No problems match these filters.</p>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('pp');if(!root)return;
+  var KEY='dsa-studio-solved',solved={};
+  try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){solved={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(solved));}catch(e){}}
+  var state={level:'all',diff:'all',hide:false};
+  var items=[].slice.call(root.querySelectorAll('.pp-list li'));
+  items.forEach(function(li){var cb=li.querySelector('input');cb.checked=!!solved[li.dataset.id];li.classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){if(cb.checked)solved[li.dataset.id]=1;else delete solved[li.dataset.id];li.classList.toggle('done',cb.checked);save();apply();});});
+  root.querySelectorAll('.pp-chip').forEach(function(b){b.addEventListener('click',function(){
+    if(b.dataset.k==='hide'){state.hide=!state.hide;b.setAttribute('aria-pressed',state.hide);}
+    else{state[b.dataset.k]=b.dataset.v;root.querySelectorAll('.pp-chip[data-k="'+b.dataset.k+'"]').forEach(function(o){o.setAttribute('aria-pressed',o===b);});}
+    apply();});});
+  function apply(){
+    var shown=0,done=0,total=0;
+    items.forEach(function(li){var lv=li.closest('.pp-level').dataset.level;var isDone=li.querySelector('input').checked;
+      var inScope=(state.level==='all'||lv===state.level)&&(state.diff==='all'||li.dataset.diff===state.diff);
+      if(inScope){total++;if(isDone)done++;}
+      var vis=inScope&&!(state.hide&&isDone);li.style.display=vis?'':'none';if(vis)shown++;});
+    root.querySelectorAll('.pp-topic').forEach(function(t){t.style.display=[].some.call(t.querySelectorAll('li'),function(li){return li.style.display!=='none';})?'':'none';});
+    root.querySelectorAll('.pp-level').forEach(function(l){l.style.display=[].some.call(l.querySelectorAll('.pp-topic'),function(t){return t.style.display!=='none';})?'':'none';});
+    root.querySelector('.pp-empty').style.display=shown?'none':'block';
+    root.querySelector('.pp-done').textContent=done;root.querySelector('.pp-total').textContent=total;
+    root.querySelector('.pp-fill').style.width=(total?Math.round(100*done/total):0)+'%';
+  }
+  apply();
+})();
+</script>
 
 <h2 id="advanced"><span class="sec">N</span>Advanced concepts</h2>
 
