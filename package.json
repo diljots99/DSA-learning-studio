@@ -8,9 +8,12 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "new-chapter": "node scripts/new-chapter.mjs"
+    "new-chapter": "node scripts/new-chapter.mjs",
+    "emulators": "firebase emulators:start --only auth,firestore --project demo-dsa",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-dsa \"node scripts/test-rules.mjs\""
   },
   "dependencies": {
+    "firebase": "13.3.0",
     "highlight.js": "11.11.1",
     "next": "16.4.6",
     "node-html-parser": "7.0.1",
@@ -18,9 +21,11 @@
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "6.0.0",
     "@types/node": "22.15.3",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
+    "firebase-tools": "14.27.0",
     "typescript": "5.8.3"
   }
 }

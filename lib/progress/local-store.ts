@@ -32,6 +32,11 @@ export class LocalProgressStore implements ProgressStore {
     return this.memory;
   }
 
+  /** Everything saved in this browser (used to copy progress into a new account). */
+  entries(): ProgressMap {
+    return { ...this.all() };
+  }
+
   async load(problemIds: string[]): Promise<ProgressMap> {
     const all = this.all();
     const out: ProgressMap = {};

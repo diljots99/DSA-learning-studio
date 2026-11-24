@@ -14,12 +14,10 @@ export interface ProgressPatch {
 }
 
 /**
- * Where progress is stored. Today: LocalProgressStore (this browser only).
- * Later: a Supabase-backed store for signed-in users, e.g. a table
- *   problem_progress(user_id uuid, problem_id text, solved bool, note text, updated_at timestamptz,
- *                    primary key (user_id, problem_id))
- * with row-level security so each user only sees their own rows. Components never
- * talk to storage directly, so swapping the store is a change in ProgressProvider only.
+ * Where progress is stored:
+ *   LocalProgressStore      this browser only (signed out)
+ *   FirestoreProgressStore  users/{uid}/progress in Cloud Firestore (signed in with recorded consent)
+ * Components never talk to storage directly; ProgressProvider picks the store.
  */
 export interface ProgressStore {
   /** Human-readable description shown under the progress bar. */
