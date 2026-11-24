@@ -18,3 +18,7 @@
 .soon b { display: block; font-family: var(--hand); font-size: 24px; color: #94a3b8; margin-bottom: 4px; }
 .soon code { font-family: var(--mono); font-size: 12.5px; }
 .footer { margin-top: 60px; font-family: var(--sans); font-size: 13px; color: var(--muted); border-top: 2px dashed #d6d3d1; padding-top: 16px; }
+.cardTop { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: -4px 0 18px; font-family: var(--sans); font-size: 13px; color: var(--muted); }
+.legendLabel { font-weight: 600; }
+.legendHint { font-size: 12px; font-style: italic; }

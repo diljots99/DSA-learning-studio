@@ -1,6 +1,7 @@
 {
   "number": 3,
   "title": "Prefix Sum",
+  "kind": "technique",
   "tagline": "add once, answer forever",
   "summary": "Cumulative sums, O(1) range queries, the hash-map counting trick, 2D summed-area tables and difference arrays.",
   "difficulty": "Beginner → Intermediate",

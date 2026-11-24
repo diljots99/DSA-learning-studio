@@ -1,6 +1,7 @@
 {
   "number": 6,
   "title": "Binary Search",
+  "kind": "algorithm",
   "tagline": "halve it until it’s found",
   "summary": "Loop invariants, lower and upper bounds, off-by-one traps, the overflow bug, and binary search on the answer.",
   "difficulty": "Beginner → Intermediate",

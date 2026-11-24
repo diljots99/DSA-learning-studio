@@ -12,11 +12,12 @@ import { parse, type HTMLElement, type Node } from "node-html-parser";
 import hljs from "highlight.js/lib/core";
 import python from "highlight.js/lib/languages/python";
 import type { Chapter, ChapterMeta, ChapterMetaFile, Problem, ProblemSet } from "./types";
+import { CHAPTER_KINDS, isChapterKind } from "./chapter-kinds";
 
 hljs.registerLanguage("python", python);
 
 const CHAPTERS_DIR = path.join(process.cwd(), "content", "chapters");
-const REQUIRED_META: (keyof ChapterMetaFile)[] = ["number", "title", "tagline", "summary", "description", "difficulty", "readingTime", "labs"];
+const REQUIRED_META: (keyof ChapterMetaFile)[] = ["number", "title", "kind", "tagline", "summary", "description", "difficulty", "readingTime", "labs"];
 const PRACTICE_ANCHOR = '<h2 id="advanced"';
 const PRACTICE_TOC_LINK = '<a href="#practice">★ · Practice problems</a>';
 
@@ -37,6 +38,9 @@ function readMeta(slug: string): ChapterMeta {
   const meta = readJson<ChapterMetaFile>(path.join(CHAPTERS_DIR, slug, "meta.json"));
   const missing = REQUIRED_META.filter((k) => meta[k] === undefined || meta[k] === "");
   if (missing.length) throw new Error(`content/chapters/${slug}/meta.json is missing: ${missing.join(", ")}`);
+  if (!isChapterKind(meta.kind)) {
+    throw new Error(`content/chapters/${slug}/meta.json has kind "${meta.kind}"; use one of: ${CHAPTER_KINDS.join(", ")}`);
+  }
   const problems = readProblems(slug);
   const problemCount = problems ? problems.levels.reduce((n, l) => n + l.topics.reduce((m, t) => m + t.problems.length, 0), 0) : 0;
   return { ...meta, slug, problemCount };

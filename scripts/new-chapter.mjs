@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Add a chapter from a finished HTML page (for example a published artifact saved to disk).
 //
-//   npm run new-chapter -- <slug> <path/to/chapter.html> [--number 8]
+//   npm run new-chapter -- <slug> <path/to/chapter.html> --kind <kind> [--number 8]
+//
+// <kind> is what the chapter is about: data-structure, algorithm, concept or technique.
 //
 // Creates content/chapters/<slug>/chapter.html and a meta.json pre-filled from the page.
 // Review meta.json, optionally add problems.json, then run `npm run dev`.
@@ -15,15 +17,18 @@ const flag = (name) => {
   return i >= 0 ? args.splice(i, 2)[1] : undefined;
 };
 const numberArg = flag("--number");
+const kind = flag("--kind");
+const KINDS = ["data-structure", "algorithm", "concept", "technique"];
 const [slug, source] = args;
 
 const fail = (msg) => {
-  console.error(`\n✗ ${msg}\n\nUsage: npm run new-chapter -- <slug> <path/to/chapter.html> [--number N]\n`);
+  console.error(`\n✗ ${msg}\n\nUsage: npm run new-chapter -- <slug> <path/to/chapter.html> --kind <${KINDS.join("|")}> [--number N]\n`);
   process.exit(1);
 };
 if (!slug || !source) fail("Missing <slug> or <path/to/chapter.html>.");
 if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) fail(`Slug "${slug}" must be lowercase words joined by hyphens, e.g. linked-lists.`);
 if (!fs.existsSync(source)) fail(`File not found: ${source}`);
+if (!KINDS.includes(kind)) fail(kind ? `--kind "${kind}" is not one of: ${KINDS.join(", ")}.` : `Missing --kind: say whether the chapter is a ${KINDS.join(", ")}.`);
 
 const root = path.join(process.cwd(), "content", "chapters");
 const dir = path.join(root, slug);
@@ -53,6 +58,7 @@ const pills = doc.querySelectorAll(".meta .pill").map((p) => p.text.trim());
 const meta = {
   number,
   title,
+  kind,
   tagline,
   summary: description,
   description,
