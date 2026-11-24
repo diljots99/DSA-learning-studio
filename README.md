@@ -7,7 +7,8 @@ Illustrated, interactive textbook chapters on Data Structures and Algorithms: wh
 | # | Topic | Path |
 |---|---|---|
 | 01 | Time & Space Complexity | [`chapters/time-space-complexity/`](chapters/time-space-complexity/index.html) |
-| 02 | Prefix Sum | [`chapters/prefix-sum/`](chapters/prefix-sum/index.html) |
+| 02 | Arrays & Hashing | [`chapters/arrays-hashing/`](chapters/arrays-hashing/index.html) |
+| 03 | Prefix Sum | [`chapters/prefix-sum/`](chapters/prefix-sum/index.html) |
 
 ## Structure
 
