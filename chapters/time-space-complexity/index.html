@@ -812,22 +812,22 @@ If <span class="math">L = lim<sub>n→∞</sub> f(n)/g(n)</span> exists, then L 
 <div class="callout warn"><span class="ct">Common confusion</span>Big-O ≠ worst case and Ω ≠ best case. O, Ω and Θ are bounds on <em>functions</em>; best/worst/average choose <em>which function</em> you are bounding. "Insertion sort's best case is Θ(n) and its worst case is Θ(n²)" uses Θ for both <a class="cite" href="#ref-1">[1]</a>.</div>
 
 <h3>Master table of classic operations</h3>
-<p>Assumptions: n = number of elements; arrays are random-access; "sorted" is stated where needed; hash tables assume a good hash function.</p>
+<p>Assumptions: n = number of elements; arrays are random-access; "sorted" is stated where needed; hash tables assume a good hash function. Each time column names an input case, and every entry is a <strong>tight bound (Θ)</strong> on the cost for that case. Θ is used wherever the bound is exact, because O alone would only say "no more than" <a class="cite" href="#ref-1">[1]</a>. <em>Auxiliary space</em> is the extra memory used beyond the input, in the worst case unless stated.</p>
 <div class="tbl-wrap"><table>
-<tr><th>Operation</th><th>Best</th><th>Average</th><th>Worst</th><th>Auxiliary space</th></tr>
+<tr><th>Operation</th><th>Best case</th><th>Average case</th><th>Worst case</th><th>Auxiliary space</th></tr>
 <tr><td>Access <code>a[i]</code> (array / Python list)</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td><td>Θ(1)</td></tr>
-<tr><td>Linear search (unsorted)</td><td>Θ(1)</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(1)</td></tr>
-<tr><td>Binary search (sorted)</td><td>Θ(1)</td><td>Θ(log n)</td><td>Θ(log n)</td><td>Θ(1) iterative · Θ(log n) recursive</td></tr>
+<tr><td>Linear search (unsorted)</td><td>Θ(1) (target at index 0)</td><td>Θ(n)</td><td>Θ(n) (absent or last)</td><td>Θ(1)</td></tr>
+<tr><td>Binary search (sorted)</td><td>Θ(1) (target at the first midpoint)</td><td>Θ(log n)</td><td>Θ(log n)</td><td>Θ(1) iterative · Θ(log n) recursive</td></tr>
 <tr><td>Find max / sum</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(n)</td><td>Θ(1)</td></tr>
-<tr><td>Insertion sort</td><td>Θ(n) (sorted input)</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Θ(1)</td></tr>
+<tr><td>Insertion sort</td><td>Θ(n) (already sorted)</td><td>Θ(n²)</td><td>Θ(n²) (reverse sorted)</td><td>Θ(1)</td></tr>
 <tr><td>Merge sort</td><td>Θ(n log n)</td><td>Θ(n log n)</td><td>Θ(n log n)</td><td>Θ(n)</td></tr>
-<tr><td>Python <code>list.sort()</code> / <code>sorted()</code></td><td>O(n) on already-sorted or reverse-sorted input</td><td>O(n log n)</td><td>O(n log n) <a class="cite" href="#ref-9">[9]</a></td><td>O(n)</td></tr>
-<tr><td>Hash lookup / insert (<code>dict</code>, <code>set</code>)</td><td>O(1)</td><td>O(1)</td><td>O(n) if all keys collide <a class="cite" href="#ref-9">[9]</a></td><td>O(1) per op</td></tr>
-<tr><td>Dynamic array append (<code>list.append</code>)</td><td>O(1)</td><td>O(1) amortized</td><td>O(n) for one resize <a class="cite" href="#ref-9">[9]</a></td><td>O(n) during resize</td></tr>
-<tr><td>Brute-force duplicate check (all pairs)</td><td>Θ(1) (dup at front)</td><td>—</td><td>Θ(n²)</td><td>Θ(1)</td></tr>
-<tr><td>Naive recursive Fibonacci</td><td colspan="3">Θ(φⁿ) calls on every input n</td><td>Θ(n) stack</td></tr>
+<tr><td>Python <code>list.sort()</code> / <code>sorted()</code></td><td>Θ(n) (already sorted or reverse sorted)</td><td>Θ(n log n)</td><td>Θ(n log n) <a class="cite" href="#ref-9">[9]</a></td><td>O(n) (merge buffer; <code>sorted()</code> also copies the input)</td></tr>
+<tr><td>Hash lookup / insert (<code>dict</code>, <code>set</code>)</td><td>Θ(1)</td><td>Θ(1) expected</td><td>Θ(n) (all keys collide) <a class="cite" href="#ref-9">[9]</a></td><td>Θ(1) per operation</td></tr>
+<tr><td>Dynamic array append (<code>list.append</code>)</td><td>Θ(1)</td><td>Θ(1) amortized</td><td>Θ(n) (one append that resizes) <a class="cite" href="#ref-9">[9]</a></td><td>Θ(1) amortized · Θ(n) during a resize</td></tr>
+<tr><td>Brute-force duplicate check (all pairs)</td><td>Θ(1) (duplicate in the first pair)</td><td>Θ(n²) when duplicates are rare</td><td>Θ(n²) (no duplicates)</td><td>Θ(1)</td></tr>
+<tr><td>Naive recursive Fibonacci</td><td>Θ(φⁿ)</td><td>Θ(φⁿ)</td><td>Θ(φⁿ)</td><td>Θ(n) (call stack)</td></tr>
 </table></div>
-<p>Reasoning: binary search halves the interval each comparison (Θ(log n)); insertion sort's inner loop shifts 0 elements on sorted input and up to i elements on reverse-sorted input, giving ∑i = Θ(n²) <a class="cite" href="#ref-1">[1]</a>; merge sort is covered by Figure G.2 <a class="cite" href="#ref-4">[4]</a>; Python's sort is adaptive, so sorted or reverse-sorted input needs only O(n) comparisons <a class="cite" href="#ref-9">[9]</a>.</p>
+<p>Reasoning: binary search halves the interval each comparison (Θ(log n)); insertion sort's inner loop shifts 0 elements on sorted input and up to i elements on reverse-sorted input, giving ∑i = Θ(n²) <a class="cite" href="#ref-1">[1]</a>; merge sort is covered by Figure G.2 <a class="cite" href="#ref-4">[4]</a>; Python's sort is adaptive, so sorted or reverse-sorted input needs only a linear number of comparisons <a class="cite" href="#ref-9">[9]</a>; naive Fibonacci makes Θ(φⁿ) calls for every n, so its three cases coincide. The one O entry, Python's sort space, is left as an upper bound because the merge buffer varies with the input.</p>
 
 <h3>Theory vs. actual Python behaviour</h3>
 <p>The CPython documentation publishes complexities for built-in types. These are the entries you will use most <a class="cite" href="#ref-9">[9]</a><a class="cite" href="#ref-10">[10]</a>:</p>
