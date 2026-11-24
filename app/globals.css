@@ -11,3 +11,8 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--serif); font-size: 18px; line-height: 1.68; }
 a { color: var(--blue); }
+
+/* Set by components/Onboarding.tsx while the sign-in spotlight is open. */
+html[data-spotlight] [data-account-button] { animation: spotlight-pulse 1.6s ease-in-out infinite; }
+@keyframes spotlight-pulse { 0%, 100% { box-shadow: 2px 2px 0 var(--ink), 0 0 0 4px var(--purple-l); } 50% { box-shadow: 2px 2px 0 var(--ink), 0 0 0 10px rgba(237, 233, 254, .5); } }
+@media (prefers-reduced-motion: reduce) { html[data-spotlight] [data-account-button] { animation: none; box-shadow: 2px 2px 0 var(--ink), 0 0 0 4px var(--purple-l); } }

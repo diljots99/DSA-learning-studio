@@ -11,7 +11,12 @@
 .primary { font-family: var(--sans); font-weight: 700; font-size: 14px; color: #fff; background: var(--purple); border: 2px solid var(--purple); border-radius: 12px 14px 11px 13px; padding: 7px 14px; cursor: pointer; box-shadow: 2px 2px 0 #4c1d95; text-decoration: none; }
 .primary:active { transform: translate(2px, 2px); box-shadow: none; }
 .link { font-size: 14px; font-weight: 700; color: var(--blue); }
-.later { font: inherit; font-size: 13px; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; margin-left: auto; }
 .close { position: absolute; top: 6px; right: 10px; background: none; border: 0; font-size: 22px; line-height: 1; color: var(--muted); cursor: pointer; padding: 2px 6px; }
-@media (max-width: 520px) { .card { left: 8px; right: 8px; bottom: 8px; width: auto; } }
-@media (prefers-reduced-motion: reduce) { .card { animation: none; } }
+
+/* Sign-in spotlight: the page fades, the Sign in pill (z-index 60) stays bright, and the banner points up at it. */
+.backdrop { position: fixed; inset: 0; z-index: 59; background: rgba(31, 41, 55, .6); animation: fade .25s ease-out; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.spot { position: fixed; top: 64px; right: 12px; z-index: 61; width: min(400px, calc(100vw - 24px)); background: #fffef5; border: 2px solid var(--ink); border-radius: 22px 18px 24px 20px; box-shadow: 5px 6px 0 var(--purple); padding: 14px 18px 16px; font-family: var(--sans); animation: rise .35s ease-out; }
+.spot::before { content: ""; position: absolute; top: -12px; right: 34px; width: 18px; height: 18px; background: #fffef5; border-left: 2px solid var(--ink); border-top: 2px solid var(--ink); transform: rotate(45deg); }
+@media (max-width: 520px) { .card { left: 8px; right: 8px; bottom: 8px; width: auto; } .spot { left: 8px; right: 8px; width: auto; } }
+@media (prefers-reduced-motion: reduce) { .card, .spot, .backdrop { animation: none; } }

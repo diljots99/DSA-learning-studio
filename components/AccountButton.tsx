@@ -43,7 +43,7 @@ export default function AccountButton() {
 
   if (!user) {
     return (
-      <a href={`/login/?next=${encodeURIComponent(pathname)}`} style={style} aria-label="Sign in to sync your progress">
+      <a href={`/login/?next=${encodeURIComponent(pathname)}`} style={style} data-account-button aria-label="Sign in to sync your progress">
         <span style={dot}>→</span>Sign in
       </a>
     );
