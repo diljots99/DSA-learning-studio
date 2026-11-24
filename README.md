@@ -68,19 +68,21 @@ lib/
   progress/                  ProgressStore interface, browser store, Firestore store
 content/                     chapters, practice problems, site.json (operator and grievance contact)
 firestore.rules              database security rules (deny by default)
-scripts/test-rules.mjs       32 automated security-rule tests
+scripts/test-rules.mjs       39 automated security-rule tests
 ```
 
 Each chapter page keeps its original design: its own styles are scoped to its page, and its lab scripts run unchanged.
 
 ## Accounts, progress and notes
 
-Learners can use everything without an account; solved ticks and notes are then kept in the browser. With an account (email and password, or Google) they are stored in Cloud Firestore and synced across devices:
+Learners can use everything without an account; solved ticks, solution write-ups and notes are then kept in the browser. With an account (email and password, or Google) they are stored in Cloud Firestore and synced across devices:
 
 ```
 users/{uid}                       uid, displayName, email, createdAt, updatedAt,
                                   consent { accepted, ageConfirmed, version, acceptedAt }
-users/{uid}/progress/{problemId}  problemId, solved, note (≤ 5000 chars), updatedAt
+users/{uid}/progress/{problemId}  problemId, solved, note (≤ 5000 chars), updatedAt,
+                                  optional solution write-up: language (≤ 30), approach (≤ 5000),
+                                  timeComplexity, spaceComplexity (≤ 100 each), code (≤ 20000)
 ```
 
 `firestore.rules` denies everything by default, lets each signed-in user read and write only their own documents, validates every field and size, forces server timestamps, stops consent records being rewritten, and refuses progress writes until consent is recorded. On first sign-in, progress already saved in the browser is copied into the account.

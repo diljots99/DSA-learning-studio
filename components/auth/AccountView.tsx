@@ -6,7 +6,7 @@ import { useAuth } from "../AuthProvider";
 import { useProgressStore } from "../ProgressProvider";
 import CookieSettingsLink from "../CookieSettingsLink";
 import { FirestoreProgressStore } from "@/lib/progress/firestore-store";
-import type { ProgressMap } from "@/lib/progress/types";
+import { hasSolution, type ProblemProgress, type ProgressMap } from "@/lib/progress/types";
 import type { ProblemIndexEntry } from "@/lib/content";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { AuthPage, NotConfigured } from "./shared";
@@ -22,6 +22,14 @@ const initialsOf = (name: string) =>
     .map((w) => w[0]!.toUpperCase())
     .join("") || "•";
 const PROVIDERS: Record<string, string> = { password: "Email & password", "google.com": "Google" };
+
+/** One line for the "recent" list: the revision note, else the approach, else what was saved. */
+function preview(p: ProblemProgress) {
+  const meta = [p.language, p.timeComplexity && `time ${p.timeComplexity}`, p.spaceComplexity && `space ${p.spaceComplexity}`].filter(Boolean).join(" · ");
+  const text = p.note.trim() || p.approach.trim() || (p.code.trim() ? "Code saved" : "");
+  const short = text.length > 140 ? `${text.slice(0, 140)}…` : text;
+  return meta ? `${short} (${meta})` : short;
+}
 
 export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[] }) {
   const auth = useAuth();
@@ -59,7 +67,7 @@ export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[
     const solved = [...allIds].filter((id) => progress[id]?.solved).length;
     const perChapter = chapters.map((c) => ({ ...c, solved: c.problems.filter((p) => progress[p.id]?.solved).length }));
     const notes = Object.entries(progress)
-      .filter(([id, p]) => p.note && lookup.has(id))
+      .filter(([id, p]) => (p.note.trim() || hasSolution(p)) && lookup.has(id))
       .sort((a, b) => (b[1].updatedAt || "").localeCompare(a[1].updatedAt || ""));
     return { total, solved, perChapter, notes, started: perChapter.filter((c) => c.solved > 0).length };
   }, [progress, chapters, lookup]);
@@ -181,7 +189,7 @@ export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[
         </div>
         <div className={`${s.stat} ${s.statPurple}`}>
           <b>{summary ? summary.notes.length : "–"}</b>
-          <span>problems with notes</span>
+          <span>problems with solutions or notes</span>
         </div>
         <div className={`${s.stat} ${s.statBlue}`}>
           <b>{summary ? summary.started : "–"}</b>
@@ -222,11 +230,11 @@ export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[
 
         {/* ---------- Recent notes ---------- */}
         <section className={s.card}>
-          <h2 className={s.h2}>Recent notes</h2>
+          <h2 className={s.h2}>Recent solutions &amp; notes</h2>
           {!summary ? (
             <p className={s.muted}>Loading…</p>
           ) : summary.notes.length === 0 ? (
-            <p className={s.muted}>No notes yet. Open any practice problem’s “Notes” button to jot down your approach.</p>
+            <p className={s.muted}>Nothing saved yet. Open any practice problem’s “My solution” button to save your code, approach and notes.</p>
           ) : (
             <ul className={s.notes}>
               {summary.notes.slice(0, 5).map(([id, p]) => {
@@ -238,7 +246,7 @@ export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[
                       <span className={s.noteMeta}>
                         {info.chapter.title} · {fmtDate(p.updatedAt)}
                       </span>
-                      <span className={s.noteText}>{p.note.length > 140 ? `${p.note.slice(0, 140)}…` : p.note}</span>
+                      <span className={s.noteText}>{preview(p)}</span>
                     </a>
                   </li>
                 );
