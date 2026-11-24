@@ -10,6 +10,7 @@ import { hasSolution, type ProblemProgress, type ProgressMap } from "@/lib/progr
 import type { ProblemIndexEntry } from "@/lib/content";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { AuthPage, NotConfigured } from "./shared";
+import { solutionHref } from "../solution/SolutionForm";
 import s from "./account.module.css";
 
 const fmtDate = (iso: string) => (iso ? new Date(iso).toLocaleDateString("en-IN", { dateStyle: "medium" }) : "—");
@@ -241,7 +242,7 @@ export default function AccountView({ chapters }: { chapters: ProblemIndexEntry[
                 const info = lookup.get(id)!;
                 return (
                   <li key={id}>
-                    <a href={`/chapters/${info.chapter.slug}/#practice`}>
+                    <a href={solutionHref(id)}>
                       <b>{info.name}</b>
                       <span className={s.noteMeta}>
                         {info.chapter.title} · {fmtDate(p.updatedAt)}

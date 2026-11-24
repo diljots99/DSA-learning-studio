@@ -1,95 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useProgressStore } from "./ProgressProvider";
 import { LocalProgressStore } from "@/lib/progress/local-store";
-import { emptyProgress, hasSolution, TEXT_FIELDS, TEXT_LIMITS, type ProblemProgress, type ProgressMap, type TextField } from "@/lib/progress/types";
+import { emptyProgress, hasSolution, type ProblemProgress, type ProgressMap } from "@/lib/progress/types";
+import SolutionDrawer from "./solution/SolutionDrawer";
+import { solutionHref } from "./solution/SolutionForm";
 import type { Difficulty, Level, Problem, ProblemSet } from "@/lib/types";
 import s from "./PracticeProblems.module.css";
 
 const DIFFICULTIES: Difficulty[] = ["Easy", "Medium", "Hard"];
 type Filter<T> = T | "all";
-
-const LANGUAGES = ["Python", "Java", "C++", "C", "JavaScript", "TypeScript", "Go", "C#", "Kotlin", "Rust", "Swift", "Other"];
-type Draft = Pick<ProblemProgress, TextField>;
-const draftOf = (p: ProblemProgress): Draft => Object.fromEntries(TEXT_FIELDS.map((f) => [f, p[f]])) as Draft;
-
-/** The learner's write-up for one problem: language, approach, complexity, code and revision notes. Autosaves. */
-function SolutionEditor({ initial, onSave, name }: { initial: ProblemProgress; onSave: (d: Draft) => Promise<void>; name: string }) {
-  const [draft, setDraft] = useState<Draft>(() => draftOf(initial));
-  const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const latest = useRef(draft);
-
-  const flush = useCallback(async () => {
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = null;
-    setStatus("saving");
-    try {
-      await onSave(latest.current);
-      setStatus("saved");
-    } catch {
-      setStatus("error"); // keep the draft on screen so nothing typed is lost
-    }
-  }, [onSave]);
-
-  useEffect(() => () => {
-    if (timer.current) {
-      clearTimeout(timer.current);
-      void onSave(latest.current).catch(() => undefined);
-    }
-  }, [onSave]);
-
-  const set = (f: TextField) => (e: { target: { value: string } }) => {
-    const next = { ...latest.current, [f]: e.target.value };
-    latest.current = next;
-    setDraft(next);
-    setStatus("idle");
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(flush, 700);
-  };
-  const onBlur = () => timer.current && void flush();
-  const field = (f: TextField) => ({ value: draft[f], onChange: set(f), onBlur, maxLength: TEXT_LIMITS[f] });
-
-  return (
-    <div className={s.note}>
-      <div className={s.solRow}>
-        <label>
-          <span>Language</span>
-          <select value={draft.language} onChange={set("language")} onBlur={onBlur}>
-            <option value="">Choose…</option>
-            {LANGUAGES.map((l) => (
-              <option key={l}>{l}</option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Time</span>
-          <input {...field("timeComplexity")} placeholder="O(n)" />
-        </label>
-        <label>
-          <span>Space</span>
-          <input {...field("spaceComplexity")} placeholder="O(1)" />
-        </label>
-      </div>
-      <label className={s.solField}>
-        <span>Approach</span>
-        <textarea {...field("approach")} rows={3} placeholder="The key idea, the pattern you used, why it works…" />
-      </label>
-      <label className={s.solField}>
-        <span>Your code</span>
-        <textarea {...field("code")} className={s.code} rows={8} spellCheck={false} autoCapitalize="off" autoCorrect="off" placeholder="Paste your accepted solution here" />
-      </label>
-      <label className={s.solField}>
-        <span>Notes to revise</span>
-        <textarea {...field("note")} rows={3} placeholder="Edge cases, mistakes to avoid, what to remember next time…" />
-      </label>
-      <span className={s.noteStatus} role="status" aria-label={`Save status for ${name}`}>
-        {status === "saving" ? "Saving…" : status === "saved" ? "Saved" : status === "error" ? "Couldn’t save. Check your connection; your text is still here." : "\u00a0"}
-      </span>
-    </div>
-  );
-}
 
 export default function PracticeProblems({ data }: { data: ProblemSet }) {
   const store = useProgressStore();
@@ -133,6 +54,9 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
     },
     [store],
   );
+
+  const drawerProblem = openNote ? all.find((p) => p.id === openNote) : undefined;
+  const closeDrawer = useCallback(() => setOpenNote(null), []);
 
   const inScope = (p: { level: Level; difficulty: Difficulty }) => (level === "all" || p.level === level) && (diff === "all" || p.difficulty === diff);
   const scoped = all.filter(inScope);
@@ -216,16 +140,19 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
                               <button
                                 type="button"
                                 className={`${s.noteBtn} ${written ? s.hasNote : ""}`}
+                                aria-haspopup="dialog"
                                 aria-expanded={open}
-                                onClick={() => setOpenNote(open ? null : p.id)}
+                                onClick={() => setOpenNote(p.id)}
                                 title={written ? "View or edit your solution and notes" : "Save your solution and notes"}
                               >
                                 {written ? "My solution ●" : "My solution"}
                               </button>
+                              <a className={s.pageLink} href={solutionHref(p.id)} title="Open your solution as a full page" aria-label={`Open your solution for “${p.name}” as a full page`}>
+                                ⤢
+                              </a>
                               <span className={`${s.d} ${s[p.difficulty]}`}>{p.difficulty.toUpperCase()}</span>
                               <span className={s.p}>{p.platform}</span>
                             </div>
-                            {open && <SolutionEditor initial={pr} name={p.name} onSave={(d) => saveSolution(p.id, d)} />}
                           </li>
                         );
                       })}
@@ -237,6 +164,9 @@ export default function PracticeProblems({ data }: { data: ProblemSet }) {
           );
         })}
         {!anyVisible && <p className={s.empty}>No problems match these filters.</p>}
+        {drawerProblem && (
+          <SolutionDrawer problem={drawerProblem} progress={get(drawerProblem.id)} onSave={(d) => saveSolution(drawerProblem.id, d)} onClose={closeDrawer} />
+        )}
       </div>
     </section>
   );
