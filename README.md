@@ -12,6 +12,7 @@ Illustrated, interactive textbook chapters on Data Structures and Algorithms: wh
 | 04 | Two Pointers | [`chapters/two-pointers/`](chapters/two-pointers/index.html) |
 | 05 | Sliding Window | [`chapters/sliding-window/`](chapters/sliding-window/index.html) |
 | 06 | Binary Search | [`chapters/binary-search/`](chapters/binary-search/index.html) |
+| 07 | Stacks | [`chapters/stacks/`](chapters/stacks/index.html) |
 
 ## Structure
 
