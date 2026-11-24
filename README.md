@@ -97,14 +97,14 @@ These features follow the Act's notice, consent and rights requirements, but the
 
 ### Setting up Firebase (one time)
 
-1. Create a project at https://console.firebase.google.com. Choose an Indian region (for example `asia-south1`, Mumbai) when you create the Firestore database, in **production mode**.
+1. The Firebase project `dsa-learning-studio` exists. In the console (https://console.firebase.google.com), create the **Firestore database**: choose an Indian region (for example `asia-south1`, Mumbai) when you create the Firestore database, in **production mode**.
 2. **Authentication → Sign-in method:** enable **Email/Password** and **Google**.
 3. **Authentication → Settings:** add your domains (`dsa.diljotsingh.com` and your Vercel preview domain) under **Authorized domains**. Under **Password policy**, require at least 8 characters with a number. Keep **email enumeration protection** on.
-4. **Project settings → Your apps → Web app:** copy the config into Vercel (**Settings → Environment Variables**, Production and Preview) and into `.env.local`, using the names in `.env.example`.
+4. The web app config for project `dsa-learning-studio` is already in `.env.production` (used by Vercel builds) and `.firebaserc`. These values are public identifiers, not secrets. Firebase Analytics is intentionally not used: it would set tracking cookies that need opt-in consent.
 5. Deploy the security rules:
    ```
    npx firebase login
-   npx firebase deploy --only firestore:rules --project <your-project-id>
+   npx firebase deploy --only firestore:rules
    ```
 6. Put the grievance contact's name and email in `content/site.json`. Until you do, the privacy notice shows a visible placeholder.
 7. Recommended: turn on **App Check** (reCAPTCHA Enterprise) for Auth and Firestore, set a billing budget alert, and set the sender name on **Authentication → Templates**.
