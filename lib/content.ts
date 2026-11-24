@@ -57,6 +57,25 @@ export const listChapters = cache((): ChapterMeta[] => {
   return chapters;
 });
 
+/** Lightweight index of every chapter's practice problems (for progress summaries). */
+export interface ProblemIndexEntry {
+  slug: string;
+  number: number;
+  title: string;
+  problems: { id: string; name: string }[];
+}
+
+export const listProblemIndex = cache((): ProblemIndexEntry[] =>
+  listChapters()
+    .filter((c) => c.problemCount > 0)
+    .map((c) => ({
+      slug: c.slug,
+      number: c.number,
+      title: c.title,
+      problems: (readProblems(c.slug)?.levels ?? []).flatMap((l) => l.topics.flatMap((t) => t.problems.map((p) => ({ id: p.id, name: p.name })))),
+    })),
+);
+
 const decodeEntities = (s: string) =>
   s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
 
