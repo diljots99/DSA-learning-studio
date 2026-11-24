@@ -70,6 +70,13 @@ await check("notes over 5000 characters are rejected", () => assertFails(setDoc(
 await check("a non-boolean solved flag is rejected", () => assertFails(setDoc(P(alice, "bad"), progress({ solved: "yes" }))));
 await check("progress with an extra field is rejected", () => assertFails(setDoc(P(alice, "extra"), progress({ score: 100 }))));
 await check("progress with a client-chosen timestamp is rejected", () => assertFails(setDoc(P(alice, "ts"), progress({ updatedAt: Timestamp.now() }))));
+await check("owner can save a full solution write-up", () => assertSucceeds(setDoc(P(alice, "sol"), progress({ language: "Python", approach: "one pass with a dict", timeComplexity: "O(n)", spaceComplexity: "O(n)", code: "def two_sum(a, t):\n    ..." }))));
+await check("code over 20000 characters is rejected", () => assertFails(setDoc(P(alice, "bigcode"), progress({ code: "x".repeat(20001) }))));
+await check("a non-string code field is rejected", () => assertFails(setDoc(P(alice, "numcode"), progress({ code: 42 }))));
+await check("a language over 30 characters is rejected", () => assertFails(setDoc(P(alice, "lang"), progress({ language: "x".repeat(31) }))));
+await check("complexity over 100 characters is rejected", () => assertFails(setDoc(P(alice, "cx"), progress({ timeComplexity: "x".repeat(101) }))));
+await check("an approach over 5000 characters is rejected", () => assertFails(setDoc(P(alice, "appr"), progress({ approach: "x".repeat(5001) }))));
+await check("another user cannot write a solution", () => assertFails(setDoc(P(bob, "sol"), progress({ code: "print(1)" }))));
 await check("documents outside users/ are rejected", () => assertFails(setDoc(doc(alice, "admin/config"), { open: true })));
 
 console.log("Deletion (consent withdrawal)");

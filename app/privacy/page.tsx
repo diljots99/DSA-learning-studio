@@ -28,7 +28,7 @@ export default function PrivacyPage() {
         <b>In short</b>
         <ul>
           <li>You can read every chapter and track practice progress <strong>without an account</strong>; that progress stays in your browser.</li>
-          <li>If you create an account, we store only your name, email, solved problems, notes and your consent record, to run your account.</li>
+          <li>If you create an account, we store only your name, email, solved problems, the solutions and notes you write for them (code, approach, complexity) and your consent record, to run your account.</li>
           <li>No advertising, no tracking cookies, no selling or sharing your data for marketing.</li>
           <li>You can download your data or delete your account (withdrawing consent) at any time from your account page.</li>
         </ul>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
             <tr><td>Email address</td><td>To sign you in, verify your address, reset your password and reply to requests.</td><td>Account holders</td></tr>
             <tr><td>Password</td><td>To sign you in. Stored only as a salted hash by Firebase Authentication; we never see it.</td><td>Email sign-in only</td></tr>
             <tr><td>Google account identifier, name and email</td><td>To sign you in with Google. We do not receive your Google password.</td><td>Google sign-in only</td></tr>
-            <tr><td>Solved problems and your notes</td><td>To save and sync your learning progress across devices.</td><td>Account holders</td></tr>
+            <tr><td>Solved problems, your written solutions (code, approach, complexity) and your notes</td><td>To save and sync your learning progress across devices.</td><td>Account holders</td></tr>
             <tr><td>Consent record (notice version, time, age confirmation)</td><td>To show that you agreed to this notice and are 18 or older.</td><td>Account holders</td></tr>
             <tr><td>Sign-in metadata (account creation and last sign-in time)</td><td>To secure your account and detect misuse.</td><td>Account holders</td></tr>
           </tbody>
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
 
       <h2>2. Using the site without an account</h2>
       <p>
-        Without an account we collect no personal data ourselves. Practice progress and notes are saved only in your browser’s local storage and never sent to us. Our hosting
+        Without an account we collect no personal data ourselves. Practice progress, solutions and notes are saved only in your browser’s local storage and never sent to us. Our hosting
         provider keeps short-lived technical logs (such as IP addresses) to deliver and protect the site.
       </p>
 
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>dsa-studio-progress-v1</code></td><td>Local storage</td><td>Your solved problems and notes on this device.</td><td>You clear it</td></tr>
+            <tr><td><code>dsa-studio-progress-v1</code></td><td>Local storage</td><td>Your solved problems, solutions and notes on this device.</td><td>You clear it</td></tr>
             <tr><td><code>dsa-studio-cookie-choice</code></td><td>Local storage</td><td>Remembers that you have seen the cookie banner.</td><td>You clear it</td></tr>
             <tr><td><code>dsa-studio-synced:…</code></td><td>Local storage</td><td>Remembers that this browser’s progress was copied into your account.</td><td>You clear it or delete your account</td></tr>
             <tr><td><code>firebase:authUser…</code> / <code>firebaseLocalStorageDb</code></td><td>IndexedDB</td><td>Keeps you signed in (Firebase Authentication).</td><td>You sign out</td></tr>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
 
       <h2>5. How long we keep it</h2>
       <p>
-        We keep account data until you delete your account. When you delete it, your profile, consent record, solved problems and notes are erased from our database straight away,
+        We keep account data until you delete your account. When you delete it, your profile, consent record, solved problems, solutions and notes are erased from our database straight away,
         and your sign-in record is removed from Firebase Authentication.
       </p>
 

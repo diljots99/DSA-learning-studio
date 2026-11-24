@@ -4,7 +4,8 @@ rules_version = '2';
 //
 // Data model
 //   users/{uid}                       profile + recorded consent (one per account)
-//   users/{uid}/progress/{problemId}  solved tick + private note for one practice problem
+//   users/{uid}/progress/{problemId}  solved tick, private notes and the learner's written solution
+//                                     (language, approach, complexities, code) for one practice problem
 //
 // Principles
 //   * Deny by default: anything not matched below is rejected.
@@ -56,12 +57,25 @@ service cloud.firestore {
         && validConsent(d.consent);
     }
 
+    // Optional text field: absent, or a string of at most max characters.
+    function optText(d, key, max) {
+      return d.get(key, '') is string && d.get(key, '').size() <= max;
+    }
+
+    // Solution fields (language, approach, complexities, code) are optional so documents
+    // written before they existed stay valid. Code is stored as plain text only.
     function validProgress(d, problemId) {
-      return d.keys().hasOnly(['problemId', 'solved', 'note', 'updatedAt'])
+      return d.keys().hasOnly(['problemId', 'solved', 'note', 'updatedAt',
+                               'language', 'approach', 'timeComplexity', 'spaceComplexity', 'code'])
         && d.keys().hasAll(['problemId', 'solved', 'note', 'updatedAt'])
         && d.problemId is string && d.problemId.size() > 0 && d.problemId.size() <= 200
         && d.solved is bool
         && d.note is string && d.note.size() <= 5000
+        && optText(d, 'language', 30)
+        && optText(d, 'approach', 5000)
+        && optText(d, 'timeComplexity', 100)
+        && optText(d, 'spaceComplexity', 100)
+        && optText(d, 'code', 20000)
         && d.updatedAt == request.time
         && problemId.size() <= 300;
     }

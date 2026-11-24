@@ -1,4 +1,4 @@
-import { emptyProgress, type ProblemProgress, type ProgressMap, type ProgressPatch, type ProgressStore } from "./types";
+import { emptyProgress, isEmptyProgress, normalizeProgress, type ProblemProgress, type ProgressMap, type ProgressPatch, type ProgressStore } from "./types";
 
 const KEY = "dsa-studio-progress-v1";
 /** The static site stored solved problems as { [problemUrl]: 1 }. */
@@ -8,7 +8,8 @@ function readAll(): ProgressMap {
   try {
     const raw = window.localStorage.getItem(KEY);
     const parsed = raw ? (JSON.parse(raw) as unknown) : {};
-    return parsed && typeof parsed === "object" ? (parsed as ProgressMap) : {};
+    if (!parsed || typeof parsed !== "object") return {};
+    return Object.fromEntries(Object.entries(parsed).map(([id, p]) => [id, normalizeProgress(p as Partial<ProblemProgress>)]));
   } catch {
     return {};
   }
@@ -46,8 +47,8 @@ export class LocalProgressStore implements ProgressStore {
 
   async update(problemId: string, patch: ProgressPatch): Promise<ProblemProgress> {
     const all = this.all();
-    const next: ProblemProgress = { ...(all[problemId] ?? emptyProgress()), ...patch, updatedAt: new Date().toISOString() };
-    if (!next.solved && !next.note) delete all[problemId];
+    const next = normalizeProgress({ ...(all[problemId] ?? emptyProgress()), ...patch, updatedAt: new Date().toISOString() });
+    if (isEmptyProgress(next)) delete all[problemId];
     else all[problemId] = next;
     writeAll(all);
     return next;

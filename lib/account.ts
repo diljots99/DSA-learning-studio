@@ -3,6 +3,7 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, serverTimestamp, setDoc, updateDoc, writeBatch, type Firestore } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import site from "@/content/site.json";
+import { normalizeProgress } from "@/lib/progress/types";
 
 export const PRIVACY_NOTICE_VERSION = site.privacyNoticeVersion;
 
@@ -51,7 +52,7 @@ export async function exportUserData(db: Firestore, user: User) {
   const snap = await getDocs(collection(db, "users", user.uid, "progress"));
   const progress = snap.docs.map((d) => {
     const x = d.data();
-    return { problemId: x.problemId, solved: x.solved, note: x.note, updatedAt: iso(x.updatedAt) };
+    return { problemId: x.problemId, ...normalizeProgress(x), updatedAt: iso(x.updatedAt) };
   });
   return {
     exportedAt: new Date().toISOString(),

@@ -1,7 +1,7 @@
 "use client";
 
 import { collection, deleteDoc, doc, getDocs, serverTimestamp, setDoc, type Firestore } from "firebase/firestore";
-import { emptyProgress, type ProblemProgress, type ProgressMap, type ProgressPatch, type ProgressStore } from "./types";
+import { emptyProgress, isEmptyProgress, normalizeProgress, TEXT_FIELDS, TEXT_LIMITS, type ProblemProgress, type ProgressMap, type ProgressPatch, type ProgressStore } from "./types";
 
 /** Firestore document ids cannot contain "/", so problem ids are URI-encoded. */
 export const progressDocId = (problemId: string) => encodeURIComponent(problemId);
@@ -26,11 +26,7 @@ export class FirestoreProgressStore implements ProgressStore {
     const all: ProgressMap = {};
     snap.forEach((d) => {
       const data = d.data();
-      all[data.problemId as string] = {
-        solved: Boolean(data.solved),
-        note: typeof data.note === "string" ? data.note : "",
-        updatedAt: data.updatedAt?.toDate?.().toISOString?.() ?? "",
-      };
+      all[data.problemId as string] = normalizeProgress({ ...data, updatedAt: data.updatedAt?.toDate?.().toISOString?.() ?? "" });
     });
     this.cache = all;
     return all;
@@ -45,13 +41,14 @@ export class FirestoreProgressStore implements ProgressStore {
 
   async update(problemId: string, patch: ProgressPatch): Promise<ProblemProgress> {
     const all = await this.loadAll();
-    const next: ProblemProgress = { ...(all[problemId] ?? emptyProgress()), ...patch, updatedAt: new Date().toISOString() };
+    const next = normalizeProgress({ ...(all[problemId] ?? emptyProgress()), ...patch, updatedAt: new Date().toISOString() });
     const ref = doc(this.col(), progressDocId(problemId));
-    if (!next.solved && !next.note) {
+    if (isEmptyProgress(next)) {
       await deleteDoc(ref); // nothing left to keep: store no data at all
       delete all[problemId];
     } else {
-      await setDoc(ref, { problemId, solved: next.solved, note: next.note.slice(0, 5000), updatedAt: serverTimestamp() });
+      const text = Object.fromEntries(TEXT_FIELDS.map((f) => [f, next[f].slice(0, TEXT_LIMITS[f])]));
+      await setDoc(ref, { problemId, solved: next.solved, ...text, updatedAt: serverTimestamp() });
       all[problemId] = next;
     }
     return next;

@@ -5,7 +5,7 @@ import { useAuth } from "./AuthProvider";
 import { getFirebase } from "@/lib/firebase/client";
 import { LocalProgressStore } from "@/lib/progress/local-store";
 import { FirestoreProgressStore } from "@/lib/progress/firestore-store";
-import { emptyProgress, type ProgressStore } from "@/lib/progress/types";
+import { emptyProgress, TEXT_FIELDS, type ProgressPatch, type ProgressStore } from "@/lib/progress/types";
 
 const ProgressContext = createContext<ProgressStore | null>(null);
 const local = typeof window === "undefined" ? null : new LocalProgressStore();
@@ -24,9 +24,11 @@ async function syncLocalIntoAccount(remote: FirestoreProgressStore, uid: string)
   const theirs = await remote.loadAll();
   for (const [id, p] of Object.entries(mine)) {
     const r = theirs[id];
-    const solved = p.solved || Boolean(r?.solved);
-    const note = r?.note || p.note;
-    if (!r || r.solved !== solved || r.note !== note) await remote.update(id, { solved, note });
+    // Ticks: solved anywhere counts. Text: the account's copy wins; fill its gaps from this browser.
+    const merged: ProgressPatch = { solved: p.solved || Boolean(r?.solved) };
+    for (const f of TEXT_FIELDS) merged[f] = r?.[f] || p[f];
+    const changed = !r || r.solved !== merged.solved || TEXT_FIELDS.some((f) => r[f] !== merged[f]);
+    if (changed) await remote.update(id, merged);
   }
   try {
     window.localStorage.setItem(flag, new Date().toISOString());
