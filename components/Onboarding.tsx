@@ -8,7 +8,6 @@ import s from "./Onboarding.module.css";
 
 export const OPEN_GUIDE = "dsa:open-guide";
 const GUIDE_KEY = "dsa-studio-guide-seen";
-const NUDGE_KEY = "dsa-studio-signin-nudge-dismissed";
 const AUTH_PAGES = ["/login", "/signup", "/reset-password", "/account"];
 
 const seen = (key: string) => {
@@ -27,10 +26,10 @@ const remember = (key: string) => {
 };
 
 /**
- * One small card at a time, bottom-right, after the cookie banner has been answered:
- *   1. first visit → a short "how to use the site" guide (reopen it from the home page footer)
- *   2. on a later page, if signed out → what an account adds, until "Not now"
- * Both are remembered in localStorage, so neither shows again once dismissed.
+ * One thing at a time, after the cookie banner has been answered:
+ *   1. first visit → a short "how to use the site" card (remembered once closed; reopen it from the home page footer)
+ *   2. every later page load while signed out → the page fades and a banner points at the
+ *      Sign in button. Closing it hides it for this page view only; it comes back on refresh.
  */
 export default function Onboarding() {
   const { enabled, loading, user } = useAuth();
@@ -55,16 +54,29 @@ export default function Onboarding() {
   useEffect(() => {
     if (!ready || loading || shown.current) return;
     if (!seen(GUIDE_KEY)) setCard("guide");
-    else if (enabled && !user && !seen(NUDGE_KEY)) setCard("nudge");
+    else if (enabled && !user) setCard("nudge");
     else return;
     shown.current = true;
   }, [ready, loading, enabled, user]);
+
+  const spotlight = card === "nudge" && enabled && !user && !AUTH_PAGES.some((p) => pathname.startsWith(p));
+  useEffect(() => {
+    if (!spotlight) return;
+    // Lifts the Sign in button (AccountButton) above the faded page; see globals.css.
+    document.documentElement.dataset.spotlight = "";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setCard(null);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      delete document.documentElement.dataset.spotlight;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [spotlight]);
 
   if (!card || AUTH_PAGES.some((p) => pathname.startsWith(p))) return null;
   if (card === "nudge" && (user || !enabled)) return null;
 
   const close = () => {
-    remember(card === "guide" ? GUIDE_KEY : NUDGE_KEY);
+    if (card === "guide") remember(GUIDE_KEY);
     setCard(null);
   };
   const next = encodeURIComponent(pathname);
@@ -103,32 +115,32 @@ export default function Onboarding() {
   }
 
   return (
-    <section className={s.card} role="dialog" aria-modal="false" aria-labelledby="nudge-title">
-      <h2 id="nudge-title" className={s.title}>
-        Keep your progress safe
-      </h2>
-      <p className={s.body}>Right now your ticks and notes live only in this browser. With a free account:</p>
-      <ul className={s.list}>
-        <li>Solved problems and notes sync to your account, so they’re there on any device.</li>
-        <li>Progress you’ve already made here is copied in when you sign in. Nothing is lost.</li>
-        <li>Your account page shows progress by chapter and your recent notes.</li>
-        <li>You can download or delete your data at any time.</li>
-      </ul>
-      <div className={s.actions}>
-        <a className={s.primary} href={`/signup/?next=${next}`}>
-          Create account
-        </a>
-        <a className={s.link} href={`/login/?next=${next}`}>
-          Sign in
-        </a>
-        <button type="button" className={s.later} onClick={close}>
-          Not now
+    <>
+      <div className={s.backdrop} onClick={close} aria-hidden="true" />
+      <section className={s.spot} role="dialog" aria-modal="true" aria-labelledby="nudge-title">
+        <h2 id="nudge-title" className={s.title}>
+          Sign in to keep your progress
+        </h2>
+        <p className={s.body}>Your ticks and notes are only saved in this browser right now. With a free account:</p>
+        <ul className={s.list}>
+          <li>Solved problems and notes sync to your account, so they’re there on any device.</li>
+          <li>Progress you’ve already made here is copied in when you sign in. Nothing is lost.</li>
+          <li>Your account page shows progress by chapter and your recent notes.</li>
+          <li>You can download or delete your data at any time.</li>
+        </ul>
+        <div className={s.actions}>
+          <a className={s.primary} href={`/login/?next=${next}`} autoFocus>
+            Sign in
+          </a>
+          <a className={s.link} href={`/signup/?next=${next}`}>
+            Create a free account
+          </a>
+        </div>
+        <button type="button" className={s.close} onClick={close} aria-label="Close">
+          ×
         </button>
-      </div>
-      <button type="button" className={s.close} onClick={close} aria-label="Dismiss sign-in suggestion">
-        ×
-      </button>
-    </section>
+      </section>
+    </>
   );
 }
 
