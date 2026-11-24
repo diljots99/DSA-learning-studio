@@ -54,10 +54,13 @@ app/
   chapters/[slug]/page.tsx   one route for every chapter, prerendered on the server
   login/ signup/ reset-password/ account/   sign-in pages and the account page
   privacy/page.tsx           privacy notice (DPDP Act), reads content/site.json
+  problems/page.tsx          /problems/?id=<problem id>: one problem's solution on its own page
 components/
   AuthProvider.tsx           Firebase Auth: email/password, Google, reset, verify, export, delete
   ProgressProvider.tsx       picks the progress store: Firestore when signed in with consent, else this browser
-  PracticeProblems.tsx       problem list: filters, solved ticks, notes, progress bar
+  PracticeProblems.tsx       problem list: filters, solved ticks, progress bar, "My solution" drawer
+  solution/                  solution form (language, complexity, approach, notes), CodeMirror code editor,
+                             side drawer and full page; the editor loads only when a solution is opened
   ConsentGate.tsx            age + consent prompt after a first Google sign-in
   CookieBanner.tsx           "Legally required cookie banner" with the Sardar ji illustration
   ChapterRuntime.tsx         runs a chapter's lab scripts after the page loads

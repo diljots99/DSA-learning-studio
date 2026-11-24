@@ -11,7 +11,7 @@ import { cache } from "react";
 import { parse, type HTMLElement, type Node } from "node-html-parser";
 import hljs from "highlight.js/lib/core";
 import python from "highlight.js/lib/languages/python";
-import type { Chapter, ChapterMeta, ChapterMetaFile, ProblemSet } from "./types";
+import type { Chapter, ChapterMeta, ChapterMetaFile, Problem, ProblemSet } from "./types";
 
 hljs.registerLanguage("python", python);
 
@@ -62,7 +62,7 @@ export interface ProblemIndexEntry {
   slug: string;
   number: number;
   title: string;
-  problems: { id: string; name: string }[];
+  problems: Problem[];
 }
 
 export const listProblemIndex = cache((): ProblemIndexEntry[] =>
@@ -72,7 +72,7 @@ export const listProblemIndex = cache((): ProblemIndexEntry[] =>
       slug: c.slug,
       number: c.number,
       title: c.title,
-      problems: (readProblems(c.slug)?.levels ?? []).flatMap((l) => l.topics.flatMap((t) => t.problems.map((p) => ({ id: p.id, name: p.name })))),
+      problems: (readProblems(c.slug)?.levels ?? []).flatMap((l) => l.topics.flatMap((t) => t.problems.map(({ id, name, url, difficulty, platform }) => ({ id, name, url, difficulty, platform })))),
     })),
 );
 
