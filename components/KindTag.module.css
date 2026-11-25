@@ -76,3 +76,6 @@
 @keyframes tip-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) { .tag:hover .tip, .tag:focus .tip, .tag:focus-within .tip { animation: none; } }
+
+/* A tag used as the label of a filter button shows its tooltip when the button has keyboard focus. */
+:global(button):focus-visible > .tag .tip { display: block; animation: tip-in .15s ease-out; }
