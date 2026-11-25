@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getChapter, listChapters } from "@/lib/content";
 import PracticeProblems from "@/components/PracticeProblems";
 import ChapterRuntime from "@/components/ChapterRuntime";
+import KindTag from "@/components/KindTag";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -42,6 +43,9 @@ export default async function ChapterPage({ params }: Params) {
       <div className="layout">
         <nav className="toc" id="toc" dangerouslySetInnerHTML={{ __html: chapter.toc }} />
         <main>
+          <div style={{ margin: "8px 0 -14px" }}>
+            <KindTag kind={chapter.meta.kind} idSuffix="chapter" below />
+          </div>
           <Html html={chapter.mainBefore} />
           {chapter.problems && <PracticeProblems data={chapter.problems} />}
           <Html html={chapter.mainAfter} />

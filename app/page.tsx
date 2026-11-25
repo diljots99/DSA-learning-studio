@@ -1,6 +1,8 @@
 import { listChapters } from "@/lib/content";
 import CookieSettingsLink from "@/components/CookieSettingsLink";
 import { GuideLink } from "@/components/Onboarding";
+import KindTag from "@/components/KindTag";
+import { CHAPTER_KINDS } from "@/lib/chapter-kinds";
 import s from "./page.module.css";
 
 export default function Home() {
@@ -20,11 +22,21 @@ export default function Home() {
       </header>
 
       <h2 className={s.h2}>Chapters</h2>
+      <div className={s.legend}>
+        <span className={s.legendLabel}>Every chapter is a</span>
+        {CHAPTER_KINDS.map((k) => (
+          <KindTag key={k} kind={k} idSuffix="legend" />
+        ))}
+        <span className={s.legendHint}>hover or tap a tag to see what it means</span>
+      </div>
       <div className={s.grid}>
         {chapters.map((c) => (
           // Plain links: each chapter is a full page with its own styles and lab scripts.
           <a key={c.slug} className={s.card} href={`/chapters/${c.slug}/`}>
-            <span className={s.num}>{String(c.number).padStart(2, "0")}</span>
+            <div className={s.cardTop}>
+              <span className={s.num}>{String(c.number).padStart(2, "0")}</span>
+              <KindTag kind={c.kind} idSuffix={c.slug} focusable={false} alignEnd />
+            </div>
             <h3>{c.title}</h3>
             <div className={s.tag}>{c.tagline}</div>
             <p>{c.summary}</p>

@@ -1,6 +1,7 @@
 {
   "number": 2,
   "title": "Arrays & Hashing",
+  "kind": "data-structure",
   "tagline": "jump straight to the answer",
   "summary": "Contiguous memory, dynamic arrays, hash functions, collisions and load factor, Python’s list, dict and set, and the core hashing patterns.",
   "difficulty": "Beginner → Intermediate",

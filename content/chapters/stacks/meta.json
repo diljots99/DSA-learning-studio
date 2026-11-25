@@ -1,6 +1,7 @@
 {
   "number": 7,
   "title": "Stacks",
+  "kind": "data-structure",
   "tagline": "last in, first out",
   "summary": "The LIFO ADT, array and linked-list stacks, amortised resizing, the call stack, bracket matching, shunting-yard and monotonic stacks.",
   "difficulty": "Beginner → Intermediate",

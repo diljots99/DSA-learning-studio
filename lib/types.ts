@@ -1,3 +1,5 @@
+import type { ChapterKind } from "./chapter-kinds";
+
 export type Difficulty = "Easy" | "Medium" | "Hard";
 export type Level = "Beginner" | "Basic" | "Intermediate" | "Advanced";
 
@@ -5,6 +7,8 @@ export type Level = "Beginner" | "Basic" | "Intermediate" | "Advanced";
 export interface ChapterMetaFile {
   number: number;
   title: string;
+  /** What the chapter is about: data-structure, algorithm, concept or technique. */
+  kind: ChapterKind;
   tagline: string;
   summary: string;
   description: string;

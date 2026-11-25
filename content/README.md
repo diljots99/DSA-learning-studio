@@ -17,7 +17,7 @@ The folder name is the URL: `content/chapters/prefix-sum/` is served at `/chapte
 2. Run:
 
    ```
-   npm run new-chapter -- linked-lists path/to/linked-lists.html
+   npm run new-chapter -- linked-lists path/to/linked-lists.html --kind data-structure
    ```
 
    This copies the page to `content/chapters/linked-lists/chapter.html`, gives it the next chapter number (or pass `--number 8`), and writes a `meta.json` pre-filled from the page.
@@ -37,6 +37,7 @@ The practice problems section is inserted automatically just before `<h2 id="adv
 {
   "number": 8,
   "title": "Linked Lists",
+  "kind": "data-structure",
   "tagline": "follow the pointers",
   "summary": "One or two sentences for the home page card.",
   "description": "Search-engine and social-preview description.",
@@ -47,6 +48,17 @@ The practice problems section is inserted automatically just before `<h2 id="adv
 ```
 
 All fields are required, and each `number` must be unique; the build fails with a clear message otherwise.
+
+`kind` sets the coloured tag shown on the home page card and at the top of the chapter, with a tooltip explaining it:
+
+| kind | Tag | Use for |
+|---|---|---|
+| `data-structure` | blue | Ways of organising data: arrays, hash tables, stacks, trees |
+| `algorithm` | green | Step-by-step procedures: binary search, sorting, Dijkstra |
+| `concept` | purple | Foundational ideas: complexity, recursion |
+| `technique` | orange | Reusable patterns: two pointers, sliding window, prefix sums |
+
+The labels and tooltip text live in `lib/chapter-kinds.ts`.
 
 ## problems.json
 

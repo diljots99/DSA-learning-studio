@@ -1,6 +1,7 @@
 {
   "number": 5,
   "title": "Sliding Window",
+  "kind": "technique",
   "tagline": "slide, don’t recompute",
   "summary": "Fixed and variable windows, the two-pointer invariant, monotonic deques and counting tricks — and where the idea runs inside TCP, rate limiters and stream processors.",
   "difficulty": "Beginner → Intermediate",

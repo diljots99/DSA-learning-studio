@@ -1,6 +1,7 @@
 {
   "number": 1,
   "title": "Time & Space Complexity",
+  "kind": "concept",
   "tagline": "counting what really grows",
   "summary": "Big-O, Ω and Θ from their definitions; loops, recursion and the Master Theorem; amortized cost; the real cost of Python built-ins.",
   "difficulty": "Beginner → Intermediate",
